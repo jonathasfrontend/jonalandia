@@ -1,0 +1,37 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discord-player/extractor": "^4.4.6",
+    "@discordjs/builders": "^1.7.0",
+    "@discordjs/opus": "^0.9.0",
+    "@discordjs/rest": "^2.2.0",
+    "@discordjs/voice": "^0.16.1",
+    "@distube/ytdl-core": "^4.13.3",
+    "axios": "^1.6.7",
+    "discord-api-types": "^0.37.67",
+    "discord-player": "^6.6.7",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.3",
+    "genius-lyrics": "^4.4.6",
+    "googleapis": "^131.0.0",
+    "mongoose": "^8.4.1",
+    "node-cron": "^3.0.3",
+    "nodemon": "^3.0.3",
+    "opusscript": "^0.0.8",
+    "play-dl": "^1.9.7",
+    "simple-youtube-api": "^5.2.1",
+    "tiktok-scraper": "^1.4.36",
+    "winston": "^3.13.0",
+    "ytdl-core": "^4.11.5"
+  }
+}

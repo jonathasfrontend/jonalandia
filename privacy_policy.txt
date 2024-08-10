@@ -1,0 +1,19 @@
+Esta Política de Privacidade descreve como coletamos, usamos e protegemos as informações fornecidas por você ao usar o bot Jonalandia. A sua privacidade é importante para nós, e estamos comprometidos em proteger seus dados pessoais.
+Podemos coletar os seguintes dados:
+- ID de usuário e nome de usuário do Discord.
+- Mensagens e comandos enviados ao bot.
+- Logs de atividades e interações com o bot.
+Usamos as informações coletadas para:
+- Personalizar a experiência do usuário.
+- Monitorar e melhorar o desempenho do bot e do servidor.
+- Responder a consultas e fornecer suporte técnico.
+Não compartilhamos suas informações pessoais com terceiros, exceto nas seguintes situações:
+- Quando exigido por lei ou para responder a processos legais.
+- Com provedores de serviço que auxiliam na operação do bot, desde que estes respeitem a privacidade dos dados.
+Implementamos medidas de segurança adequadas para proteger suas informações contra acessos não autorizados, alterações, divulgação ou destruição. Isso inclui o uso de criptografia e acesso restrito aos dados.
+Armazenamos seus dados pelo tempo necessário para fornecer nossos serviços ou conforme exigido por lei. Você pode solicitar a exclusão dos seus dados entrando em contato conosco através de jonathas.oleveira@gmail.com.
+Você tem o direito de acessar, corrigir ou solicitar a exclusão das suas informações pessoais. Para exercer esses direitos, entre em contato conosco em jonathas.oleveira@gmail.com.
+Nosso bot não utiliza cookies diretamente. No entanto, se você acessar nossa documentação ou site, cookies podem ser utilizados para melhorar sua experiência de navegação.
+Podemos atualizar esta Política de Privacidade periodicamente. Qualquer mudança será notificada no servidor oficial do bot ou em jonathas.oleveira@gmail.com.
+Se você tiver dúvidas ou preocupações sobre esta Política de Privacidade, entre em contato conosco através de [email ou outro canal de suporte].
+Esta Política de Privacidade será regida e interpretada de acordo com as leis do Brasil, em conformidade com a Lei Geral de Proteção de Dados (LGPD).
