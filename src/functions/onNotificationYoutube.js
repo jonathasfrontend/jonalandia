@@ -87,7 +87,7 @@ async function onNotificationYoutube() {
                 let author = video.snippet.channelTitle
                 let thumbnail = video.snippet.thumbnails.high.url
                 let link = `https://www.youtube.com/watch?v=${videoId}`;
-                let description = `<@&1245128273587998866> ${author} postou novo video!`
+                let description = `<@&1253361488274657344> ${author} postou novo video!`
 
                 if (lastVideoIds[channelId] !== videoId) {
                     lastVideoIds[channelId] = videoId;

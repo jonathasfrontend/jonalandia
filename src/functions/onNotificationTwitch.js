@@ -43,7 +43,7 @@ async function onNotificationTwitch() {
                     })
                     .setTitle(`${titleResponse.data}`)
                     .setThumbnail(`${avatarResponse.data}`)
-                    .setDescription(`<@&1245128273587998866> ${streamer} está online **Vá Ve-lo**`)
+                    .setDescription(`<@&1253361488274657344> ${streamer} está online **Vá Ve-lo**`)
                     .addFields(
                         { name: 'Game', value: `${gameResponse.data}` },
                     )
