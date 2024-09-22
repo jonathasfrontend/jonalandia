@@ -15,7 +15,7 @@ const logFormat = printf(({ level, message, timestamp }) => {
 });
 
 // Configura o logger
-const logger = createLogger({
+const info = createLogger({
     level: 'info',
     format: combine(
         timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
@@ -27,4 +27,16 @@ const logger = createLogger({
     ]
 });
 
-module.exports = logger;
+const erro = createLogger({
+    level: 'error',
+    format: combine(
+        timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        logFormat
+    ),
+    transports: [
+        new transports.File({ filename: path.join(logDir, 'erro_bot.log'), level: 'error' }),
+        new transports.Console({ format: combine(format.colorize(), logFormat) })
+    ]
+});
+
+module.exports = {info, erro};

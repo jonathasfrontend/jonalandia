@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
-const logger = require('../logger');
+const { info, erro } = require('../logger');
 const blockedChannels = require('../config/blockedChannels')
 
 const searchUser = async (interaction) => {
@@ -79,7 +79,7 @@ const searchUser = async (interaction) => {
                     await interaction.reply({ embeds: [embed] });
 
             } catch (error) {
-                logger.info(error);
+                erro.error(error);
 
                 const embed = await new EmbedBuilder()
                 .setColor("#ffa600")

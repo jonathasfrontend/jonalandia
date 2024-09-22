@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
-const logger = require('../logger');
+const { info, erro } = require('../logger');
 const blockedChannels = require('../config/blockedChannels')
 
 const searchGuild = async (interaction) => {
@@ -54,7 +54,7 @@ const searchGuild = async (interaction) => {
             await interaction.reply({ embeds: [embed] });
 
         } catch (error) {
-            logger.info(`Erro ao consultar informações do servidor: ${error}`);
+            erro.error(`Erro ao consultar informações do servidor: ${error}`);
             await interaction.reply({ content: "Erro ao consultar informações do servidor.", ephemeral: true });
         }
     }

@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
-const logger = require('../logger');
+
+const { info, erro } = require('../logger');
 
 function onMemberRemove(member) {
     const discordChannel = member.guild.channels.cache.get(process.env.CHANNEL_ID_ATE_LOGO);
@@ -20,9 +21,9 @@ function onMemberRemove(member) {
 
     member.user.send({ embeds: [embed] }).catch(error => {
       if (error.code === 50007) {
-          logger.info('Não foi possível enviar a mensagem direta para o usuário. O usuário pode ter desativado mensagens diretas ou bloqueado o bot.');
+        info.info('Não foi possível enviar a mensagem direta para o usuário. O usuário pode ter desativado mensagens diretas ou bloqueado o bot.');
       } else {
-          logger.info('Ocorreu um erro ao tentar enviar a mensagem direta para o usuário');
+        erro.error('Ocorreu um erro ao tentar enviar a mensagem direta para o usuário');
       }
   });
 }

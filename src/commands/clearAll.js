@@ -1,13 +1,12 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
-const blockedChannels = require('../config/blockedChannels')
 
-const clearCommand = async (interaction) => {
+const clearAll = async (interaction) => {
     if (!interaction.isCommand()) return;
 
     const { commandName, options, member, channelId } = interaction;
 
-    if (commandName === 'clear') {    
+    if (commandName === 'clearall') {    
         if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
             const embed = new EmbedBuilder()
                 .setColor('Red')
@@ -83,4 +82,4 @@ const clearCommand = async (interaction) => {
     }
 };
 
-module.exports = { clearCommand };
+module.exports = { clearAll };

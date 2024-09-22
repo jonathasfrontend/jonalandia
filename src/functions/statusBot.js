@@ -1,6 +1,6 @@
 const { PresenceUpdateStatus } = require('discord.js');
 const { client } = require('../Client');
-function status (){    
+function Status (){    
     client.user.setPresence({
         activities: [
             {
@@ -12,5 +12,4 @@ function status (){
         ]
     });
 }
-status()
-module.exports = { status }
+module.exports = { Status }

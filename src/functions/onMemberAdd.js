@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
-const logger = require('../logger');
+const { info, erro } = require('../logger');
 
 function onMemberAdd(member) {
  const welcomeChannel = member.guild.channels.cache.get(process.env.CHANNEL_ID_BEMVINDO);
@@ -25,9 +25,11 @@ function onMemberAdd(member) {
       .setFooter({ text: `Por: ${client.user.username}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
 
     welcomeChannel.send({ embeds: [embed] });
+
+    info.info(`${member.user} Acabou de entrar no servidor ${member.guild}`);
     
  } else {
-  logger.info('Canal de boas-vindas não encontrado. Certifique-se de configurar o ID do canal corretamente.');
+  erro.error('Canal de boas-vindas não encontrado. Certifique-se de configurar o ID do canal corretamente.');
  }
 }
 

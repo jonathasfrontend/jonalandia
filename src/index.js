@@ -1,38 +1,36 @@
 require('./config/bdServerConect');
 require('./functions/onNotificationTwitch');
-// require('./functions/onNotificationYoutube');
+require('./functions/onNotificationYoutube');
 
-const logger = require('./logger');
+const { info } = require('./logger');
 const { client } = require('./Client');
 
 const { onMemberAdd } = require('./functions/onMemberAdd');
 const { ruleMembreAdd } = require('./functions/ruleMembreAdd');
 const { onMemberRemove } = require('./functions/onMemberRemove');
-const { checkUpdateRoles } = require('./functions/checkUpdateRoles');
+const { checkUpdateRolesP } = require('./functions/checkUpdateRoles');
+const { antiFloodChat } = require('./functions/antiFloodChat');
+const { blockLinks } = require('./functions/blockLinks');
+const { scheduleBirthdayCheck } = require('./functions/checkBirthdays');
+const { Status } = require('./functions/statusBot')
 
 const { Help } = require('./commands/help')
 const { searchUser } = require('./commands/searchUser')
 const { searchGuild } = require('./commands/searchGuild')
 const { menssageFile } = require('./commands/mensage');
-const { clearCommand } = require('./commands/clear')
+const { clearAll } = require('./commands/clearAll')
+const { clearUser } = require('./commands/clearMsgUser')
 const { mensageRegra } = require('./commands/regra')
 const { cargo } = require('./commands/cargo')
 const { ticket } = require('./commands/ticket')
 const { manutencao } = require('./commands/manutencao')
-
-const { Play } = require('./commands/musica/play')
-const { Pause } = require('./commands/musica/pause')
-const { Resume } = require('./commands/musica/resume')
-const { Kickbot } = require('./commands/musica/kickBot')
-const { Skip } = require('./commands/musica/skip')
-
-const { Player } = require('discord-player');
+const { createEmbed } = require('./commands/createEmbed')
+const { Birthday } = require('./commands/birthday')
 
 require('dotenv').config()
 
 client.once('ready', () => {
-  logger.info('O bot Jonalandia está online!');
-  require('./functions/statusBot')  
+  info.info('O bot Jonalandia está online!');
 
   client.application?.commands.create({
     name: 'oi',
@@ -56,38 +54,7 @@ client.once('ready', () => {
   })
 
   client.application?.commands.create({
-    name: 'play',
-    description: 'Tocar musica',
-    options: [{
-      type: 3, // Tipo 3 representa uma string
-      name: 'url',
-      description: 'Link da musica.',
-      required: true,
-    }],
-  })
-  
-  client.application?.commands.create({
-    name: 'pause',
-    description: 'Pausa a musica',
-  })
-
-  client.application?.commands.create({
-    name: 'resume',
-    description: 'Da play na musica pausada',
-  })
-
-  client.application?.commands.create({
-    name: 'kick',
-    description: 'Remove o bot da call',
-  })
-
-  client.application?.commands.create({
-    name: 'skip',
-    description: 'Pula para a proxima musica',
-  })
-
-  client.application?.commands.create({
-    name: 'clear',
+    name: 'clearall',
     description: 'Deleta um número especificado de mensagens.',
     options: [{
       type: 4, // Alterado de 'INTEGER' para 4
@@ -95,6 +62,25 @@ client.once('ready', () => {
       description: 'O número de mensagens a serem deletadas.',
       required: true,
     }],
+  });
+
+  client.application?.commands.create({
+    name: 'clearuser',
+    description: 'Deleta mensagens de um suario especifico.',
+    options: [
+      {
+        type: 4, // Inteiro para número de mensagens
+        name: 'numero',
+        description: 'O número de mensagens a serem deletadas.',
+        required: true,
+      },
+      {
+        type: 6, // Tipo 6 é para usuário (Discord user)
+        name: 'usuario',
+        description: 'O usuário cujas mensagens serão deletadas.',
+        required: true,
+      }
+    ],
   });
 
   client.application?.commands.create({
@@ -122,52 +108,98 @@ client.once('ready', () => {
     description: "Menssagem de manutenção!",
   })
 
-  checkUpdateRoles()
-});
+  client.application?.commands.create({
+    name: 'embed',
+    description: 'Cria um embed de exemplo no canal',
+    options: [
+      {
+        type: 3, // Tipo de string
+        name: 'titulo',
+        description: 'O título do embed',
+        required: true
+      },
+      {
+        type: 3, // Tipo de string
+        name: 'descricao',
+        description: 'A descrição do embed',
+        required: true
+      },
+      {
+        type: 7, // Tipo de canal
+        name: 'canal',
+        description: 'O canal onde o embed será enviado',
+        required: true
+      },
+      {
+        type: 3,
+        name: 'cor',
+        description: 'A cor do embed a ser enviado',
+        required: true
+      }
+    ],
+  });
 
-client.config = require('./config/configPlayerMusic');
-const player = new Player(client, client.config.opt.discordPlayer);
-player.extractors.loadDefault();
+  client.application?.commands.create({
+    name: 'birthday',
+    description: 'Registra o dia do seu aniversário ',
+    options: [
+      {
+        type: 4, // Tipo de string
+        name: 'dia',
+        description: 'O dia do seu aniversário',
+        required: true
+      },
+      {
+        type: 4, // Tipo de string
+        name: 'mes',
+        description: 'O mês do seu aniversário',
+        required: true
+      }
+    ],
+  });
+
+  checkUpdateRolesP();
+  scheduleBirthdayCheck();
+  Status();
+});
 
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
   const { commandName } = interaction;
 
-  if (commandName === 'pause') {
-    await Pause(interaction);
-  } else if (commandName === 'resume') {
-    await Resume(interaction);
-  } else if (commandName === 'kick') {
-    await Kickbot(interaction);
-  } else if (commandName === 'clear') {
-    await clearCommand(interaction);
+  if (commandName === 'clearall') {
+    await clearAll(interaction);
   } else if (commandName === 'oi') {
     await menssageFile(interaction);
   } else if (commandName === 'regra') {
     await mensageRegra(interaction);
   } else if (commandName === 'usuario') {
     await searchUser(interaction);
-  } else if (commandName === 'play') {
-    await Play(interaction);
   } else if (commandName === 'help') {
     await Help(interaction);
   } else if (commandName === 'server') {
     await searchGuild(interaction)
-  } else if (commandName === 'skip') {
-    await Skip(interaction)
   } else if (commandName === 'cargo') {
     await cargo(interaction)
-  }else if (commandName === 'ticket') {
+  } else if (commandName === 'ticket') {
     await ticket(interaction)
-  }else if (commandName === 'manutencao') {
+  } else if (commandName === 'manutencao') {
     await manutencao(interaction)
+  } else if (commandName === 'clearuser') {
+    await clearUser(interaction)
+  } else if (commandName === 'embed') {
+    await createEmbed(interaction);
+  } else if (commandName === 'birthday') {
+    await Birthday(interaction);
   }
 });
 
 client.on('guildMemberAdd', onMemberAdd);
 client.on('guildMemberAdd', ruleMembreAdd);
 client.on('guildMemberRemove', onMemberRemove);
+client.on('messageCreate', blockLinks);
+client.on('messageCreate', antiFloodChat);
 
 client.login(process.env.TOKEN);
 

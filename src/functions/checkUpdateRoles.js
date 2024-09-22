@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const logger = require('../logger');
+const { info, erro } = require('../logger');
 const { client } = require("../Client");
 
 function checkUpdateRoles() {
@@ -8,7 +8,7 @@ function checkUpdateRoles() {
     const cargoMembroPlus = process.env.CARGO_MEMBRO_PLUS;
 
     if (!guild) {
-        return logger.info('Guild não encontrada.');
+        return info.info('Guild não encontrada.');
     }
 
     guild.members.fetch().then(members => {
@@ -26,24 +26,26 @@ function checkUpdateRoles() {
                         member.roles.add(cargoMembroPlus);
 
                         member.send(`Parabéns, você ${member.user.tag} recebeu o cargo de Membro Plus após um mês no servidor Jonalandia!`)
-                            .then(() => logger.info(`Mensagem enviada ao membro ${member.user.tag}.`))
-                            .catch(error => logger.info(`Erro ao enviar mensagem para o membro ${member.user.tag}:`, error));
+                            .then(() => info.info(`Mensagem enviada ao membro ${member.user.tag}.`))
+                            .catch(error => info.info(`Erro ao enviar mensagem para o membro ${member.user.tag}:`, error));
                             
-                        logger.info(`Cargo "Membro Plus" adicionado ao membro ${member.user.tag} após um mês.`);
+                        info.info(`Cargo "Membro Plus" adicionado ao membro ${member.user.tag} após um mês.`);
                     } catch (error) {
-                        logger.info(`Erro ao atualizar cargos para o membro ${member.user.tag}:`, error);
+                        erro.error(`Erro ao atualizar cargos para o membro ${member.user.tag}:`, error);
                     }
                 }
             }
         });
     }).catch(error => {
-        logger.info(`Erro ao buscar membros:`, error);
+        erro.error(`Erro ao buscar membros:`, error);
     });
 }
 
 // Agendar a função para rodar a cada minuto
-cron.schedule('* * * * *', () => {
-    checkUpdateRoles();
-});
+function checkUpdateRolesP(){
+    cron.schedule('* * * * *', () => {
+        checkUpdateRoles();
+    });
+}
 
-module.exports = { checkUpdateRoles };
+module.exports = { checkUpdateRolesP };

@@ -1,8 +1,8 @@
 const { client } = require("../Client");
 const { EmbedBuilder } = require("discord.js");
 const { google } = require('googleapis');
-const youtube = google.youtube({version: 'v3', auth: process.env.TOKEN_API_YT_JONATHAS_OLEVEIRAGMAIL_COM});
-const logger = require('../logger');
+const youtube = google.youtube({version: 'v3', auth: 'AIzaSyDrl5ZxcRzkoB-8TrcUsIBi-5aNQMH20sw'});
+const { info, erro } = require('../logger');
 const onNotificationYoutubeSchema = require('../models/onNotificationYoutubeSchema')
 
 require('dotenv').config()
@@ -87,7 +87,7 @@ async function onNotificationYoutube() {
                 let author = video.snippet.channelTitle
                 let thumbnail = video.snippet.thumbnails.high.url
                 let link = `https://www.youtube.com/watch?v=${videoId}`;
-                let description = `<@&1253361488274657344> ${author} postou novo video!`
+                let description = `${author} postou novo video!`
 
                 if (lastVideoIds[channelId] !== videoId) {
                     lastVideoIds[channelId] = videoId;
@@ -103,7 +103,7 @@ async function onNotificationYoutube() {
                     const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_NOTIFICATION_YOUTUBE);
 
                     if(await onNotificationYoutubeSchema.findOne({title: title})){
-                        logger.info(`Notificação Youtube para o título "${title}" já existe no banco de dados.`);
+                        info.info(`Notificação Youtube para o título "${title}" já existe no banco de dados.`);
                     } else {
                         discordChannel.send({ embeds: [embed] });
     
@@ -115,7 +115,7 @@ async function onNotificationYoutube() {
                         });
     
                         await newNotification.save();
-                        logger.info(`Notificação Youtube para o título "${title}" armazenada no banco de dados.`);
+                        info.info(`Notificação Youtube para o título "${title}" armazenada no banco de dados.`);
                     }
 
                 }
@@ -126,3 +126,5 @@ async function onNotificationYoutube() {
 
 
 setTimeout(onNotificationYoutube, 300000); // 5 minutos
+
+// content: '<@&1253361488274657344>'

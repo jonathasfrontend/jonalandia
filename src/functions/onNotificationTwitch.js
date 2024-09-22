@@ -2,7 +2,7 @@ const axios = require('axios');
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
 const onNotificationTwitchSchema = require("../models/onNotificationTwitchSchema")
-const logger = require('../logger');
+const { info, erro } = require('../logger');
 
 const streamers = [
     'gabepeixe',
@@ -12,7 +12,6 @@ const streamers = [
     'cyntia',
     'todurooficial',
     'ovotz',
-    'ruyterpoubel0',
     'alvezerarp',
     'MagrinhoDoRp',
     'Coreano',
@@ -21,8 +20,20 @@ const streamers = [
     'coelhagg',
     'cblol',
     'mqs1',
-    'Ferbr',
-    'guip1_',
+    'PaulinhoLOKObr',
+    'PlayHard',
+    'keilemeg',
+    'CISINHO',
+    'yayahuz',
+    'NayuChan',
+    'funBABEEEEE',
+    'loud_caiox',
+    'celinettpb',
+    'Jvnq',
+    'oMeiaUm',
+    'Choke7',
+    'wuant',
+    'Cinemagrath',
 ];
 
 async function onNotificationTwitch() {
@@ -43,7 +54,7 @@ async function onNotificationTwitch() {
                     })
                     .setTitle(`${titleResponse.data}`)
                     .setThumbnail(`${avatarResponse.data}`)
-                    .setDescription(`<@&1253361488274657344> ${streamer} está online **Vá Ve-lo**`)
+                    .setDescription(`${streamer} está online **Vá Ve-lo**`)
                     .addFields(
                         { name: 'Game', value: `${gameResponse.data}` },
                     )
@@ -54,10 +65,10 @@ async function onNotificationTwitch() {
                 const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_NOTIFICATION_TWITCH);
 
                 if(await onNotificationTwitchSchema.findOne({title: titleResponse.data})){
-                    logger.info(`Notificação Twitch para o título "${titleResponse.data}" já existe no banco de dados.`);
+                    info.info(`Notificação Twitch para o título "${titleResponse.data}" já existe no banco de dados.`);
                 } else {
                     await discordChannel.send({ embeds: [embed] });
-
+                    
                     const newNotification = new onNotificationTwitchSchema({
                         title: titleResponse.data,
                         streamer: streamer,
@@ -66,12 +77,12 @@ async function onNotificationTwitch() {
                     });
 
                     await newNotification.save();
-                    logger.info(`Notificação Twitch para o título "${titleResponse.data}" armazenada no banco de dados.`);
+                    info.info(`Notificação Twitch para o título "${titleResponse.data}" armazenada no banco de dados.`);
                 }
 
             }
         } catch (error) {
-            logger.info(error);
+            erro.error(error);
         }
     }
 }
@@ -79,3 +90,5 @@ async function onNotificationTwitch() {
 module.exports = { onNotificationTwitch };
 
 setInterval(onNotificationTwitch, 300000); // 5 minutos
+
+// , content: '<@&1253361488274657344>'
