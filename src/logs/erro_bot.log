@@ -91,3 +91,7 @@
 2024-09-22 10:42:02 [ERROR]: Erro ao tentar reproduzir a música: [ERR_INVALID_ARG_TYPE] Expected undefined to be "string", received "undefined"
 2024-09-22 10:50:25 [ERROR]: Erro ao tentar reproduzir a música: [ERR_INVALID_ARG_TYPE] Expected undefined to be "string", received "undefined"
 2024-09-22 10:55:41 [ERROR]: Erro ao tentar reproduzir a música: [ERR_INVALID_ARG_TYPE] Expected undefined to be "string", received "undefined"
+2024-09-22 13:25:25 [ERROR]: Request failed with status code 429
+2024-09-22 13:25:25 [ERROR]: Request failed with status code 429
+2024-09-22 13:25:25 [ERROR]: Request failed with status code 429
+2024-09-22 13:25:25 [ERROR]: Request failed with status code 429

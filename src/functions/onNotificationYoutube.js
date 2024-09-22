@@ -1,9 +1,10 @@
 const { client } = require("../Client");
-const { EmbedBuilder } = require("discord.js");
-const { google } = require('googleapis');
-const youtube = google.youtube({version: 'v3', auth: 'AIzaSyDrl5ZxcRzkoB-8TrcUsIBi-5aNQMH20sw'});
 const { info, erro } = require('../logger');
+const { EmbedBuilder } = require("discord.js");
 const onNotificationYoutubeSchema = require('../models/onNotificationYoutubeSchema')
+const { google } = require('googleapis');
+const cron = require('node-cron');
+const youtube = google.youtube({version: 'v3', auth: 'AIzaSyDrl5ZxcRzkoB-8TrcUsIBi-5aNQMH20sw'});
 
 require('dotenv').config()
 
@@ -124,7 +125,12 @@ async function onNotificationYoutube() {
     }
 }
 
+function scheduleNotificationYoutubeCheck() {
+    cron.schedule('*/20 * * * *', () => {
+        onNotificationYoutube();
+    });
+}
 
-setTimeout(onNotificationYoutube, 300000); // 5 minutos
+module.exports = { scheduleNotificationYoutubeCheck }
 
 // content: '<@&1253361488274657344>'

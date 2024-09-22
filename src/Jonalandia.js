@@ -1,14 +1,10 @@
-require('./config/bdServerConect');
-require('./functions/onNotificationTwitch');
-require('./functions/onNotificationYoutube');
-
 const { info } = require('./logger');
 const { client } = require('./Client');
 
 const { onMemberAdd } = require('./functions/onMemberAdd');
 const { ruleMembreAdd } = require('./functions/ruleMembreAdd');
 const { onMemberRemove } = require('./functions/onMemberRemove');
-const { checkUpdateRolesP } = require('./functions/checkUpdateRoles');
+const { checkUpdateRoles } = require('./functions/checkUpdateRoles');
 const { antiFloodChat } = require('./functions/antiFloodChat');
 const { blockLinks } = require('./functions/blockLinks');
 const { scheduleBirthdayCheck } = require('./functions/checkBirthdays');
@@ -26,6 +22,9 @@ const { ticket } = require('./commands/ticket')
 const { manutencao } = require('./commands/manutencao')
 const { createEmbed } = require('./commands/createEmbed')
 const { Birthday } = require('./commands/birthday')
+const { scheduleNotificationYoutubeCheck } = require('./functions/onNotificationYoutube');
+const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
+const { bdServerConect } = require('./config/bdServerConect');
 
 require('dotenv').config()
 
@@ -158,9 +157,12 @@ client.once('ready', () => {
     ],
   });
 
-  checkUpdateRolesP();
+  checkUpdateRoles();
   scheduleBirthdayCheck();
   Status();
+  scheduleNotificationYoutubeCheck();
+  scheduleNotificationTwitchCheck();
+  bdServerConect();
 });
 
 client.on('interactionCreate', async (interaction) => {

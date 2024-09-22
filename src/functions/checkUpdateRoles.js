@@ -2,7 +2,7 @@ const cron = require('node-cron');
 const { info, erro } = require('../logger');
 const { client } = require("../Client");
 
-function checkUpdateRoles() {
+function UpdateRoles() {
     const guild = client.guilds.cache.get(process.env.GUILD_ID);
     const cargoRecemChegado = process.env.CARGO_RECEM_CHEGADO;
     const cargoMembroPlus = process.env.CARGO_MEMBRO_PLUS;
@@ -42,10 +42,10 @@ function checkUpdateRoles() {
 }
 
 // Agendar a função para rodar a cada minuto
-function checkUpdateRolesP(){
+function checkUpdateRoles(){
     cron.schedule('* * * * *', () => {
-        checkUpdateRoles();
+        UpdateRoles();
     });
 }
 
-module.exports = { checkUpdateRolesP };
+module.exports = { checkUpdateRoles };

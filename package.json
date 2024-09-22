@@ -2,10 +2,10 @@
   "name": "bot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "Jonalandia.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "start": "node src/Jonalandia.js",
+    "dev": "nodemon src/Jonalandia.js"
   },
   "keywords": [],
   "author": "",

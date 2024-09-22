@@ -1,8 +1,9 @@
+const { client } = require("../Client");
+const { info, erro } = require('../logger');
+const onNotificationTwitchSchema = require("../models/onNotificationTwitchSchema")
 const axios = require('axios');
 const { EmbedBuilder } = require("discord.js");
-const { client } = require("../Client");
-const onNotificationTwitchSchema = require("../models/onNotificationTwitchSchema")
-const { info, erro } = require('../logger');
+const cron = require('node-cron');
 
 const streamers = [
     'gabepeixe',
@@ -87,8 +88,11 @@ async function onNotificationTwitch() {
     }
 }
 
-module.exports = { onNotificationTwitch };
+function scheduleNotificationTwitchCheck() {
+    cron.schedule('*/5 * * * *', () => {
+        onNotificationTwitch();
+    });
+}
 
-setInterval(onNotificationTwitch, 300000); // 5 minutos
-
+module.exports = { scheduleNotificationTwitchCheck };
 // , content: '<@&1253361488274657344>'
