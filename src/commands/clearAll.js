@@ -6,7 +6,7 @@ const clearAll = async (interaction) => {
 
     const { commandName, options, member, channelId } = interaction;
 
-    if (commandName === 'clearall') {    
+    if (commandName === 'clearall') {
         if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
             const embed = new EmbedBuilder()
                 .setColor('Red')

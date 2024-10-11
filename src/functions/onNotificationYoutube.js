@@ -4,7 +4,7 @@ const { EmbedBuilder } = require("discord.js");
 const onNotificationYoutubeSchema = require('../models/onNotificationYoutubeSchema')
 const { google } = require('googleapis');
 const cron = require('node-cron');
-const youtube = google.youtube({version: 'v3', auth: 'seu codigo se conecção com google'});
+const youtube = google.youtube({version: 'v3', auth: 'AIzaSyBx_r45oAf3Gqp7rKjzrd0Aw3c81EwWglg'});
 
 require('dotenv').config()
 
@@ -69,7 +69,7 @@ async function onNotificationYoutube() {
         };
 
         youtube.search.list(params, async (err, res) => {
-            if (err) return logger.info('Esseso de requisições a api do google' + err);
+            if (err) return info.info('Esseso de requisições a api do google' + err);
             
             let channelId = res.data.items[0].id.channelId;
             let params = {
@@ -80,7 +80,7 @@ async function onNotificationYoutube() {
             };
             
             youtube.search.list(params, async (err, res) => {
-                if (err) return logger.info('Esseso de requisições a api do google' + err);
+                if (err) return info.info('Esseso de requisições a api do google' + err);
                 
                 let video = res.data.items[0];
                 let videoId = video.id.videoId;

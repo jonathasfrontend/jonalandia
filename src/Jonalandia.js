@@ -9,6 +9,8 @@ const { antiFloodChat } = require('./functions/antiFloodChat');
 const { blockLinks } = require('./functions/blockLinks');
 const { scheduleBirthdayCheck } = require('./functions/checkBirthdays');
 const { Status } = require('./functions/statusBot')
+const { scheduleNotificationYoutubeCheck } = require('./functions/onNotificationYoutube');
+const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
 
 const { Help } = require('./commands/help')
 const { searchUser } = require('./commands/searchUser')
@@ -22,13 +24,19 @@ const { ticket } = require('./commands/ticket')
 const { manutencao } = require('./commands/manutencao')
 const { createEmbed } = require('./commands/createEmbed')
 const { Birthday } = require('./commands/birthday')
-const { scheduleNotificationYoutubeCheck } = require('./functions/onNotificationYoutube');
-const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
+
 const { bdServerConect } = require('./config/bdServerConect');
 
 require('dotenv').config()
 
 client.once('ready', () => {
+  bdServerConect();
+  checkUpdateRoles();
+  scheduleBirthdayCheck();
+  Status();
+  scheduleNotificationYoutubeCheck();
+  scheduleNotificationTwitchCheck();
+
   info.info('O bot Jonalandia está online!');
 
   client.application?.commands.create({
@@ -157,12 +165,6 @@ client.once('ready', () => {
     ],
   });
 
-  checkUpdateRoles();
-  scheduleBirthdayCheck();
-  Status();
-  scheduleNotificationYoutubeCheck();
-  scheduleNotificationTwitchCheck();
-  bdServerConect();
 });
 
 client.on('interactionCreate', async (interaction) => {
