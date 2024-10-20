@@ -28,6 +28,7 @@ async function checkBirthdays() {
                 .setTimestamp();
                 
             channel.send({ embeds: [birthdayEmbed] });
+            info.info(`parabéns a ${member.user.tag} enviado com sucesso.`);
         }
     });
 }

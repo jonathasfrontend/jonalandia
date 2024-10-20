@@ -41,6 +41,7 @@ function antiFloodChat(message) {
             .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
 
         message.reply({ content: `||${author}||`, embeds: [embed], ephemeral: true });
+        info.info(`${author} levou timeout por flood de mensagem!`);
 
         setTimeout(() => message.delete().catch(() => {}, 60_000));
         return;

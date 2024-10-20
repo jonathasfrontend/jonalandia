@@ -1,4 +1,3 @@
-
 const { info, erro } = require('../logger');
 
 function ruleMembreAdd(member) {

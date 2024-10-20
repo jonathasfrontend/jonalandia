@@ -36,6 +36,7 @@ const createEmbed = async (interaction) => {
     try {
       await canal.send({ embeds: [embed] });
       await interaction.reply({ content: `Embed enviado com sucesso para o canal ${canal}!`, ephemeral: true });
+      info.info(`Embed enviado com sucesso para o canal ${canal}!`);
     } catch (error) {
       erro.error('Erro ao enviar embed:', error);
       await interaction.reply({ content: 'Ocorreu um erro ao enviar o embed.', ephemeral: true });

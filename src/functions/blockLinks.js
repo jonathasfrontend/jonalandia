@@ -2,6 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const blockedLinks = require('../config/blockedLinks');
 const blockedChannels = require('../config/blockedChannels');
 const { client } = require('../Client');
+const { info, erro } = require('../logger');
 
 async function blockLinks(message) {
     if (message.author.bot) return;
@@ -25,6 +26,7 @@ async function blockLinks(message) {
                 .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
 
             await message.channel.send({ content: `${message.author}`, embeds: [embed] });
+            info.info(`Link bloqueado detectado e deletado no canal ${message.channel.name} por ${message.author.tag}`);
         }
     }
 }

@@ -11,6 +11,7 @@ const { scheduleBirthdayCheck } = require('./functions/checkBirthdays');
 const { Status } = require('./functions/statusBot')
 const { scheduleNotificationYoutubeCheck } = require('./functions/onNotificationYoutube');
 const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
+const { onNotificationFreeGames } = require('./functions/onNotificationFreeGames');
 
 const { Help } = require('./commands/help')
 const { searchUser } = require('./commands/searchUser')
@@ -36,6 +37,7 @@ client.once('ready', () => {
   Status();
   scheduleNotificationYoutubeCheck();
   scheduleNotificationTwitchCheck();
+  onNotificationFreeGames();
 
   info.info('O bot Jonalandia está online!');
 
