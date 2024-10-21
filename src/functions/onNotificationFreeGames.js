@@ -49,9 +49,10 @@ async function onNotificationFreeGames() {
     }
 }
 
+function scheduleonNotificationFreeGamesCheck(){
+    cron.schedule('0 13 * * *', () => {
+        onNotificationFreeGames();
+    });
+}
 
-cron.schedule('0 13 * * *', () => {
-    onNotificationFreeGames();
-});
-
-module.exports = { onNotificationFreeGames };
+module.exports = { scheduleonNotificationFreeGamesCheck };

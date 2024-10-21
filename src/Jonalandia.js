@@ -11,7 +11,7 @@ const { scheduleBirthdayCheck } = require('./functions/checkBirthdays');
 const { Status } = require('./functions/statusBot')
 const { scheduleNotificationYoutubeCheck } = require('./functions/onNotificationYoutube');
 const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
-const { onNotificationFreeGames } = require('./functions/onNotificationFreeGames');
+const { scheduleonNotificationFreeGamesCheck } = require('./functions/onNotificationFreeGames');
 
 const { Help } = require('./commands/help')
 const { searchUser } = require('./commands/searchUser')
@@ -25,6 +25,8 @@ const { ticket } = require('./commands/ticket')
 const { manutencao } = require('./commands/manutencao')
 const { createEmbed } = require('./commands/createEmbed')
 const { Birthday } = require('./commands/birthday')
+const { generatorMemes } = require('./commands/generatorMemes')
+const { generatorConselho } = require('./commands/generatorConselho')
 
 const { bdServerConect } = require('./config/bdServerConect');
 
@@ -37,7 +39,7 @@ client.once('ready', () => {
   Status();
   scheduleNotificationYoutubeCheck();
   scheduleNotificationTwitchCheck();
-  onNotificationFreeGames();
+  scheduleonNotificationFreeGamesCheck();
 
   info.info('O bot Jonalandia está online!');
 
@@ -167,6 +169,16 @@ client.once('ready', () => {
     ],
   });
 
+  client.application?.commands.create({
+    name: 'memes',
+    description: 'Gera um meme aleatório'
+  });
+
+  client.application?.commands.create({
+    name: 'conselho',
+    description: 'Receba um conselho aleatório.',
+  });
+
 });
 
 client.on('interactionCreate', async (interaction) => {
@@ -198,6 +210,10 @@ client.on('interactionCreate', async (interaction) => {
     await createEmbed(interaction);
   } else if (commandName === 'birthday') {
     await Birthday(interaction);
+  } else if (commandName === 'memes') {
+    await generatorMemes(interaction);
+  } else if (commandName === 'conselho') {
+    await generatorConselho(interaction);
   }
 });
 
