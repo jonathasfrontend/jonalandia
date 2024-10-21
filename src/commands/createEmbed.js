@@ -5,7 +5,7 @@ const blockedChannels = require('../config/blockedChannels')
 
 const createEmbed = async (interaction) => {
   if (!interaction.isCommand()) return;
-  const { commandName, options, member } = interaction;
+  const { commandName, options, member, channelId } = interaction;
   if (commandName === 'embed') {
 
     if (blockedChannels.includes(channelId)) {

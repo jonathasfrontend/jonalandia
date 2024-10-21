@@ -5,6 +5,9 @@ const axios = require('axios');
 
 async function generatorMemes(interaction) {
     if (!interaction.isCommand()) return;
+
+    const { commandName, channelId } = interaction;
+
     if (blockedChannels.includes(channelId)) {
         const embed = new EmbedBuilder()
             .setColor('Red')
@@ -20,10 +23,9 @@ async function generatorMemes(interaction) {
         await interaction.reply({ embeds: [embed], ephemeral: true });
         return;
     }
-    const { commandName } = interaction;
     try {
         const response = await axios.get("https://api.apileague.com/retrieve-random-meme?keywords=rocket", {
-            headers: { 'x-api-key': "seu codigo da api" }
+            headers: { 'x-api-key': "codigo da api" }
         });
 
         if (commandName === 'memes') {

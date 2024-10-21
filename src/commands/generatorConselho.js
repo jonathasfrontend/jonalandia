@@ -3,6 +3,8 @@ const { EmbedBuilder } = require('discord.js');
 const blockedChannels = require('../config/blockedChannels');
 
 async function generatorConselho(interaction) {
+    const { commandName, channelId } = interaction;
+
     if (!interaction.isCommand()) return;
     if (blockedChannels.includes(channelId)) {
         const embed = new EmbedBuilder()
@@ -19,7 +21,7 @@ async function generatorConselho(interaction) {
         await interaction.reply({ embeds: [embed], ephemeral: true });
         return;
     }
-    const { commandName } = interaction;
+    
     try {
         if (commandName === 'conselho') {
             const response = await axios.get('https://api.adviceslip.com/advice');

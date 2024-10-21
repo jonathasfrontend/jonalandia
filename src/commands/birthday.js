@@ -2,8 +2,11 @@ const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
 const onNotificationBirthdaySchema = require('../models/onNotificationBirthdaySchema');
 const blockedChannels = require('../config/blockedChannels');
+const { info, erro } = require('../logger');
 
 async function Birthday (interaction){
+    const { commandName, channelId } = interaction;
+
     if (!interaction.isCommand()) return;
     if (blockedChannels.includes(channelId)) {
         const embed = new EmbedBuilder()
@@ -21,7 +24,6 @@ async function Birthday (interaction){
         return;
     }
     
-    const { commandName, channelId } = interaction;
 
     if (commandName === 'birthday') {
 
