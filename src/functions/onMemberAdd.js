@@ -26,7 +26,13 @@ function onMemberAdd(member) {
 
     welcomeChannel.send({ embeds: [embed] });
 
+    member.send(`Olá ${member.user.tag} bem-vindo(a) ao servidor Jonalandia! Leia as regras <#1253359463042384012> Pegue os cargos de acordo com seu gosto <#1253360042212855933>  `)
+      .then(() => info.info(`Mensagem enviada ao membro ${member.user.tag}.`))
+      .catch(error => info.info(`Erro ao enviar mensagem para o membro ${member.user.tag}:`, error))
+
     info.info(`${member.user} Acabou de entrar no servidor ${member.guild}`);
+    const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+    discordChannel.send(`${member.user} Acabou de entrar no servidor ${member.guild}.`)
     
  } else {
   erro.error('Canal de boas-vindas não encontrado. Certifique-se de configurar o ID do canal corretamente.');

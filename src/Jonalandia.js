@@ -13,20 +13,26 @@ const { scheduleNotificationYoutubeCheck } = require('./functions/onNotification
 const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
 const { scheduleonNotificationFreeGamesCheck } = require('./functions/onNotificationFreeGames');
 
-const { Help } = require('./commands/help')
 const { searchUser } = require('./commands/searchUser')
 const { searchGuild } = require('./commands/searchGuild')
 const { menssageFile } = require('./commands/mensage');
-const { clearAll } = require('./commands/clearAll')
-const { clearUser } = require('./commands/clearMsgUser')
 const { mensageRegra } = require('./commands/regra')
-const { cargo } = require('./commands/cargo')
-const { ticket } = require('./commands/ticket')
-const { manutencao } = require('./commands/manutencao')
-const { createEmbed } = require('./commands/createEmbed')
 const { Birthday } = require('./commands/birthday')
 const { generatorMemes } = require('./commands/generatorMemes')
 const { generatorConselho } = require('./commands/generatorConselho')
+
+const { Help } = require('./commands/moderador/help')
+const { createEmbed } = require('./commands/moderador/createEmbed')
+const { clearAll } = require('./commands/moderador/clearAll')
+const { clearUser } = require('./commands/moderador/clearMsgUser')
+const { cargo } = require('./commands/moderador/cargo')
+const { ticket } = require('./commands/moderador/ticket')
+const { manutencao } = require('./commands/moderador/manutencao')
+const { timeout } = require('./commands/moderador/timeout')
+const { expulsar } = require('./commands/moderador/expulsar')
+const { banUser } = require('./commands/moderador/banUser')
+const { unbanUser } = require('./commands/moderador/unbanUser')
+const { kickUser } = require('./commands/moderador/kickUser');
 
 const { bdServerConect } = require('./config/bdServerConect');
 
@@ -179,6 +185,71 @@ client.once('ready', () => {
     description: 'Receba um conselho aleatório.',
   });
 
+  client.application?.commands.create({
+    name: 'timeout',
+    description: 'Aplica um timeout de 3 minutos em um usuário.',
+    options: [
+        {
+            type: 6,
+            name: 'usuario',
+            description: 'Selecione o usuário para aplicar o timeout.',
+            required: true,
+        },
+    ],
+  });
+
+  client.application?.commands.create({
+    name: 'expulsar',
+    description: 'Expulsa um usuário do servidor',
+    options: [
+        {
+            type: 6, // Tipo 6 é para selecionar usuário
+            name: 'usuario',
+            description: 'O usuário a ser expulso',
+            required: true,
+        },
+    ],
+  });
+
+  client.application?.commands.create({
+    name: 'banir',
+    description: 'Bane um usuário do servidor',
+    options: [
+      {
+        type: 6, // Tipo para usuário (Discord user)
+        name: 'usuario',
+        description: 'O usuário que será banido.',
+        required: true,
+      },
+    ],
+  });
+
+  client.application?.commands.create({
+  name: 'desbanir',
+  description: 'Desbane um usuário do servidor',
+  options: [
+    {
+      type: 6, // Tipo 6 representa um usuário
+      name: 'usuario',
+      description: 'Selecione o usuário a ser desbanido',
+      required: true,
+    },
+  ],
+  });
+
+  client.application?.commands.create({
+    name: 'kickuser',
+    description: 'Expulsa um usuário do canal de voz.',
+    options: [
+        {
+            type: 6, // Tipo para usuário (Discord user)
+            name: 'usuario',
+            description: 'O usuário a ser expulso do canal de voz.',
+            required: true,
+        }
+    ],
+  });
+
 });
 
 client.on('interactionCreate', async (interaction) => {
@@ -214,6 +285,16 @@ client.on('interactionCreate', async (interaction) => {
     await generatorMemes(interaction);
   } else if (commandName === 'conselho') {
     await generatorConselho(interaction);
+  } else if (commandName === 'timeout') {
+    await timeout(interaction);
+  } else if (commandName === 'expulsar') {
+    await expulsar(interaction);
+  } else if (commandName === 'banir') {
+    await banUser(interaction);
+  } else if (commandName === 'desbanir') {
+    await unbanUser(interaction);
+  } else if (commandName === 'kickuser') {
+    await kickUser(interaction);
   }
 });
 

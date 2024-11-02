@@ -19,9 +19,13 @@ function onMemberRemove(member) {
 
     discordChannel.send({ embeds: [embed] });
 
+    const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+    discordChannel2.send(`${member.user} Acabou de sair no servidor ${member.guild}.`)
+
     member.user.send({ embeds: [embed] }).catch(error => {
       if (error.code === 50007) {
         info.info('Não foi possível enviar a mensagem direta para o usuário. O usuário pode ter desativado mensagens diretas ou bloqueado o bot.');
+        
       } else {
         erro.error('Ocorreu um erro ao tentar enviar a mensagem direta para o usuário');
       }

@@ -9,9 +9,7 @@ function antiFloodChat(message) {
     if (message.author.bot) return;
     if (message.author.id === message.guild.ownerId) return;
 
-    const { author, channel, member } = message; // Mova isso antes de acessar 'member'
-
-    // Verifique se 'member' está definido antes de acessar os roles
+    const { author, channel, member } = message;
     if (member && member.roles.cache.has(process.env.CARGO_MODERADOR)) return;
 
     const count = members.get(author.id);
@@ -23,7 +21,7 @@ function antiFloodChat(message) {
     const newCount = count + 1;
     members.set(author.id, newCount);
 
-    if (newCount >= 3) {
+    if (newCount >= 5) {
         members.delete(author.id);
 
         // Timeout do membro
@@ -41,6 +39,10 @@ function antiFloodChat(message) {
             .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
 
         message.reply({ content: `||${author}||`, embeds: [embed], ephemeral: true });
+
+        const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+        discordChannel.send(`${author} levou timeout por flood de mensagem!`)
+
         info.info(`${author} levou timeout por flood de mensagem!`);
 
         setTimeout(() => message.delete().catch(() => {}, 60_000));

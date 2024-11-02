@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { client } = require("../Client");
+const { client } = require("../../Client");
 
 const clearAll = async (interaction) => {
     if (!interaction.isCommand()) return;
@@ -56,6 +56,9 @@ const clearAll = async (interaction) => {
                     .setTimestamp()
                     .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
                 await interaction.reply({ embeds: [embed], ephemeral: true });
+
+                const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+                discordChannel2.send(`As últimas ${numberOfMessages} mensagens foram deletadas por ${interaction.user.tag} `)
 
             } catch (error) {
               let errorMessage = 'Ocorreu um erro ao tentar deletar as mensagens.';

@@ -1,7 +1,7 @@
 const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, PermissionsBitField } = require("discord.js");
-const { client } = require("../Client");
-const blockedChannels = require('../config/blockedChannels')
-const { info, erro } = require('../logger');
+const { client } = require("../../Client");
+const blockedChannels = require('../../config/blockedChannels')
+const { info, erro } = require('../../logger');
 
 const ticket = async (interaction) => {
     if (!interaction.isCommand()) return;
@@ -118,8 +118,13 @@ client.on('interactionCreate', async (interaction) => {
                 },
             ],
         });
+        const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+        discordChannel2.send(`Ticket criado ${interaction.user.username} no canal <#${ticketChannel.id}>.`);
+        
         await interaction.reply({ content: `Ticket criado com sucesso: <#${ticketChannel.id}>`, ephemeral: true });
         info.info(`Ticket criado com sucesso para ${interaction.user.username} no canal <#${ticketChannel.id}>`);
+
+
 
         const embedTicket = new EmbedBuilder()
             .setColor(0xffffff)

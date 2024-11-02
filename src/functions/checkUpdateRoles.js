@@ -22,7 +22,6 @@ function UpdateRoles() {
 
                 if (joinedAt <= oneMonthAgo) {
                     try {
-                        member.roles.remove(cargoRecemChegado);
                         member.roles.add(cargoMembroPlus);
 
                         member.send(`Parabéns, você ${member.user.tag} recebeu o cargo de Membro Plus após um mês no servidor Jonalandia!`)
@@ -30,8 +29,13 @@ function UpdateRoles() {
                             .catch(error => info.info(`Erro ao enviar mensagem para o membro ${member.user.tag}:`, error));
                             
                         info.info(`Cargo "Membro Plus" adicionado ao membro ${member.user.tag} após um mês.`);
+
+                        const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+                        discordChannel.send(`Cargo "Membro Plus" adicionado ao membro ${member.user.tag} após um mês.`)
                     } catch (error) {
+                        const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT)
                         erro.error(`Erro ao atualizar cargos para o membro ${member.user.tag}:`, error);
+                        discordChannel.send(`Erro ao atualizar cargos para o membro ${member.user.tag}`)
                     }
                 }
             }
@@ -41,9 +45,9 @@ function UpdateRoles() {
     });
 }
 
-// Agendar a função para rodar a cada minuto
+// Agendar a função para rodar a cada mes
 function checkUpdateRoles(){
-    cron.schedule('* * * * *', () => {
+    cron.schedule('0 0 1 * *', () => {
         UpdateRoles();
     });
 }

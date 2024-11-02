@@ -5,7 +5,7 @@ const axios = require('axios');
 
 async function generatorMemes(interaction) {
     if (!interaction.isCommand()) return;
-
+    
     const { commandName, channelId } = interaction;
 
     if (blockedChannels.includes(channelId)) {
@@ -25,7 +25,7 @@ async function generatorMemes(interaction) {
     }
     try {
         const response = await axios.get("https://api.apileague.com/retrieve-random-meme?keywords=rocket", {
-            headers: { 'x-api-key': "codigo da api" }
+            headers: { 'x-api-key': "512024cecc9e49cc8a798ed85d833b1f" }
         });
 
         if (commandName === 'memes') {

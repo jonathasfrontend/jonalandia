@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { client } = require("../Client");
+const { client } = require("../../Client");
 
 const clearUser = async (interaction) => {
     if (!interaction.isCommand()) return;
@@ -48,6 +48,9 @@ const clearUser = async (interaction) => {
                 .setColor(0xffffff)
                 .setDescription(`As últimas ${userMessages.length} mensagens de ${user.tag} foram deletadas.`);
             await interaction.reply({ embeds: [embed], ephemeral: true });
+
+            const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+            discordChannel2.send(`As últimas ${numberOfMessages} mensagens de ${user.tag} foram deletadas por ${interaction.user.tag}.`);
 
         } catch (error) {
             const errorMessage = error.rawError?.message === 'You can only bulk delete messages that are under 14 days old.' 

@@ -26,6 +26,10 @@ async function blockLinks(message) {
                 .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
 
             await message.channel.send({ content: `${message.author}`, embeds: [embed] });
+
+            const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+            discordChannel.send(`Link bloqueado detectado e deletado no canal ${message.channel.name} por ${message.author.tag}`)
+            
             info.info(`Link bloqueado detectado e deletado no canal ${message.channel.name} por ${message.author.tag}`);
         }
     }

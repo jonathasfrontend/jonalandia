@@ -29,6 +29,9 @@ async function checkBirthdays() {
                 
             channel.send({ embeds: [birthdayEmbed] });
             info.info(`parabéns a ${member.user.tag} enviado com sucesso.`);
+
+            const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+            discordChannel.send(`Parabéns a ${member.user.tag} enviado com sucesso.`)
         }
     });
 }

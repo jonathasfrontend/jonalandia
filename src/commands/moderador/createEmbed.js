@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
-const { info, erro } = require('../logger');
-const { client } = require('../Client');
-const blockedChannels = require('../config/blockedChannels')
+const { info, erro } = require('../../logger');
+const { client } = require('../../Client');
+const blockedChannels = require('../../config/blockedChannels')
 
 const createEmbed = async (interaction) => {
   if (!interaction.isCommand()) return;
@@ -53,6 +53,10 @@ const createEmbed = async (interaction) => {
     try {
       await canal.send({ embeds: [embed] });
       await interaction.reply({ content: `Embed enviado com sucesso para o canal ${canal}!`, ephemeral: true });
+
+      const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+      discordChannel2.send(`Embed enviado usuario com sucesso para o canal ${canal}!`);
+
       info.info(`Embed enviado com sucesso para o canal ${canal}!`);
     } catch (error) {
       erro.error('Erro ao enviar embed:', error);
