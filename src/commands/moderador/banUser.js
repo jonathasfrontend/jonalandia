@@ -1,7 +1,7 @@
 const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { client } = require('../../Client');
 const { erro } = require('../../logger');
-const blockedChannels = require('../../config/blockedChannels')
+const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 const banUser = async (interaction) => {
   if (!interaction.isCommand()) return;

@@ -1,41 +1,12 @@
 const { client } = require("../Client");
 const { info, erro } = require('../logger');
-const onNotificationTwitchSchema = require("../models/onNotificationTwitchSchema")
+const onNotificationTwitchSchema = require("../models/onNotificationTwitchSchema");
 const axios = require('axios');
 const { EmbedBuilder } = require("discord.js");
 const cron = require('node-cron');
+const streamersData = require('../config/streamers.json');
 
-const streamers = [
-    'gabepeixe',
-    'loud_coringa',
-    'alanzoka',
-    'piuzinho',
-    'cyntia',
-    'todurooficial',
-    'ovotz',
-    'alvezerarp',
-    'MagrinhoDoRp',
-    'Coreano',
-    'Bisteconee',
-    'rauzin',
-    'coelhagg',
-    'cblol',
-    'mqs1',
-    'PaulinhoLOKObr',
-    'PlayHard',
-    'keilemeg',
-    'CISINHO',
-    'yayahuz',
-    'NayuChan',
-    'funBABEEEEE',
-    'loud_caiox',
-    'celinettpb',
-    'Jvnq',
-    'oMeiaUm',
-    'Choke7',
-    'wuant',
-    'Cinemagrath',
-];
+const streamers = streamersData.streamers;
 
 async function onNotificationTwitch() {
     for (let streamer of streamers) {
@@ -44,7 +15,7 @@ async function onNotificationTwitch() {
             const avatarResponse = await axios.get(`https://decapi.me/twitch/avatar/${streamer}`);
             const titleResponse = await axios.get(`https://decapi.me/twitch/title/${streamer}`);
             const gameResponse = await axios.get(`https://decapi.me/twitch/game/${streamer}`);
-            const imageResponse = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${streamer}-440x248.jpg`
+            const imageResponse = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${streamer}-440x248.jpg`;
 
             if (uptimeResponse.data !== `${streamer} is offline`) {
                 const embed = new EmbedBuilder()
@@ -80,7 +51,6 @@ async function onNotificationTwitch() {
                     await newNotification.save();
                     info.info(`Notificação Twitch para o título "${titleResponse.data}" armazenada no banco de dados.`);
                 }
-
             }
         } catch (error) {
             erro.error(error);
@@ -95,4 +65,3 @@ function scheduleNotificationTwitchCheck() {
 }
 
 module.exports = { scheduleNotificationTwitchCheck };
-// , content: '<@&1253361488274657344>'

@@ -31,6 +31,7 @@ function onMemberAdd(member) {
       .catch(error => info.info(`Erro ao enviar mensagem para o membro ${member.user.tag}:`, error))
 
     info.info(`${member.user} Acabou de entrar no servidor ${member.guild}`);
+    
     const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
     discordChannel.send(`${member.user} Acabou de entrar no servidor ${member.guild}.`)
     

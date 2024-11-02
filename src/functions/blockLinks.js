@@ -1,8 +1,10 @@
 const { EmbedBuilder } = require('discord.js');
-const blockedLinks = require('../config/blockedLinks');
-const blockedChannels = require('../config/blockedChannels');
+const blockedLinksData = require('../config/blockedLinks.json');
+const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 const { client } = require('../Client');
-const { info, erro } = require('../logger');
+const { info } = require('../logger');
+
+const blockedLinks = blockedLinksData.blockedLinks.map(pattern => new RegExp(pattern));
 
 async function blockLinks(message) {
     if (message.author.bot) return;
@@ -11,7 +13,7 @@ async function blockLinks(message) {
         const isBlocked = blockedLinks.some(regex => regex.test(message.content));
 
         if (isBlocked) {
-            await message.delete(); // Deleta a mensagem com o link
+            await message.delete();
 
             const embed = new EmbedBuilder()
                 .setColor('#FF0000')
@@ -27,8 +29,8 @@ async function blockLinks(message) {
 
             await message.channel.send({ content: `${message.author}`, embeds: [embed] });
 
-            const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
-            discordChannel.send(`Link bloqueado detectado e deletado no canal ${message.channel.name} por ${message.author.tag}`)
+            const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
+            discordChannel.send(`Link bloqueado detectado e deletado no canal ${message.channel.name} por ${message.author.tag}`);
             
             info.info(`Link bloqueado detectado e deletado no canal ${message.channel.name} por ${message.author.tag}`);
         }

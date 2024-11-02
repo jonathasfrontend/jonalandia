@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
 const { info, erro } = require('../../logger');
-const blockedChannels = require('../../config/blockedChannels')
+const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 const kickUser = async (interaction) => {
     if (!interaction.isCommand()) return;

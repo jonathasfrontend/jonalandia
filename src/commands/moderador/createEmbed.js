@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { info, erro } = require('../../logger');
 const { client } = require('../../Client');
-const blockedChannels = require('../../config/blockedChannels')
+const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 const createEmbed = async (interaction) => {
   if (!interaction.isCommand()) return;

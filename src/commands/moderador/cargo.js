@@ -1,6 +1,6 @@
 const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require("discord.js");
 const { client } = require("../../Client");
-const blockedChannels = require('../../config/blockedChannels');
+const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 const cargo = async (interaction) => {
     if (!interaction.isCommand()) return;

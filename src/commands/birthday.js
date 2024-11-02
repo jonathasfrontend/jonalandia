@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
 const onNotificationBirthdaySchema = require('../models/onNotificationBirthdaySchema');
-const blockedChannels = require('../config/blockedChannels');
+const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 const { info, erro } = require('../logger');
 
 async function Birthday (interaction){

@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
-const blockedChannels = require('../config/blockedChannels')
+const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 const menssageFile = async (interaction) => {
   if (!interaction.isCommand()) return;

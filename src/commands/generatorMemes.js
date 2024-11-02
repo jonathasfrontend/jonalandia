@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const blockedChannels = require('../config/blockedChannels');
+const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 const axios = require('axios');
 

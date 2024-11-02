@@ -1,6 +1,6 @@
 const { client } = require("../../Client");
 const { erro } = require('../../logger');
-const blockedChannels = require('../../config/blockedChannels')
+const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 const expulsar = async (interaction) => {
     if (!interaction.isCommand()) return;

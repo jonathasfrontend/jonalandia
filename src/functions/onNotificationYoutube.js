@@ -5,33 +5,9 @@ const onNotificationYoutubeSchema = require('../models/onNotificationYoutubeSche
 const { google } = require('googleapis');
 const cron = require('node-cron');
 const youtube = google.youtube({version: 'v3', auth: 'AIzaSyBx_r45oAf3Gqp7rKjzrd0Aw3c81EwWglg'});
+const channels = require('./channels.json');
 
 require('dotenv').config()
-
-let channels = [
-    'Manual do Mundo',
-    'LOUD Coringa',
-    'LOUD',
-    'Piuzinho',
-    'Rocketseat',
-    'Ei Nerd',
-    'Bruno Fraga',
-    'Davi',
-    'viniccius13',
-    'MW Informatica',
-    'Cadê a chave?',
-    'Cyntia',
-    'Dune',
-    'Mayk Brito',
-    'PAULINHO O LOKO',
-    'Labz',
-    'Comédia Maurício Meirelles [OFICIAL]',
-    'Cortes do Gabepeixe Oficial',
-    'Barbixas',
-    'Aqueles Caras',
-    'CASTELO CLIPS',
-    'Joaninha Camilo',
-];
 
 let lastVideoIds = {
     'Manual do Mundo': 1647708800000,
