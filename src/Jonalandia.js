@@ -13,6 +13,7 @@ const { scheduleNotificationYoutubeCheck } = require('./functions/onNotification
 const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
 const { scheduleonNotificationFreeGamesCheck } = require('./functions/onNotificationFreeGames');
 const { detectInappropriateWords } = require('./functions/detectInappropriateWords');
+const { autoKickNewMembers } = require('./functions/kickNewMembers');
 
 const { searchUser } = require('./commands/searchUser');
 const { searchGuild } = require('./commands/searchGuild');
@@ -34,6 +35,8 @@ const { expulsar } = require('./commands/moderador/expulsar');
 const { banUser } = require('./commands/moderador/banUser');
 const { unbanUser } = require('./commands/moderador/unbanUser');
 const { kickUser } = require('./commands/moderador/kickUser');
+const { tempChannel } = require('./commands/moderador/tempChannel');
+
 
 const { bdServerConect } = require('./config/bdServerConect');
 
@@ -251,6 +254,36 @@ client.once('ready', () => {
     ],
   });
 
+  client.application?.commands.create({
+    name: 'tempchannel',
+    description: 'Cria ou deletar canais temporários.',
+    options: [
+      {
+        type: 3, // Tipo string
+        name: 'acao',
+        description: 'Escolha entre criar ou deletar um canal.',
+        required: true,
+        choices: [
+          { name: 'Criar', value: 'criar' },
+          { name: 'Deletar', value: 'deletar' },
+        ],
+      },
+      {
+        type: 3, // Tipo string
+        name: 'nome',
+        description: 'Nome do canal.',
+        required: true,
+      },
+      {
+        type: 7, // Tipo de canal
+        name: 'categoria',
+        description: 'Selecione a categoria do canal.',
+        required: true,
+      }
+    ],
+  });
+
+
 });
 
 client.on('interactionCreate', async (interaction) => {
@@ -296,15 +329,17 @@ client.on('interactionCreate', async (interaction) => {
     await unbanUser(interaction);
   } else if (commandName === 'kickuser') {
     await kickUser(interaction);
+  } else if (commandName === 'tempchannel') {
+    await tempChannel(interaction);
   }
 });
 
 client.on('guildMemberAdd', onMemberAdd);
 client.on('guildMemberAdd', ruleMembreAdd);
+client.on('guildMemberAdd', autoKickNewMembers);
 client.on('guildMemberRemove', onMemberRemove);
 client.on('messageCreate', blockLinks);
 client.on('messageCreate', antiFloodChat);
 client.on('messageCreate', detectInappropriateWords);
 
 client.login(process.env.TOKEN);
-

@@ -5,7 +5,7 @@ const onNotificationYoutubeSchema = require('../models/onNotificationYoutubeSche
 const { google } = require('googleapis');
 const cron = require('node-cron');
 const youtube = google.youtube({version: 'v3', auth: 'AIzaSyBx_r45oAf3Gqp7rKjzrd0Aw3c81EwWglg'});
-const channels = require('./channels.json');
+const channels = require('../config/channels.json');
 
 require('dotenv').config()
 
