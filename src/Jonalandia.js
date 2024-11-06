@@ -282,8 +282,7 @@ client.once('ready', () => {
       }
     ],
   });
-
-
+  
 });
 
 client.on('interactionCreate', async (interaction) => {

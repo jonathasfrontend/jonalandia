@@ -1,6 +1,6 @@
 const { client } = require('../Client');
 const { info, erro } = require('../logger');
-const inappropriateWordsData = require('../config/inappropriateWords.json');
+const inappropriateWordsData = require('../config/InappropriateWords.json');
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 const inappropriateWords = inappropriateWordsData.inappropriateWords;
