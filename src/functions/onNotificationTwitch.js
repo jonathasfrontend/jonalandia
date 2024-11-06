@@ -6,7 +6,7 @@ const { EmbedBuilder } = require("discord.js");
 const cron = require('node-cron');
 const streamersData = require('../config/streamers.json');
 
-const streamers = streamersData.streamers;
+const streamers = streamersData;
 
 async function onNotificationTwitch() {
     for (let streamer of streamers) {
