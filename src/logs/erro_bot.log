@@ -835,3 +835,115 @@
 2024-11-02 18:45:20 [ERROR]: Request failed with status code 429
 2024-11-02 18:45:20 [ERROR]: Request failed with status code 429
 2024-11-02 18:45:20 [ERROR]: Request failed with status code 429
+2024-11-06 13:10:01 [ERROR]: Erro ao buscar o vídeo do canal Manual do Mundo: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:02 [ERROR]: Erro ao buscar o vídeo do canal LOUD Coringa: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:02 [ERROR]: Erro ao buscar o vídeo do canal LOUD: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:03 [ERROR]: Erro ao buscar o vídeo do canal Piuzinho: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:03 [ERROR]: Erro ao buscar o vídeo do canal Rocketseat: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:04 [ERROR]: Erro ao buscar o vídeo do canal Ei Nerd: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:04 [ERROR]: Erro ao buscar o vídeo do canal Bruno Fraga: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:05 [ERROR]: Erro ao buscar o vídeo do canal Davi: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:05 [ERROR]: Erro ao buscar o vídeo do canal viniccius13: Received one or more errors
+2024-11-06 13:10:07 [ERROR]: Received one or more errors
+2024-11-06 13:10:09 [ERROR]: Erro ao buscar o vídeo do canal MW Informatica: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:10 [ERROR]: Erro ao buscar o vídeo do canal Cadê a chave?: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:10 [ERROR]: Erro ao buscar o vídeo do canal Cyntia: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:11 [ERROR]: Erro ao buscar o vídeo do canal Dune: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:11 [ERROR]: Erro ao buscar o vídeo do canal Mayk Brito: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:12 [ERROR]: Erro ao buscar o vídeo do canal PAULINHO O LOKO: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:12 [ERROR]: Erro ao buscar o vídeo do canal Labz: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:17 [ERROR]: Erro ao buscar o vídeo do canal Comédia Maurício Meirelles [OFICIAL]: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:17 [ERROR]: Erro ao buscar o vídeo do canal Cortes do Gabepeixe Oficial: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:18 [ERROR]: Erro ao buscar o vídeo do canal Barbixas: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:18 [ERROR]: Erro ao buscar o vídeo do canal Aqueles Caras: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:19 [ERROR]: Erro ao buscar o vídeo do canal CASTELO CLIPS: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:19 [ERROR]: Erro ao buscar o vídeo do canal Joaninha Camilo: onNotificationYoutubeSchema validation failed: description: Path `description` is required., thumbnail: Path `thumbnail` is required., author: Path `author` is required.
+2024-11-06 13:10:22 [ERROR]: Request failed with status code 429
+2024-11-06 13:10:22 [ERROR]: Request failed with status code 429
+2024-11-06 13:10:22 [ERROR]: Request failed with status code 429
+2024-11-06 13:10:22 [ERROR]: Request failed with status code 429
+2024-11-06 13:10:23 [ERROR]: Request failed with status code 429
+2024-11-06 13:10:23 [ERROR]: Request failed with status code 429
+2024-11-06 13:10:23 [ERROR]: Request failed with status code 429
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal Manual do Mundo: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal LOUD Coringa: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal LOUD: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal Piuzinho: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal Rocketseat: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal Ei Nerd: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal Bruno Fraga: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal Davi: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal viniccius13: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal MW Informatica: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal Cadê a chave?: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:04 [ERROR]: Erro ao buscar o vídeo do canal Cyntia: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:05 [ERROR]: Erro ao buscar o vídeo do canal Dune: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:05 [ERROR]: Erro ao buscar o vídeo do canal Mayk Brito: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:05 [ERROR]: Erro ao buscar o vídeo do canal PAULINHO O LOKO: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:05 [ERROR]: Erro ao buscar o vídeo do canal Labz: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:05 [ERROR]: Erro ao buscar o vídeo do canal Comédia Maurício Meirelles [OFICIAL]: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:05 [ERROR]: Erro ao buscar o vídeo do canal Cortes do Gabepeixe Oficial: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:05 [ERROR]: Erro ao buscar o vídeo do canal Barbixas: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:05 [ERROR]: Erro ao buscar o vídeo do canal Aqueles Caras: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:05 [ERROR]: Erro ao buscar o vídeo do canal CASTELO CLIPS: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:20:05 [ERROR]: Erro ao buscar o vídeo do canal Joaninha Camilo: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Manual do Mundo: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal LOUD Coringa: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal LOUD: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Piuzinho: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Rocketseat: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Ei Nerd: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Bruno Fraga: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Davi: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal viniccius13: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal MW Informatica: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Cadê a chave?: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Cyntia: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Dune: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Mayk Brito: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal PAULINHO O LOKO: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Labz: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Comédia Maurício Meirelles [OFICIAL]: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Cortes do Gabepeixe Oficial: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Barbixas: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Aqueles Caras: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal CASTELO CLIPS: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:00 [ERROR]: Erro ao buscar o vídeo do canal Joaninha Camilo: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:30:09 [ERROR]: Received one or more errors
+2024-11-06 13:30:26 [ERROR]: Request failed with status code 429
+2024-11-06 13:30:26 [ERROR]: Request failed with status code 429
+2024-11-06 13:30:27 [ERROR]: Request failed with status code 429
+2024-11-06 13:30:27 [ERROR]: Request failed with status code 429
+2024-11-06 13:30:27 [ERROR]: Request failed with status code 429
+2024-11-06 13:30:27 [ERROR]: Request failed with status code 429
+2024-11-06 13:30:27 [ERROR]: Request failed with status code 429
+2024-11-06 13:40:00 [ERROR]: Erro ao buscar o vídeo do canal Manual do Mundo: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:00 [ERROR]: Erro ao buscar o vídeo do canal LOUD Coringa: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal LOUD: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal Piuzinho: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal Rocketseat: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal Ei Nerd: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal Bruno Fraga: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal Davi: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal viniccius13: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal MW Informatica: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal Cadê a chave?: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal Cyntia: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal Dune: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:01 [ERROR]: Erro ao buscar o vídeo do canal Mayk Brito: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:02 [ERROR]: Erro ao buscar o vídeo do canal PAULINHO O LOKO: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:02 [ERROR]: Erro ao buscar o vídeo do canal Labz: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:02 [ERROR]: Erro ao buscar o vídeo do canal Comédia Maurício Meirelles [OFICIAL]: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:02 [ERROR]: Erro ao buscar o vídeo do canal Cortes do Gabepeixe Oficial: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:02 [ERROR]: Erro ao buscar o vídeo do canal Barbixas: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:02 [ERROR]: Erro ao buscar o vídeo do canal Aqueles Caras: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:02 [ERROR]: Erro ao buscar o vídeo do canal CASTELO CLIPS: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:02 [ERROR]: Erro ao buscar o vídeo do canal Joaninha Camilo: getaddrinfo ENOTFOUND api.decapi.me
+2024-11-06 13:40:09 [ERROR]: Received one or more errors
+2024-11-06 13:40:24 [ERROR]: Request failed with status code 429
+2024-11-06 13:40:24 [ERROR]: Request failed with status code 429
+2024-11-06 13:40:24 [ERROR]: Request failed with status code 429
+2024-11-06 13:40:24 [ERROR]: Request failed with status code 429
+2024-11-06 13:40:24 [ERROR]: Request failed with status code 429
+2024-11-06 13:40:25 [ERROR]: Request failed with status code 429
+2024-11-06 13:40:25 [ERROR]: Request failed with status code 429
