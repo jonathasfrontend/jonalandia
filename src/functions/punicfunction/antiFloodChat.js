@@ -1,7 +1,7 @@
 const { Collection, italic } = require('discord.js');
 const { EmbedBuilder } = require("discord.js");
-const { client } = require("../Client");
-const { info, erro } = require('../logger');
+const { client } = require("../../Client");
+const { info, erro } = require('../../logger');
 const members = new Collection();
 
 function antiFloodChat(message) {
@@ -36,7 +36,7 @@ function antiFloodChat(message) {
             })
             .setDescription(`${author} evite o flood de mensagens por favor! > leia as regras para evitar punições severas ${italic('Você poderá enviar mensagens novamente em breve...')}`)
             .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-            .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
+            .setFooter({ text: `Envio de mensegens simultaneas monitorado por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` });
 
         message.reply({ content: `||${author}||`, embeds: [embed], ephemeral: true });
 

@@ -1,8 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
-const blockedLinksData = require('../config/blockedLinks.json');
-const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
-const { client } = require('../Client');
-const { info } = require('../logger');
+const blockedLinksData = require('../../config/blockedLinks.json');
+const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
+const { client } = require('../../Client');
+const { info } = require('../../logger');
 
 const blockedLinks = blockedLinksData.blockedLinks.map(pattern => new RegExp(pattern));
 
@@ -25,7 +25,7 @@ async function blockLinks(message) {
                 .setDescription('Você não pode enviar links de outros servidores ou links do Steam aqui.')
                 .setTimestamp()
                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-                .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
+                .setFooter({ text: `Envio de links monitorado por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` });
 
             await message.channel.send({ content: `${message.author}`, embeds: [embed] });
 

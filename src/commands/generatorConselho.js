@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { EmbedBuilder } = require('discord.js');
+const { client } = require("../Client");
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 async function generatorConselho(interaction) {

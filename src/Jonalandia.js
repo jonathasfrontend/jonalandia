@@ -1,19 +1,21 @@
 const { info } = require('./logger');
 const { client } = require('./Client');
 
+const { antiFloodChat } = require('./functions/punicfunction/antiFloodChat');
+const { blockLinks } = require('./functions/punicfunction/blockLinks');
+const { detectInappropriateWords } = require('./functions/punicfunction/detectInappropriateWords');
+const { autoKickNewMembers } = require('./functions/punicfunction/kickNewMembers');
+const { blockFileTypes } = require('./functions/punicfunction/blockFileTypes');
+
 const { onMemberAdd } = require('./functions/onMemberAdd');
 const { ruleMembreAdd } = require('./functions/ruleMembreAdd');
 const { onMemberRemove } = require('./functions/onMemberRemove');
 const { checkUpdateRoles } = require('./functions/checkUpdateRoles');
-const { antiFloodChat } = require('./functions/antiFloodChat');
-const { blockLinks } = require('./functions/blockLinks');
 const { scheduleBirthdayCheck } = require('./functions/checkBirthdays');
 const { Status } = require('./functions/statusBot');
 const { scheduleNotificationYoutubeCheck } = require('./functions/onNotificationYoutube');
 const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
 const { scheduleonNotificationFreeGamesCheck } = require('./functions/onNotificationFreeGames');
-const { detectInappropriateWords } = require('./functions/detectInappropriateWords');
-const { autoKickNewMembers } = require('./functions/kickNewMembers');
 
 const { searchUser } = require('./commands/searchUser');
 const { searchGuild } = require('./commands/searchGuild');
@@ -256,32 +258,32 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'tempchannel',
-    description: 'Cria ou deletar canais temporários.',
+    description: 'Cria ou deleta um canal temporário.',
     options: [
       {
-        type: 3, // Tipo string
-        name: 'acao',
-        description: 'Escolha entre criar ou deletar um canal.',
-        required: true,
-        choices: [
-          { name: 'Criar', value: 'criar' },
-          { name: 'Deletar', value: 'deletar' },
-        ],
-      },
-      {
-        type: 3, // Tipo string
+        type: 3,
         name: 'nome',
         description: 'Nome do canal.',
         required: true,
       },
       {
-        type: 7, // Tipo de canal
+        type: 3,
+        name: 'acao',
+        description: 'Ação a ser executada: criar ou deletar.',
+        required: true,
+        choices: [
+          { name: 'Criar', value: 'create' },
+          { name: 'Deletar', value: 'delete' }
+        ]
+      },
+      {
+        type: 7,
         name: 'categoria',
-        description: 'Selecione a categoria do canal.',
+        description: 'Categoria onde o canal será criado.',
         required: true,
       }
     ],
-  });
+  });  
   
 });
 
@@ -335,10 +337,12 @@ client.on('interactionCreate', async (interaction) => {
 
 client.on('guildMemberAdd', onMemberAdd);
 client.on('guildMemberAdd', ruleMembreAdd);
-client.on('guildMemberAdd', autoKickNewMembers);
 client.on('guildMemberRemove', onMemberRemove);
+
+client.on('guildMemberAdd', autoKickNewMembers);
 client.on('messageCreate', blockLinks);
 client.on('messageCreate', antiFloodChat);
 client.on('messageCreate', detectInappropriateWords);
+client.on('messageCreate', blockFileTypes);
 
 client.login(process.env.TOKEN);
