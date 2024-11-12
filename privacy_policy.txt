@@ -24,7 +24,7 @@ Implementamos medidas de segurança rigorosas para proteger suas informações c
 Uso de criptografia para proteger dados sensíveis durante a transmissão.
 Acesso restrito aos dados somente a membros autorizados da equipe, assegurando que qualquer acesso seja monitorado e controlado.
 Retenção de Dados
-Os dados coletados serão armazenados somente pelo tempo necessário para fornecer nossos serviços ou conforme exigido por lei. Caso deseje solicitar a exclusão de seus dados, entre em contato conosco no e-mail jonathas.oleveira@gmail.com.
+Os dados coletados serão armazenados somente pelo tempo necessário para fornecer nossos serviços ou conforme exigido por lei. Caso deseje solicitar a exclusão de seus dados, entre em contato conosco no e-mail jonathas.oleveira@gmail.com ou jonathass5678@gmail.com.
 
 Direitos dos Usuários
 Você tem o direito de:
@@ -32,16 +32,16 @@ Você tem o direito de:
 Acessar seus dados pessoais coletados;
 Corrigir informações incorretas ou desatualizadas;
 Solicitar a exclusão de suas informações pessoais.
-Para exercer qualquer um desses direitos, entre em contato conosco no e-mail jonathas.oleveira@gmail.com.
+Para exercer qualquer um desses direitos, entre em contato conosco no e-mail jonathas.oleveira@gmail.com ou jonathass5678@gmail.com.
 
 Uso de Cookies
 O bot Jonalandia em si não utiliza cookies diretamente. No entanto, se você acessar nossa documentação ou site, cookies podem ser utilizados para melhorar sua experiência de navegação.
 
 Alterações nesta Política de Privacidade
-Podemos atualizar esta Política de Privacidade periodicamente. Qualquer mudança será comunicada no servidor oficial do bot ou diretamente no e-mail jonathas.oleveira@gmail.com.
+Podemos atualizar esta Política de Privacidade periodicamente. Qualquer mudança será comunicada no servidor oficial do bot ou diretamente no e-mail jonathas.oleveira@gmail.com ou jonathass5678@gmail.com.
 
 Contato
-Se você tiver dúvidas ou preocupações sobre esta Política de Privacidade, entre em contato conosco através do e-mail jonathas.oleveira@gmail.com ou pelo canal de suporte oficial do bot.
+Se você tiver dúvidas ou preocupações sobre esta Política de Privacidade, entre em contato conosco através do e-mail jonathas.oleveira@gmail.com ou jonathass5678@gmail.com ou pelo canal de suporte oficial do bot.
 
 Jurisdição
 Esta Política de Privacidade é regida e interpretada de acordo com as leis do Brasil, em conformidade com a Lei Geral de Proteção de Dados (LGPD).
