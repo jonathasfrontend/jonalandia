@@ -170,13 +170,31 @@ number: Quantidade de mensagens a serem deletadas.
 ```scheduleNotificationYoutubeCheck```, ```scheduleNotificationTwitchCheck```, ```scheduleonNotificationFreeGamesCheck```
 **Descrição**: Verifica regularmente atualizações em plataformas externas como YouTube, Twitch e jogos gratuitos, e notifica os usuários.
 
+#### Arquitetura de Pastas
+```plaintext
+/src
+    /commands
+        /moderador
+            commands.js
+        commands.js
+    /config
+        bdServerConect.js
+    /function
+        functions.js
+    /models
+        schema.js
+    Cliente.js
+    Jonalandia.js
+    logger.js
+```
+
 ### Instalação de Dependências
 No diretório do projeto, instale as dependências com o seguinte comando:
 ```bash
 npm install
 ```
 
-### 6.2. Executando o Projeto em Desenvolvimento
+### Executando o Projeto em Desenvolvimento
 Para iniciar o projeto em modo de desenvolvimento, utilize:
 ```bash
 npm run dev
