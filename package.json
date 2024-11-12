@@ -1,15 +1,40 @@
 {
   "name": "bot",
+  "nameSpace": "bot Jonalandia",
   "version": "1.0.0",
-  "description": "",
+  "description": "bot para Discord Jonalandia feito com Discord.js e Node.js por Jonathas Oliveira",
   "main": "Jonalandia.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jonathasfrontend/jonalandia"
+  },
+  "author": {
+    "name": "Jonathas Oliveira",
+    "email": "jonathass56778@gmail.com"
+  },
   "scripts": {
     "start": "node src/Jonalandia.js",
     "dev": "nodemon src/Jonalandia.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+ 
+  "keywords": [
+    "bot",
+    "jonalandia",
+    "discord",
+    "discord.js",
+    "node.js",
+    "node",
+    "javascript",
+    "js",
+    "bot discord",
+    "bot discord.js",
+    "bot node.js",
+    "bot node",
+    "bot javascript",
+    "bot js"
+  ],
+
+  "license": "Jonalandia-Bot-License",
   "dependencies": {
     "axios": "^1.6.7",
     "discord.js": "^14.14.1",
