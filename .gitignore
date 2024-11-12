@@ -1,5 +1,3 @@
+src/logs/
 /node_modules
 .env
-.md
-/logs/bot.log
-/logs/erro_bot.log
