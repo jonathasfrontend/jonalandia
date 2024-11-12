@@ -53,6 +53,9 @@ const searchGuild = async (interaction) => {
 
             await interaction.reply({ embeds: [embed] });
 
+            const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+            discordChannel2.send(`Informações do Servidor ${guild.name} consultadas por ${interaction.user.tag}`);
+
         } catch (error) {
             erro.error(`Erro ao consultar informações do servidor: ${error}`);
             await interaction.reply({ content: "Erro ao consultar informações do servidor.", ephemeral: true });

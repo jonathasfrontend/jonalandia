@@ -78,6 +78,9 @@ const searchUser = async (interaction) => {
                     
                     await interaction.reply({ embeds: [embed] });
 
+                    const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+                    discordChannel2.send(`O usuário ${user.tag} foi consultado por ${interaction.user.tag} no servidor ${interaction.guild.name}`);
+
             } catch (error) {
                 erro.error(error);
 

@@ -24,6 +24,7 @@ const { mensageRegra } = require('./commands/regra');
 const { Birthday } = require('./commands/birthday');
 const { generatorMemes } = require('./commands/generatorMemes');
 const { generatorConselho } = require('./commands/generatorConselho');
+const { getWeather } = require('./commands/weather');
 
 const { Help } = require('./commands/moderador/help');
 const { createEmbed } = require('./commands/moderador/createEmbed');
@@ -37,7 +38,6 @@ const { expulsar } = require('./commands/moderador/expulsar');
 const { banUser } = require('./commands/moderador/banUser');
 const { unbanUser } = require('./commands/moderador/unbanUser');
 const { kickUser } = require('./commands/moderador/kickUser');
-const { tempChannel } = require('./commands/moderador/tempChannel');
 
 
 const { bdServerConect } = require('./config/bdServerConect');
@@ -62,7 +62,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'regra',
-    description: 'Responde um embed de regras do servidor',
+    description: 'Responde um embed de regras do servidor (Moderador)',
   })
 
   client.application?.commands.create({
@@ -78,7 +78,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'clearall',
-    description: 'Deleta um número especificado de mensagens.',
+    description: 'Deleta um número especificado de mensagens. (Moderador)',
     options: [{
       type: 4, // Alterado de 'INTEGER' para 4
       name: 'number',
@@ -89,7 +89,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'clearuser',
-    description: 'Deleta mensagens de um suario especifico.',
+    description: 'Deleta mensagens de um suario especifico. (Moderador)',
     options: [
       {
         type: 4, // Inteiro para número de mensagens
@@ -118,7 +118,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'cargo',
-    description: "Comando para mostrar botões dos cargos!",
+    description: "Comando para mostrar botões dos cargos! (Moderador)",
   })
 
   client.application?.commands.create({
@@ -128,12 +128,12 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'manutencao',
-    description: "Menssagem de manutenção!",
+    description: "Menssagem de manutenção! (Moderador)",
   })
 
   client.application?.commands.create({
     name: 'embed',
-    description: 'Cria um embed de exemplo no canal',
+    description: 'Cria um embed de exemplo no canal (Moderador)',
     options: [
       {
         type: 3, // Tipo de string
@@ -193,7 +193,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'timeout',
-    description: 'Aplica um timeout de 3 minutos em um usuário.',
+    description: 'Aplica um timeout de 3 minutos em um usuário. (Moderador)',
     options: [
         {
             type: 6,
@@ -206,7 +206,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'expulsar',
-    description: 'Expulsa um usuário do servidor',
+    description: 'Expulsa um usuário do servidor (Moderador)',
     options: [
         {
             type: 6, // Tipo 6 é para selecionar usuário
@@ -219,7 +219,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'banir',
-    description: 'Bane um usuário do servidor',
+    description: 'Bane um usuário do servidor (Moderador)',
     options: [
       {
         type: 6, // Tipo para usuário (Discord user)
@@ -232,7 +232,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
   name: 'desbanir',
-  description: 'Desbane um usuário do servidor',
+  description: 'Desbane um usuário do servidor (Moderador)',
   options: [
     {
       type: 6, // Tipo 6 representa um usuário
@@ -245,7 +245,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'kickuser',
-    description: 'Expulsa um usuário do canal de voz.',
+    description: 'Expulsa um usuário do canal de voz. (Moderador)',
     options: [
         {
             type: 6, // Tipo para usuário (Discord user)
@@ -257,33 +257,15 @@ client.once('ready', () => {
   });
 
   client.application?.commands.create({
-    name: 'tempchannel',
-    description: 'Cria ou deleta um canal temporário.',
-    options: [
-      {
-        type: 3,
-        name: 'nome',
-        description: 'Nome do canal.',
+    name: 'clima',
+    description: 'Exibe a previsão do tempo para uma cidade especificada',
+    options: [{
+        type: 3, // Tipo de string
+        name: 'cidade',
+        description: 'Nome da cidade para buscar o clima',
         required: true,
-      },
-      {
-        type: 3,
-        name: 'acao',
-        description: 'Ação a ser executada: criar ou deletar.',
-        required: true,
-        choices: [
-          { name: 'Criar', value: 'create' },
-          { name: 'Deletar', value: 'delete' }
-        ]
-      },
-      {
-        type: 7,
-        name: 'categoria',
-        description: 'Categoria onde o canal será criado.',
-        required: true,
-      }
-    ],
-  });  
+    }],
+});
   
 });
 
@@ -330,9 +312,9 @@ client.on('interactionCreate', async (interaction) => {
     await unbanUser(interaction);
   } else if (commandName === 'kickuser') {
     await kickUser(interaction);
-  } else if (commandName === 'tempchannel') {
-    await tempChannel(interaction);
-  }
+  } else if (commandName === 'clima') {
+    await getWeather(interaction);
+}
 });
 
 client.on('guildMemberAdd', onMemberAdd);

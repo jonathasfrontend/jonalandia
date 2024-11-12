@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { info, erro } = require('../logger');
 
 function bdServerConect() {
-    mongoose.connect("link do seu banco de dados")
+    mongoose.connect("seu link de conexão com o MongoDB")
         .then(() => info.info('Conectado ao MongoDB'))
         .catch(err => erro.error('Erro ao conectar ao MongoDB', err));
 }

@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-
+const { client } = require("../Client");
 const { info, erro } = require('../logger');
 
 function onMemberRemove(member) {
