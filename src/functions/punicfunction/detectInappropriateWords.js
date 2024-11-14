@@ -10,21 +10,23 @@ async function detectInappropriateWords(message) {
     if (message.author.bot) return;
     if (!blockedChannels.includes(message.channel.id)) return;
 
-    const foundWord = inappropriateWords.find(word =>
-        message.content.toLowerCase().includes(word.toLowerCase())
-    );
+    // Verifica cada palavra usando regex para evitar subcadeias
+    const foundWord = inappropriateWords.find(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'i'); // 'i' para case-insensitive
+        return regex.test(message.content);
+    });
 
     if (foundWord) {
         try {
             await message.delete();
 
             const discordChannelDelete = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
-            discordChannelDelete.send(`Mensagem de ${message.author.tag} deletada devido a palavras inadequadas.`);
+            discordChannelDelete.send(`Mensagem de ${message.author.tag} deletada devido a palavras inadequadas: "${foundWord}".`);
             
             info.info(`Mensagem de ${message.author.tag} deletada devido a palavras inadequadas.`);
 
             const channelEmbed = new EmbedBuilder()
-                .setColor('#FF0000')  // Cor vermelha para destacar
+                .setColor('#FF0000')
                 .setTitle('🚫 Linguagem Inadequada Detectada')
                 .setDescription(`${message.author.tag}, você usou uma linguagem inadequada e foi silenciado por **5 minutos**.`)
                 .addFields(
