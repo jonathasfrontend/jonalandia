@@ -1,3 +1,4 @@
+const { EmbedBuilder } = require('discord.js');
 const { client } = require("../../Client");
 const { erro } = require('../../logger');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
@@ -5,12 +6,11 @@ const blockedChannels = require('../../config/blockedChannels.json').blockedChan
 const expulsar = async (interaction) => {
     if (!interaction.isCommand()) return;
 
-    const { commandName, options } = interaction;
-    
+    const { commandName, channelId, options, member: executor } = interaction;
+
     if (commandName === 'expulsar') {
         const user = options.getUser('usuario');
 
-        
         if (blockedChannels.includes(channelId)) {
             const embed = new EmbedBuilder()
                 .setColor('Red')
@@ -26,8 +26,8 @@ const expulsar = async (interaction) => {
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
-    
-        if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
+
+        if (!executor.roles.cache.has(process.env.CARGO_MODERADOR)) {
             const embed = new EmbedBuilder()
                 .setColor('Red')
                 .setAuthor({
@@ -41,26 +41,47 @@ const expulsar = async (interaction) => {
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
-        
+
+        // Verificar se o usuário é válido
         if (!user) {
             await interaction.reply({ content: 'Usuário inválido!', ephemeral: true });
             return;
         }
-        
+
         try {
-            const member = await interaction.guild.members.fetch(user.id);
+            const targetMember = await interaction.guild.members.fetch(user.id);
 
-            // Mensagem privada para o usuário
-            await user.send("Você foi expulso do servidor por atitudes que contrariam as regras do servidor.");
+            const botMember = interaction.guild.members.me;
+            if (!botMember.permissions.has('KICK_MEMBERS')) {
+                await interaction.reply({ content: 'O bot não possui permissão para expulsar membros.', ephemeral: true });
+                return;
+            }
 
-            const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
-            discordChannel2.send(`O usuário ${user.tag} foi expulso por ${interaction.user.tag}.`);
+            // Verificar se o bot pode interagir com o membro
+            if (!targetMember.kickable) {
+                await interaction.reply({ content: `Não posso expulsar o usuário ${user.tag}.`, ephemeral: true });
+                return;
+            }
 
-            // Expulsão do usuário
-            await member.kick("Para duvidas fale com o dono do servidor.");
+            // Tentar enviar mensagem privada para o usuário
+            try {
+                await user.send("Você foi expulso do servidor por atitudes que contrariam as regras do servidor.");
+            } catch (dmError) {
+                console.error(`Não foi possível enviar mensagem direta para ${user.tag}:`, dmError.message);
+            }
+
+            // Registrar no canal de logs
+            const logsChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
+            if (logsChannel) {
+                await logsChannel.send(`O usuário ${user.tag} foi expulso por ${executor.user.tag}.`);
+            }
+
+            // Expulsar o usuário
+            await targetMember.kick("Para dúvidas, fale com o dono do servidor.");
             await interaction.reply({ content: `Usuário ${user.tag} foi expulso com sucesso!`, ephemeral: true });
         } catch (error) {
             erro.error(error);
+            console.error(error);
             await interaction.reply({ content: 'Não foi possível expulsar o usuário.', ephemeral: true });
         }
     }

@@ -5,6 +5,7 @@ const blockedChannels = require('../../config/blockedChannels.json').blockedChan
 
 const unbanUser = async (interaction) => {
     if (!interaction.isCommand()) return;
+    const { commandName, channelId, options, member } = interaction;
 
     if (blockedChannels.includes(channelId)) {
         const embed = new EmbedBuilder()

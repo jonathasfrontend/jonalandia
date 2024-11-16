@@ -5,8 +5,11 @@ const blockedChannels = require('../../config/blockedChannels.json').blockedChan
 
 const kickUser = async (interaction) => {
     if (!interaction.isCommand()) return;
-    const userToKick = interaction.options.getUser('usuario');
 
+    const userToKick = interaction.options.getUser('usuario');
+    const { channelId } = interaction;
+
+    // Verifica se o comando é usado em um canal bloqueado
     if (blockedChannels.includes(channelId)) {
         const embed = new EmbedBuilder()
             .setColor('Red')
@@ -23,7 +26,9 @@ const kickUser = async (interaction) => {
         return;
     }
 
-    if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
+    // Verifica se o usuário que enviou o comando tem permissão
+    const initiator = interaction.member;
+    if (!initiator.roles.cache.has(process.env.CARGO_MODERADOR)) {
         const embed = new EmbedBuilder()
             .setColor('Red')
             .setAuthor({
@@ -38,6 +43,7 @@ const kickUser = async (interaction) => {
         return;
     }
 
+    // Verifica se um usuário foi selecionado
     if (!userToKick) {
         await interaction.reply({ content: "Por favor, selecione um usuário.", ephemeral: true });
         return;
@@ -45,19 +51,21 @@ const kickUser = async (interaction) => {
 
     const guild = interaction.guild;
     const member = guild.members.cache.get(userToKick.id);
-    const initiator = guild.members.cache.get(interaction.user.id);
 
+    // Verifica se quem executa o comando está em um canal de voz
     if (!initiator.voice.channel) {
         await interaction.reply({ content: "Você precisa estar em um canal de voz para usar este comando.", ephemeral: true });
         return;
     }
 
+    // Verifica se o usuário a ser expulso está no mesmo canal
     if (!member.voice.channel || member.voice.channel.id !== initiator.voice.channel.id) {
         await interaction.reply({ content: "O usuário selecionado não está no mesmo canal de voz que você.", ephemeral: true });
         return;
     }
 
     try {
+        // Expulsa o usuário do canal de voz
         await member.voice.disconnect();
         const embed = new EmbedBuilder()
             .setColor('#ff0000')
@@ -67,7 +75,8 @@ const kickUser = async (interaction) => {
 
         await interaction.reply({ embeds: [embed] });
 
-        const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
+        // Loga a ação
+        const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
         discordChannel2.send(`Usuário ${member.user.tag} foi expulso do canal de voz por ${initiator.user.tag}.`);
 
         info.info(`Usuário ${member.user.tag} foi expulso do canal de voz por ${initiator.user.tag}.`);
