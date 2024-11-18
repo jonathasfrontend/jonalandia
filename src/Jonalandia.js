@@ -38,6 +38,7 @@ const { expulsar } = require('./commands/moderador/expulsar');
 const { banUser } = require('./commands/moderador/banUser');
 const { unbanUser } = require('./commands/moderador/unbanUser');
 const { kickUser } = require('./commands/moderador/kickUser');
+const { searchUserDB } = require('./commands/moderador/searchUser');
 
 
 const { bdServerConect } = require('./config/bdServerConect');
@@ -265,7 +266,20 @@ client.once('ready', () => {
         description: 'Nome da cidade para buscar o clima',
         required: true,
     }],
-});
+  });
+
+  client.application?.commands.create({
+    name: 'infouser',
+    description: 'Busca informações de um usuário pela API',
+    options: [
+        {
+            type: 6, // Tipo string
+            name: 'usuario',
+            description: 'Nome do usuário a ser buscado.',
+            required: true,
+        },
+    ],
+  });
   
 });
 
@@ -314,7 +328,9 @@ client.on('interactionCreate', async (interaction) => {
     await kickUser(interaction);
   } else if (commandName === 'clima') {
     await getWeather(interaction);
-}
+  } else if (commandName === 'infouser') {
+    await searchUserDB(interaction);
+  }
 });
 
 client.on('guildMemberAdd', onMemberAdd);

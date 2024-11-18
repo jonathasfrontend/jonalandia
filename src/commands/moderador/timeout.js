@@ -1,11 +1,13 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../../Client");
+const { info, erro } = require('../../logger');
+const { default: axios } = require('axios');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 const timeout = async (interaction) => {
     if (!interaction.isCommand()) return;
 
-    const { commandName, options } = interaction;
+    const { commandName, options, channelId, member } = interaction;
 
     if (commandName === 'timeout') {
         const user = options.getUser('usuario');
@@ -45,6 +47,26 @@ const timeout = async (interaction) => {
         if (!guildMember) {
             await interaction.reply({ content: 'Usuário não encontrado no servidor.', ephemeral: true });
             return;
+        }
+
+        const serverUrl = 'https://jonalandia-server.vercel.app/users';
+        const payload = {
+            username: user.tag,
+            avatarUrl: user.displayAvatarURL({ dynamic: true }),
+            accountCreatedDate: user.createdAt,
+            joinedServerDate: guildMember.joinedAt,
+            infraction: 'timeouts',
+            reason: `O usuário ${user.tag} recebeu um timeout de 3 minutos.`,
+            moderator: member.user.tag,
+        };
+    
+        try {
+            await axios.post(`${serverUrl}/${user.tag}`, payload, {
+                headers: { 'Content-Type': 'application/json' },
+            });
+            info.info(`Infração registrada no backend para o usuário ${user.tag}.`);
+        } catch (backendError) {
+            erro.error(`Erro ao enviar dados para o backend: ${backendError.message}`);
         }
 
         try {

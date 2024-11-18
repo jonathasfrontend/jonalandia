@@ -1,7 +1,8 @@
 const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { client } = require('../../Client');
-const { erro } = require('../../logger');
+const { info, erro } = require('../../logger');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
+const axios = require('axios');
 
 const banUser = async (interaction) => {
     if (!interaction.isCommand()) return;
@@ -74,6 +75,26 @@ const banUser = async (interaction) => {
 
             await memberToBan.ban({ reason: "Para dúvidas, fale com o dono do servidor." });
 
+            const serverUrl = 'https://jonalandia-server.vercel.app/users';
+            const payload = {
+                username: userToBan.tag,
+                avatarUrl: userToBan.displayAvatarURL({ dynamic: true }),
+                accountCreatedDate: userToBan.createdAt,
+                joinedServerDate: memberToBan.joinedAt,
+                infraction: 'bans',
+                reason: `O usuário ${userToBan.tag} foi banido do servidor.`,
+                moderator: executor.user.tag,
+            };
+        
+            try {
+                await axios.post(`${serverUrl}/${userToBan.tag}`, payload, {
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                info.info(`Infração registrada no backend para o usuário ${userToBan.tag}.`);
+            } catch (backendError) {
+                erro.error(`Erro ao enviar dados para o backend: ${backendError.message}`);
+            }
+
             const embed = new EmbedBuilder()
                 .setColor('Red')
                 .setTitle('Usuário Banido')
@@ -82,6 +103,7 @@ const banUser = async (interaction) => {
                 .setFooter({ text: `Ação realizada por ${executor.user.tag}` });
 
             await interaction.reply({ embeds: [embed] });
+
         } catch (error) {
             erro.error(error);
             console.error(error);

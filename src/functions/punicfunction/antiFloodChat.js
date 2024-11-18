@@ -1,6 +1,7 @@
 const { Collection, italic } = require('discord.js');
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
+const axios = require('axios')
 const { info, erro } = require('../../logger');
 const members = new Collection();
 
@@ -23,6 +24,26 @@ function antiFloodChat(message) {
 
     if (newCount >= 5) {
         members.delete(author.id);
+
+        const serverUrl = 'https://jonalandia-server.vercel.app/users';
+        const payload = {
+            username: message.author.username,
+            avatarUrl: message.author.displayAvatarURL(),
+            accountCreatedDate: message.author.createdAt,
+            joinedServerDate: message.member.joinedAt,
+            infraction: 'floodTimeouts',
+            reason: `Flood de mensagens`,
+            moderator: client.user.username,
+        };
+
+        try {
+            axios.post(`${serverUrl}/${message.author.username}`, payload, {
+                headers: { 'Content-Type': 'application/json' },
+            });
+            info.info(`Infração registrada no backend para o usuário ${message.author.tag}.`);
+        } catch (backendError) {
+            erro.error(`Erro ao enviar dados para o backend: ${backendError.message}`);
+        }
 
         // Timeout do membro
         member?.timeout(60_000, "Flood de mensagens");

@@ -3,6 +3,7 @@ const { client } = require('../../Client');
 const { info, erro } = require('../../logger');
 const inappropriateWordsData = require('../../config/InappropriateWords.json');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
+const axios = require('axios')
 
 const inappropriateWords = inappropriateWordsData.inappropriateWords;
 
@@ -19,6 +20,26 @@ async function detectInappropriateWords(message) {
     if (foundWord) {
         try {
             await message.delete();
+
+            const serverUrl = 'https://jonalandia-server.vercel.app/users';
+            const payload = {
+                username: message.author.username,
+                avatarUrl: message.author.displayAvatarURL(),
+                accountCreatedDate: message.author.createdAt,
+                joinedServerDate: message.member.joinedAt,
+                infraction: 'inappropriateLanguage',
+                reason: `Uso de palavras inadequadas: ${foundWord}`,
+                moderator: client.user.username,
+            };
+
+            try {
+                const response = await axios.post(`${serverUrl}/${message.author.username}`, payload, {
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                info.info(`Infração registrada no backend para o usuário ${message.author.tag}.`);
+            } catch (backendError) {
+                erro.error(`Erro ao enviar dados para o backend: ${backendError.message}`);
+            }
 
             const discordChannelDelete = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
             discordChannelDelete.send(`Mensagem de ${message.author.tag} deletada devido a palavras inadequadas: "${foundWord}".`);
@@ -65,8 +86,8 @@ async function detectInappropriateWords(message) {
                 )
                 .setFooter({ text: `Ação registrada em ${new Date().toLocaleString()}`, iconURL: message.guild.iconURL() })
                 .setTimestamp();
-            await discordChannel.send({ embeds: [logEmbed] });
-
+            await discordChannel.send({ embeds: [logEmbed] })
+            
         } catch (error) {
             erro.error(`Erro ao aplicar timeout em ${message.author.tag}:`, error);
         }

@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require('../../Client');
 const { info, erro } = require('../../logger');
+const { default: axios } = require('axios');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 const unbanUser = async (interaction) => {
@@ -66,8 +67,28 @@ const unbanUser = async (interaction) => {
 
         // Envia uma mensagem privada ao usuário desbanido
         await userToUnban.send(reason).catch(err => {
-            info.warn(`Não foi possível enviar mensagem privada para o usuário ${userToUnban.tag}`);
+            erro.error(`Não foi possível enviar mensagem privada para o usuário ${userToUnban.tag}`);
         });
+
+        const serverUrl = 'https://jonalandia-server.vercel.app/users';
+            const payload = {
+                username: userToUnban.tag,
+                avatarUrl: userToUnban.displayAvatarURL({ dynamic: true }),
+                accountCreatedDate: userToUnban.createdAt,
+                joinedServerDate: member.joinedAt,
+                infraction: 'unbans',
+                reason: `${userToUnban.tag} foi desbanido do servidor.`,
+                moderator: member.user.tag,
+            };
+        
+            try {
+                await axios.post(`${serverUrl}/${userToUnban.tag}`, payload, {
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                info.info(`Infração registrada no backend para o usuário ${userToUnban.tag}.`);
+            } catch (backendError) {
+                erro.error(`Erro ao enviar dados para o backend: ${backendError.message}`);
+            }
 
         const embed = new EmbedBuilder()
             .setColor('Green')

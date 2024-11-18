@@ -2,3 +2,4 @@ src/logs/
 /node_modules
 .env
 .vscode
+config_db_user.json
