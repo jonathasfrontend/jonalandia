@@ -1,6 +1,6 @@
 const { info } = require('./logger');
 const { client } = require('./Client');
-// const { testApiConnection } = require('./api')
+const { testApiConnection } = require('./api')
 
 const { antiFloodChat } = require('./functions/punicfunction/antiFloodChat');
 const { blockLinks } = require('./functions/punicfunction/blockLinks');
@@ -54,7 +54,7 @@ client.once('ready', () => {
   scheduleNotificationYoutubeCheck();
   scheduleNotificationTwitchCheck();
   scheduleonNotificationFreeGamesCheck();
-  // testApiConnection();
+  testApiConnection();
 
   info.info('O bot Jonalandia está online!');
 
