@@ -337,7 +337,7 @@ client.on('guildMemberAdd', onMemberAdd);
 client.on('guildMemberAdd', ruleMembreAdd);
 client.on('guildMemberRemove', onMemberRemove);
 
-client.on('guildMemberAdd', autoKickNewMembers);
+// client.on('guildMemberAdd', autoKickNewMembers);
 client.on('messageCreate', blockLinks);
 client.on('messageCreate', antiFloodChat);
 client.on('messageCreate', detectInappropriateWords);

@@ -15,8 +15,7 @@ async function blockLinks(message) {
 
         if (isBlocked) {
             await message.delete();
-
-            const serverUrl = 'https://jonalandia-server.vercel.app/users';
+            
             const payload = {
                 username: message.author.username,
                 avatarUrl: message.author.displayAvatarURL(),
@@ -28,12 +27,13 @@ async function blockLinks(message) {
             };
 
             try {
-                await axios.post(`${serverUrl}/${message.author.username}`, payload, {
+                const api = getApiUrl();
+                await api.post(`/users/${message.author.username}`, payload, {
                     headers: { 'Content-Type': 'application/json' },
                 });
-                info.info(`Infração registrada no backend para o usuário ${message.author.tag}.`);
+                info.info(`Infração registrada no backend para o usuário ${message.author.username}.`);
             } catch (backendError) {
-                erro.error(`Erro ao enviar dados para o backend: ${backendError.message}`);
+                erro.error(`Erro ao registrar infração no backend para o usuário ${message.author.username} - ${backendError.message}`);            
             }
 
             const embed = new EmbedBuilder()

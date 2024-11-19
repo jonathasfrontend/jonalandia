@@ -11,29 +11,34 @@ const kickUser = async (interaction) => {
     const { channelId } = interaction;
 
     if (blockedChannels.includes(channelId)) {
-        await interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setColor('Red')
-                    .setTitle("Este comando não pode ser usado neste canal")
-                    .setDescription('Vá ao canal <#1254199140796207165> para executar os comandos')
-                    .setTimestamp(),
-            ],
-            ephemeral: true,
-        });
+        const embed = new EmbedBuilder()
+            .setColor('Red')
+            .setAuthor({
+                name: client.user.username,
+                iconURL: client.user.displayAvatarURL({ dynamic: true }),
+            })
+            .setTitle("Este comando não pode ser usado neste canal")
+            .setDescription('Vá ao canal <#1254199140796207165> para executar os comandos')
+            .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+            .setTimestamp()
+            .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
+        await interaction.reply({ embeds: [embed], ephemeral: true });
         return;
     }
 
     const initiator = interaction.member;
     if (!initiator.roles.cache.has(process.env.CARGO_MODERADOR)) {
-        await interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setColor('Red')
-                    .setDescription('Você não tem permissão para usar este comando.'),
-            ],
-            ephemeral: true,
-        });
+        const embed = new EmbedBuilder()
+            .setColor('Red')
+            .setAuthor({
+                name: client.user.username,
+                iconURL: client.user.displayAvatarURL({ dynamic: true }),
+            })
+            .setDescription('Você não tem permissão para usar este comando.')
+            .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+            .setTimestamp()
+            .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
+        await interaction.reply({ embeds: [embed], ephemeral: true });
         return;
     }
 
@@ -68,10 +73,15 @@ const kickUser = async (interaction) => {
             moderator: initiator.user.tag,
         };
 
-        const api = getApiUrl();
-        await api.post(`/users/${member.user.username}`, payload, {
-            headers: { 'Content-Type': 'application/json' },
-        });
+        try {
+            const api = getApiUrl();
+            await api.post(`/users/${member.user.username}`, payload, {
+                headers: { 'Content-Type': 'application/json' },
+            });
+            info.info(`Infração registrada no backend para o usuário ${member.user.username}.`);
+        } catch (backendError) {
+            erro.error(`Erro ao registrar infração no backend para o usuário ${member.user.username} - ${backendError.message}`);            
+        }
 
         await member.voice.disconnect();
         await interaction.editReply({

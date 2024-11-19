@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../../Client");
 const { info, erro } = require('../../logger');
-const { default: axios } = require('axios');
+const { getApiUrl } = require('../../api');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 const timeout = async (interaction) => {
@@ -49,7 +49,6 @@ const timeout = async (interaction) => {
             return;
         }
 
-        const serverUrl = 'https://jonalandia-server.vercel.app/users';
         const payload = {
             username: user.tag,
             avatarUrl: user.displayAvatarURL({ dynamic: true }),
@@ -61,12 +60,13 @@ const timeout = async (interaction) => {
         };
     
         try {
-            await axios.post(`${serverUrl}/${user.tag}`, payload, {
+            const api = getApiUrl();
+            await api.post(`/users/${user.tag}`, payload, {
                 headers: { 'Content-Type': 'application/json' },
             });
             info.info(`Infração registrada no backend para o usuário ${user.tag}.`);
         } catch (backendError) {
-            erro.error(`Erro ao enviar dados para o backend: ${backendError.message}`);
+            erro.error(`Erro ao registrar infração no backend para o usuário ${user.tag} - ${backendError.message}`);            
         }
 
         try {

@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require('../../Client');
 const { info, erro } = require('../../logger');
-const { default: axios } = require('axios');
+const { getApiUrl } = require('../../api');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 const unbanUser = async (interaction) => {
@@ -39,7 +39,7 @@ const unbanUser = async (interaction) => {
         return;
     }
 
-    const userToUnban = interaction.options.getUser('usuario');
+    const userToUnban = options.getUser('usuario'); // Verifica se o usuário foi passado no comando
     const reason = 'Parabéns! Você foi desbanido do servidor';
 
     if (!userToUnban) {
@@ -51,7 +51,6 @@ const unbanUser = async (interaction) => {
     }
 
     try {
-        // Tenta desbanir o usuário
         const banList = await interaction.guild.bans.fetch();
         const isBanned = banList.has(userToUnban.id);
 
@@ -63,44 +62,45 @@ const unbanUser = async (interaction) => {
             return;
         }
 
+        // Desbanir o usuário
         await interaction.guild.members.unban(userToUnban.id, reason);
 
-        // Envia uma mensagem privada ao usuário desbanido
-        await userToUnban.send(reason).catch(err => {
+        // Tentar enviar mensagem privada ao usuário
+        try {
+            await userToUnban.send(reason);
+        } catch (err) {
             erro.error(`Não foi possível enviar mensagem privada para o usuário ${userToUnban.tag}`);
+        }
+
+        // Registrar no backend
+        const payload = {
+            username: userToUnban.tag,
+            avatarUrl: userToUnban.displayAvatarURL({ dynamic: true }),
+            accountCreatedDate: userToUnban.createdAt,
+            joinedServerDate: member.joinedAt,
+            infraction: 'unbans',
+            reason: `${userToUnban.tag} foi desbanido do servidor.`,
+            moderator: member.user.tag,
+        };
+
+        const api = getApiUrl();
+        await api.post(`/users/${userToUnban.tag}`, payload, {
+            headers: { 'Content-Type': 'application/json' },
         });
 
-        const serverUrl = 'https://jonalandia-server.vercel.app/users';
-            const payload = {
-                username: userToUnban.tag,
-                avatarUrl: userToUnban.displayAvatarURL({ dynamic: true }),
-                accountCreatedDate: userToUnban.createdAt,
-                joinedServerDate: member.joinedAt,
-                infraction: 'unbans',
-                reason: `${userToUnban.tag} foi desbanido do servidor.`,
-                moderator: member.user.tag,
-            };
-        
-            try {
-                await axios.post(`${serverUrl}/${userToUnban.tag}`, payload, {
-                    headers: { 'Content-Type': 'application/json' },
-                });
-                info.info(`Infração registrada no backend para o usuário ${userToUnban.tag}.`);
-            } catch (backendError) {
-                erro.error(`Erro ao enviar dados para o backend: ${backendError.message}`);
-            }
-
+        // Mensagem de sucesso no canal
         const embed = new EmbedBuilder()
             .setColor('Green')
             .setDescription(`${userToUnban.tag} foi desbanido com sucesso!`);
         await interaction.reply({ embeds: [embed] });
 
-        
-        const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
-        discordChannel2.send(`${userToUnban.tag} foi desbanido com sucesso!.`);
-
+        // Log no canal de logs
+        const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
+        if (logChannel) {
+            await logChannel.send(`${userToUnban.tag} foi desbanido com sucesso!`);
+        }
     } catch (error) {
-        erro.error(error);
+        erro.error(`Erro ao desbanir usuário: ${error.message}`);
         const embed = new EmbedBuilder()
             .setColor('Red')
             .setDescription('Houve um erro ao tentar desbanir o usuário.');

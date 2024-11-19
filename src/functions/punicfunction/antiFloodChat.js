@@ -1,11 +1,11 @@
 const { Collection, italic } = require('discord.js');
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
-const axios = require('axios')
 const { info, erro } = require('../../logger');
+const { getApiUrl } = require('../../api');
 const members = new Collection();
 
-function antiFloodChat(message) {
+async function antiFloodChat(message) {
     if (!message.inGuild()) return;
     if (message.author.bot) return;
     if (message.author.id === message.guild.ownerId) return;
@@ -25,7 +25,6 @@ function antiFloodChat(message) {
     if (newCount >= 5) {
         members.delete(author.id);
 
-        const serverUrl = 'https://jonalandia-server.vercel.app/users';
         const payload = {
             username: message.author.username,
             avatarUrl: message.author.displayAvatarURL(),
@@ -37,12 +36,13 @@ function antiFloodChat(message) {
         };
 
         try {
-            axios.post(`${serverUrl}/${message.author.username}`, payload, {
+            const api = getApiUrl();
+            await api.post(`/users/${message.author.username}`, payload, {
                 headers: { 'Content-Type': 'application/json' },
             });
-            info.info(`Infração registrada no backend para o usuário ${message.author.tag}.`);
+            info.info(`Infração registrada no backend para o usuário ${message.author.username}.`);
         } catch (backendError) {
-            erro.error(`Erro ao enviar dados para o backend: ${backendError.message}`);
+            erro.error(`Erro ao registrar infração no backend para o usuário ${message.author.username} - ${backendError.message}`);            
         }
 
         // Timeout do membro

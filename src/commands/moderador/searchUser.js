@@ -31,9 +31,11 @@ async function searchUserDB(interaction) {
                 🚪 Expulsões de Canal de Voz: ${userData.infractions.voiceChannelKicks}
                 ⛔ Bans: ${userData.infractions.bans}
                 🔓 Unbans: ${userData.infractions.unbans}
+                ⛔ Expulsões: ${userData.infractions.expulsion}
                 💬 Flood Timeouts: ${userData.infractions.floodTimeouts}
                 📂 Arquivos Bloqueados: ${userData.infractions.blockedFiles}
                 🔗 Links Postados: ${userData.infractions.serverLinksPosted}`, inline: false },
+
                 { name: 'Conta Criada em', value: new Date(userData.accountCreatedDate).toLocaleDateString(), inline: true },
                 { name: 'Entrou no Servidor em', value: new Date(userData.joinedServerDate).toLocaleDateString(), inline: true }
             )

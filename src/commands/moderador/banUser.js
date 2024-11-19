@@ -1,8 +1,8 @@
 const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { client } = require('../../Client');
 const { info, erro } = require('../../logger');
+const { getApiUrl } = require('../../api');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
-const axios = require('axios');
 
 const banUser = async (interaction) => {
     if (!interaction.isCommand()) return;
@@ -10,6 +10,8 @@ const banUser = async (interaction) => {
     const { commandName, channelId, options, member: executor } = interaction;
 
     if (commandName === 'banir') {
+        await interaction.deferReply({ ephemeral: true }); // Adiciona defer para evitar expiração
+
         const userToBan = options.getUser('usuario');
 
         if (blockedChannels.includes(channelId)) {
@@ -24,7 +26,7 @@ const banUser = async (interaction) => {
                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
                 .setTimestamp()
                 .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            await interaction.reply({ embeds: [embed], ephemeral: true });
+            await interaction.editReply({ embeds: [embed] });
             return;
         }
 
@@ -39,12 +41,12 @@ const banUser = async (interaction) => {
                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
                 .setTimestamp()
                 .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            await interaction.reply({ embeds: [embed], ephemeral: true });
+            await interaction.editReply({ embeds: [embed] });
             return;
         }
 
         if (!userToBan) {
-            await interaction.reply({ content: 'Usuário inválido ou não encontrado.', ephemeral: true });
+            await interaction.editReply({ content: 'Usuário inválido ou não encontrado.' });
             return;
         }
 
@@ -53,12 +55,12 @@ const banUser = async (interaction) => {
 
             const botMember = interaction.guild.members.me;
             if (!botMember.permissions.has(PermissionsBitField.Flags.BanMembers)) {
-                await interaction.reply({ content: 'O bot não possui permissão para banir membros.', ephemeral: true });
+                await interaction.editReply({ content: 'O bot não possui permissão para banir membros.' });
                 return;
             }
 
             if (!memberToBan.bannable) {
-                await interaction.reply({ content: `Não posso banir o usuário ${userToBan.tag}.`, ephemeral: true });
+                await interaction.editReply({ content: `Não posso banir o usuário ${userToBan.tag}.` });
                 return;
             }
 
@@ -75,7 +77,6 @@ const banUser = async (interaction) => {
 
             await memberToBan.ban({ reason: "Para dúvidas, fale com o dono do servidor." });
 
-            const serverUrl = 'https://jonalandia-server.vercel.app/users';
             const payload = {
                 username: userToBan.tag,
                 avatarUrl: userToBan.displayAvatarURL({ dynamic: true }),
@@ -87,12 +88,13 @@ const banUser = async (interaction) => {
             };
         
             try {
-                await axios.post(`${serverUrl}/${userToBan.tag}`, payload, {
+                const api = getApiUrl();
+                await api.post(`/users/${userToBan.tag}`, payload, {
                     headers: { 'Content-Type': 'application/json' },
                 });
                 info.info(`Infração registrada no backend para o usuário ${userToBan.tag}.`);
             } catch (backendError) {
-                erro.error(`Erro ao enviar dados para o backend: ${backendError.message}`);
+                erro.error(`Erro ao registrar infração no backend para o usuário ${userToBan.tag} - ${backendError.message}`);            
             }
 
             const embed = new EmbedBuilder()
@@ -102,12 +104,12 @@ const banUser = async (interaction) => {
                 .setTimestamp()
                 .setFooter({ text: `Ação realizada por ${executor.user.tag}` });
 
-            await interaction.reply({ embeds: [embed] });
+            await interaction.editReply({ embeds: [embed] });
 
         } catch (error) {
             erro.error(error);
             console.error(error);
-            await interaction.reply({ content: 'Ocorreu um erro ao tentar banir o usuário.', ephemeral: true });
+            await interaction.editReply({ content: 'Ocorreu um erro ao tentar banir o usuário.' });
         }
     }
 };

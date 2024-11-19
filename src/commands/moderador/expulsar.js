@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../../Client");
-const { erro } = require('../../logger');
+const { info, erro } = require('../../logger');
+const { getApiUrl } = require('../../api');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 const expulsar = async (interaction) => {
@@ -9,6 +10,8 @@ const expulsar = async (interaction) => {
     const { commandName, channelId, options, member: executor } = interaction;
 
     if (commandName === 'expulsar') {
+        await interaction.deferReply({ ephemeral: true }); // Prolonga o tempo de resposta
+
         const user = options.getUser('usuario');
 
         if (blockedChannels.includes(channelId)) {
@@ -23,7 +26,7 @@ const expulsar = async (interaction) => {
                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
                 .setTimestamp()
                 .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            await interaction.reply({ embeds: [embed], ephemeral: true });
+            await interaction.editReply({ embeds: [embed] });
             return;
         }
 
@@ -38,51 +41,52 @@ const expulsar = async (interaction) => {
                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
                 .setTimestamp()
                 .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            await interaction.reply({ embeds: [embed], ephemeral: true });
+            await interaction.editReply({ embeds: [embed] });
             return;
         }
 
-        // Verificar se o usuário é válido
         if (!user) {
-            await interaction.reply({ content: 'Usuário inválido!', ephemeral: true });
+            await interaction.editReply({ content: 'Usuário inválido!' });
             return;
         }
 
         try {
             const targetMember = await interaction.guild.members.fetch(user.id);
-
             const botMember = interaction.guild.members.me;
-            if (!botMember.permissions.has('KICK_MEMBERS')) {
-                await interaction.reply({ content: 'O bot não possui permissão para expulsar membros.', ephemeral: true });
+
+            if (!botMember.permissions.has('KICK_MEMBERS') || !targetMember.kickable) {
+                await interaction.editReply({ content: `Não posso expulsar o usuário ${user.tag}.` });
                 return;
             }
 
-            // Verificar se o bot pode interagir com o membro
-            if (!targetMember.kickable) {
-                await interaction.reply({ content: `Não posso expulsar o usuário ${user.tag}.`, ephemeral: true });
-                return;
-            }
-
-            // Tentar enviar mensagem privada para o usuário
             try {
-                await user.send("Você foi expulso do servidor por atitudes que contrariam as regras do servidor.");
+                await user.send("Você foi expulso do servidor.");
             } catch (dmError) {
                 console.error(`Não foi possível enviar mensagem direta para ${user.tag}:`, dmError.message);
             }
 
-            // Registrar no canal de logs
-            const logsChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
-            if (logsChannel) {
-                await logsChannel.send(`O usuário ${user.tag} foi expulso por ${executor.user.tag}.`);
+            await targetMember.kick("Para dúvidas, fale com o dono do servidor.");
+
+            const payload = {
+                username: user.tag,
+                avatarUrl: user.displayAvatarURL({ dynamic: true }),
+                infraction: 'expulsion',
+                reason: `Expulso por do servidor ${interaction.guild.name}.`,
+                moderator: executor.user.tag,
+            };
+
+            try {
+                const api = getApiUrl();
+                await api.post(`/users/${user.tag}`, payload, { headers: { 'Content-Type': 'application/json' }, timeout: 5000 });
+                info.info(`Infração registrada no backend para o usuário ${user.tag}.`);
+            } catch (backendError) {
+                erro.error(`Erro ao registrar infração no backend: ${backendError.message}`);
             }
 
-            // Expulsar o usuário
-            await targetMember.kick("Para dúvidas, fale com o dono do servidor.");
-            await interaction.reply({ content: `Usuário ${user.tag} foi expulso com sucesso!`, ephemeral: true });
+            await interaction.editReply({ content: `Usuário ${user.tag} foi expulso com sucesso!` });
         } catch (error) {
             erro.error(error);
-            console.error(error);
-            await interaction.reply({ content: 'Não foi possível expulsar o usuário.', ephemeral: true });
+            await interaction.editReply({ content: 'Não foi possível expulsar o usuário.' });
         }
     }
 };
