@@ -2,7 +2,7 @@ const axios = require('axios');
 
 function getApiUrl() {
     const api = axios.create({
-        baseURL: 'https://jonalandia-server.vercel.app',
+        baseURL: process.env.URL_CONECTION_API_MODERATION_USER,
     });
 
     return api;

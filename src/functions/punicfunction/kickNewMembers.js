@@ -12,12 +12,13 @@ async function autoKickNewMembers() {
     const members = await guild.members.fetch();
 
     members.forEach(async (member) => {
-        const joinedAt = member.joinedAt;
+        const accountCreatedAt = member.user.createdAt;
         const now = new Date();
         const sevenDaysAgo = new Date(now);
         sevenDaysAgo.setDate(now.getDate() - 7);
 
-        if (joinedAt > sevenDaysAgo && !member.user.bot) {
+        // Verifica se a conta foi criada há menos de 7 dias
+        if (accountCreatedAt > sevenDaysAgo && !member.user.bot) {
             try {
                 const embed = new EmbedBuilder()
                     .setColor('#FF0000')
@@ -25,7 +26,7 @@ async function autoKickNewMembers() {
                     .setDescription(`Olá ${member.user.tag}, sua conta foi criada há menos de 7 dias e, por isso, você foi expulso do servidor **${guild.name}**.`)
                     .addFields(
                         { name: 'Motivo', value: 'Conta criada em menos de 7 dias', inline: true },
-                        { name: 'Data de entrada', value: `${joinedAt.toLocaleDateString()}`, inline: true }
+                        { name: 'Data de criação da conta', value: `${accountCreatedAt.toLocaleDateString()}`, inline: true }
                     )
                     .setFooter({ text: `Expulsão realizada por ${guild.owner?.user.tag}`, iconURL: guild.iconURL() })
                     .setTimestamp();
@@ -39,7 +40,7 @@ async function autoKickNewMembers() {
                     .setTitle('Membro Expulso')
                     .setDescription(`O membro ${member.user.tag} foi expulso por conta nova (criada há menos de 7 dias).`)
                     .addFields(
-                        { name: 'Data de entrada', value: `${joinedAt.toLocaleDateString()}`, inline: true },
+                        { name: 'Data de criação da conta', value: `${accountCreatedAt.toLocaleDateString()}`, inline: true },
                         { name: 'Expulsão realizada por', value: `${guild.owner?.user.tag}`, inline: true }
                     )
                     .setFooter({ text: `Expulsão registrada em ${now.toLocaleString()}`, iconURL: guild.iconURL() })

@@ -4,7 +4,7 @@ const { EmbedBuilder } = require("discord.js");
 const onNotificationYoutubeSchema = require('../models/onNotificationYoutubeSchema')
 const { google } = require('googleapis');
 const cron = require('node-cron');
-const youtube = google.youtube({version: 'v3', auth: 'AIzaSyBx_r45oAf3Gqp7rKjzrd0Aw3c81EwWglg'});
+const youtube = google.youtube({version: 'v3', auth: 'AIzaSyBpv77J9fbBuwDfRtDke0XRST_Db_bHJFk'});
 const channels = require('../config/channels.json');
 
 require('dotenv').config()
