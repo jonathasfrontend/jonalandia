@@ -8,7 +8,7 @@ function getApiUrl() {
     return api;
 }
 
-async function testApiConnection() {
+async function apiConnection() {
     const api = getApiUrl();
 
     try {
@@ -27,5 +27,4 @@ async function testApiConnection() {
     }
 }
 
-// module.exports = { getApiUrl };
-module.exports = { getApiUrl, testApiConnection };
+module.exports = { getApiUrl, apiConnection };
