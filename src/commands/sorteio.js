@@ -30,11 +30,9 @@ async function sorteioUser(interaction) {
             const usuarioId = interaction.options.getUser('usuario').id;
             const nomeUsuario = interaction.options.getUser('usuario').username;
 
-            // Verificar se o usuário já está no banco de dados
             const usuarioExistente = await Sorteio.findOne({ usuarioId });
 
             if (usuarioExistente) {
-                // Usuário já está cadastrado
                 const embedJaCadastrado = new EmbedBuilder()
                     .setColor('Yellow')
                     .setAuthor({
@@ -49,7 +47,6 @@ async function sorteioUser(interaction) {
 
                 await interaction.reply({ embeds: [embedJaCadastrado], ephemeral: true });
             } else {
-                // Cadastrar o novo usuário no sorteio
                 const novoSorteio = new Sorteio({
                     usuarioId,
                     nomeUsuario,
@@ -71,7 +68,6 @@ async function sorteioUser(interaction) {
 
                 await interaction.reply({ embeds: [embedCadastrado], ephemeral: true });
 
-                // Log no canal de informações
                 const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
                 await logChannel.send(`Usuário ${nomeUsuario} cadastrado no sorteio.`);
                 info.info(`Usuário ${nomeUsuario} cadastrado no sorteio.`);

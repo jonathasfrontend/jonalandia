@@ -1,7 +1,7 @@
 {
-  "name": "bot",
-  "nameSpace": "bot Jonalandia",
-  "version": "1.0.0",
+  "name": "Jonalandia_bot",
+  "nameSpace": "Jonalandia_bot",
+  "version": "1.1.1",
   "description": "bot para Discord Jonalandia feito com Discord.js e Node.js por Jonathas Oliveira",
   "main": "Jonalandia.js",
   "repository": {

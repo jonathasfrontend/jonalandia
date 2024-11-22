@@ -27,6 +27,7 @@ const { generatorMemes } = require('./commands/generatorMemes');
 const { generatorConselho } = require('./commands/generatorConselho');
 const { getWeather } = require('./commands/weather');
 const { sorteioUser } = require('./commands/sorteio')
+const { infoSorteio } = require('./commands/infoSorteio')
 
 const { Help } = require('./commands/moderador/help');
 const { createEmbed } = require('./commands/moderador/createEmbed');
@@ -322,6 +323,11 @@ client.once('ready', () => {
     name: 'sortear',
     description: 'Realiza o sorteio e exibe o vencedor',
   });
+
+  client.application?.commands.create({
+    name: 'infosorteio',
+    description: 'Lista os participantes e informações do sorteio',
+  });
   
 });
 
@@ -380,6 +386,8 @@ client.on('interactionCreate', async (interaction) => {
     await limpaSorteio(interaction);
   } else if (commandName === 'sortear') {
     await sortear(interaction);
+  } else if (commandName === 'infosorteio') {
+    await infoSorteio(interaction);
   }
 });
 
