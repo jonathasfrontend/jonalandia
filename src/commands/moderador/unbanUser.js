@@ -94,11 +94,9 @@ const unbanUser = async (interaction) => {
             .setDescription(`${userToUnban.tag} foi desbanido com sucesso!`);
         await interaction.reply({ embeds: [embed] });
 
-        // Log no canal de logs
         const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
-        if (logChannel) {
-            await logChannel.send(`${userToUnban.tag} foi desbanido com sucesso!`);
-        }
+        await logChannel.send(`${userToUnban.tag} foi desbanido com sucesso!`);
+        
     } catch (error) {
         erro.error(`Erro ao desbanir usuário: ${error.message}`);
         const embed = new EmbedBuilder()

@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../Client");
+const { erro } = require('../logger');
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 async function generatorConselho(interaction) {
@@ -43,7 +44,7 @@ async function generatorConselho(interaction) {
 
 
     } catch (error) {
-        console.error('Erro ao buscar conselho:', error);
+        erro.error('Erro ao buscar conselho:', error);
 
         const embedError = new EmbedBuilder()
             .setColor('#FF0000') 

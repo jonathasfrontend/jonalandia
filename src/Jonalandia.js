@@ -26,6 +26,7 @@ const { Birthday } = require('./commands/birthday');
 const { generatorMemes } = require('./commands/generatorMemes');
 const { generatorConselho } = require('./commands/generatorConselho');
 const { getWeather } = require('./commands/weather');
+const { sorteioUser } = require('./commands/sorteio')
 
 const { Help } = require('./commands/moderador/help');
 const { createEmbed } = require('./commands/moderador/createEmbed');
@@ -40,6 +41,9 @@ const { banUser } = require('./commands/moderador/banUser');
 const { unbanUser } = require('./commands/moderador/unbanUser');
 const { kickUser } = require('./commands/moderador/kickUser');
 const { searchUserDB } = require('./commands/moderador/searchUser');
+const { premioSorteio } = require('./commands/moderador/premiosorteio')
+const { limpaSorteio } = require('./commands/moderador/limpasorteio')
+const { sortear } = require('./commands/moderador/sortear')
 
 
 const { bdServerConect } = require('./config/bdServerConect');
@@ -282,6 +286,42 @@ client.once('ready', () => {
         },
     ],
   });
+
+  client.application?.commands.create({
+    name: 'sorteio',
+    description: 'Cadastrar para participar do sorteio',
+    options: [
+        {
+            type: 6,
+            name: 'usuario',
+            description: 'Usuário a ser registrado no sorteio.',
+            required: true,
+        },
+    ],
+  });
+
+  client.application?.commands.create({
+    name: 'premiosorteio',
+    description: 'Cadastro de prêmio para sorteio (Moderador)',
+    options: [
+        {
+            type: 3,
+            name: 'premio',
+            description: 'O prêmio.',
+            required: true,
+        },
+    ],
+  });
+
+  client.application?.commands.create({
+    name: 'limpasorteio',
+    description: 'Limpa todos os participantes do sorteio (Moderador)',
+  });
+
+  client.application?.commands.create({
+    name: 'sortear',
+    description: 'Realiza o sorteio e exibe o vencedor',
+  });
   
 });
 
@@ -332,6 +372,14 @@ client.on('interactionCreate', async (interaction) => {
     await getWeather(interaction);
   } else if (commandName === 'infouser') {
     await searchUserDB(interaction);
+  } else if (commandName === 'sorteio') {
+    await sorteioUser(interaction);
+  } else if (commandName === 'premiosorteio') {
+    await premioSorteio(interaction);
+  } else if (commandName === 'limpasorteio') {
+    await limpaSorteio(interaction);
+  } else if (commandName === 'sortear') {
+    await sortear(interaction);
   }
 });
 
