@@ -3,7 +3,7 @@ const blockedLinksData = require('../../config/blockedLinks.json');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 const { client } = require('../../Client');
 const { info, erro } = require('../../logger');
-const axios = require('axios')
+const Users = require('../../models/infracoesUsersSchema');
 
 const blockedLinks = blockedLinksData.blockedLinks.map(pattern => new RegExp(pattern));
 
@@ -16,25 +16,37 @@ async function blockLinks(message) {
         if (isBlocked) {
             await message.delete();
             
-            const payload = {
-                username: message.author.username,
-                avatarUrl: message.author.displayAvatarURL(),
-                accountCreatedDate: message.author.createdAt,
-                joinedServerDate: message.member.joinedAt,
-                infraction: 'serverLinksPosted',
-                reason: `Mensagem bloqueada por conter links .`,
-                moderator: client.user.username,
-            };
+            const reason = `Mensagem bloqueada por conter links. Usuário: ${message.author.tag}, Tipo de link: ${blockedLinks.find(regex => regex.test(message.content)).source}`;
+            const type = 'serverLinksPosted';
 
-            try {
-                const api = getApiUrl();
-                await api.post(`/users/${message.author.username}`, payload, {
-                    headers: { 'Content-Type': 'application/json' },
+            let userData = await Users.findOne({ username: message.author.username });
+
+            if (!userData) {
+                userData = new Users({
+                    userId: message.author.id,
+                    username: message.author.username,
+                    avatarUrl: message.author.displayAvatarURL(),
+                    accountCreatedDate: message.author.createdAt,
+                    joinedServerDate: message.member.joinedAt,
+                    infractions: { serverLinksPosted: 1 },
+                    logs: [{
+                        type,
+                        reason,
+                        date: new Date(),
+                        moderator: client.user.tag,
+                    }]
                 });
-                info.info(`Infração registrada no backend para o usuário ${message.author.username}.`);
-            } catch (backendError) {
-                erro.error(`Erro ao registrar infração no backend para o usuário ${message.author.username} - ${backendError.message}`);            
+            } else {
+                userData.infractions.serverLinksPosted = (userData.infractions.serverLinksPosted || 0) + 1;
+                userData.logs.push({
+                    type,
+                    reason,
+                    date: new Date(),
+                    moderator: client.user.tag,
+                });
             }
+
+            await userData.save();
 
             const embed = new EmbedBuilder()
                 .setColor('#FF0000')
@@ -51,9 +63,9 @@ async function blockLinks(message) {
             await message.channel.send({ content: `${message.author}`, embeds: [embed] });
 
             const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
-            discordChannel.send(`Link bloqueado detectado e deletado no canal ${message.channel.name} por ${message.author.tag}`);
+            discordChannel.send(`Mensagem bloqueada por conter links. Usuário: ${message.author.tag}, Tipo de link: ${blockedLinks.find(regex => regex.test(message.content)).source}`);
             
-            info.info(`Link bloqueado detectado e deletado no canal ${message.channel.name} por ${message.author.tag}`);
+            info.info(`Mensagem bloqueada por conter links. Usuário: ${message.author.tag}, Tipo de link: ${blockedLinks.find(regex => regex.test(message.content)).source}`);
         }
     }
 }

@@ -1,6 +1,5 @@
 const { info } = require('./logger');
 const { client } = require('./Client');
-const { apiConnection } = require('./api')
 
 const { antiFloodChat } = require('./functions/punicfunction/antiFloodChat');
 const { blockLinks } = require('./functions/punicfunction/blockLinks');
@@ -18,10 +17,10 @@ const { scheduleNotificationYoutubeCheck } = require('./functions/onNotification
 const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
 const { scheduleonNotificationFreeGamesCheck } = require('./functions/onNotificationFreeGames');
 
+const { Help } = require('./commands/help');
 const { searchUser } = require('./commands/searchUser');
 const { searchGuild } = require('./commands/searchGuild');
 const { menssageFile } = require('./commands/mensage');
-const { mensageRegra } = require('./commands/regra');
 const { Birthday } = require('./commands/birthday');
 const { generatorMemes } = require('./commands/generatorMemes');
 const { generatorConselho } = require('./commands/generatorConselho');
@@ -29,7 +28,7 @@ const { getWeather } = require('./commands/weather');
 const { sorteioUser } = require('./commands/sorteio')
 const { infoSorteio } = require('./commands/infoSorteio')
 
-const { Help } = require('./commands/moderador/help');
+const { mensageRegra } = require('./commands/moderador/regra');
 const { createEmbed } = require('./commands/moderador/createEmbed');
 const { clearAll } = require('./commands/moderador/clearAll');
 const { clearUser } = require('./commands/moderador/clearMsgUser');
@@ -46,7 +45,6 @@ const { premioSorteio } = require('./commands/moderador/premiosorteio')
 const { limpaSorteio } = require('./commands/moderador/limpasorteio')
 const { sortear } = require('./commands/moderador/sortear')
 
-
 const { bdServerConect } = require('./config/bdServerConect');
 
 require('dotenv').config()
@@ -59,7 +57,6 @@ client.once('ready', () => {
   scheduleNotificationYoutubeCheck();
   scheduleNotificationTwitchCheck();
   scheduleonNotificationFreeGamesCheck();
-  apiConnection();
 
   info.info('O bot Jonalandia está online!');
 

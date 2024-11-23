@@ -2,7 +2,7 @@ const { Collection, italic } = require('discord.js');
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
 const { info, erro } = require('../../logger');
-const { getApiUrl } = require('../../api');
+const Users = require('../../models/infracoesUsersSchema');
 const members = new Collection();
 
 async function antiFloodChat(message) {
@@ -25,25 +25,38 @@ async function antiFloodChat(message) {
     if (newCount >= 5) {
         members.delete(author.id);
 
-        const payload = {
-            username: message.author.username,
-            avatarUrl: message.author.displayAvatarURL(),
-            accountCreatedDate: message.author.createdAt,
-            joinedServerDate: message.member.joinedAt,
-            infraction: 'floodTimeouts',
-            reason: `Flood de mensagens`,
-            moderator: client.user.username,
-        };
+        const reason = ` O usuário ${author} levou timeout por flood de mensagens!`;
+        const type = 'floodTimeouts';
 
-        try {
-            const api = getApiUrl();
-            await api.post(`/users/${message.author.username}`, payload, {
-                headers: { 'Content-Type': 'application/json' },
+        let userData = await Users.findOne({ username: message.author.username });
+
+        if (!userData) {
+            userData = new Users({
+                userId: message.author.id,
+                username: message.author.username,
+                avatarUrl: message.author.displayAvatarURL(),
+                accountCreatedDate: message.author.createdAt,
+                joinedServerDate: message.member.joinedAt,
+                infractions: { floodTimeouts: 1 },
+                logs: [{
+                    type,
+                    reason,
+                    date: new Date(),
+                    moderator: client.user.tag,
+                }]
             });
-            info.info(`Infração registrada no backend para o usuário ${message.author.username}.`);
-        } catch (backendError) {
-            erro.error(`Erro ao registrar infração no backend para o usuário ${message.author.username} - ${backendError.message}`);            
+        } else {
+            userData.infractions.floodTimeouts = (userData.infractions.floodTimeouts || 0) + 1;
+            userData.logs.push({
+                type,
+                reason,
+                date: new Date(),
+                moderator: client.user.tag,
+            });
         }
+
+        await userData.save();
+
 
         // Timeout do membro
         member?.timeout(60_000, "Flood de mensagens");

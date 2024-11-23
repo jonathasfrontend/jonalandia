@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../../Client");
 const { info, erro } = require('../../logger');
-const { getApiUrl } = require('../../api');
+const Users = require('../../models/infracoesUsersSchema');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 const timeout = async (interaction) => {
@@ -9,67 +9,81 @@ const timeout = async (interaction) => {
 
     const { commandName, options, channelId, member } = interaction;
 
-    if (commandName === 'timeout') {
-        const user = options.getUser('usuario');
-        const guildMember = interaction.guild.members.cache.get(user.id);
+    if (blockedChannels.includes(channelId)) {
+        const embed = new EmbedBuilder()
+            .setColor('Red')
+            .setAuthor({
+                name: client.user.username,
+                iconURL: client.user.displayAvatarURL({ dynamic: true }),
+            })
+            .setTitle("Este comando não pode ser usado neste canal")
+            .setDescription('Vá ao canal <#1254199140796207165> para executar os comandos')
+            .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+            .setTimestamp()
+            .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
+        await interaction.editReply({ embeds: [embed], ephemeral: true });
+        return;
+    }
 
-        if (blockedChannels.includes(channelId)) {
-            const embed = new EmbedBuilder()
-                .setColor('Red')
-                .setAuthor({
-                    name: client.user.username,
-                    iconURL: client.user.displayAvatarURL({ dynamic: true }),
-                })
-                .setTitle("Este comando não pode ser usado neste canal")
-                .setDescription('Vá ao canal <#1254199140796207165> para executar os comandos')
-                .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-                .setTimestamp()
-                .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            await interaction.reply({ embeds: [embed], ephemeral: true });
-            return;
-        }
+    if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
+        const embed = new EmbedBuilder()
+            .setColor('Red')
+            .setAuthor({
+                name: client.user.username,
+                iconURL: client.user.displayAvatarURL({ dynamic: true }),
+            })
+            .setDescription('Você não tem permissão para usar este comando.')
+            .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+            .setTimestamp()
+            .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
+            await interaction.editReply({ embeds: [embed], ephemeral: true });
+        return;
+    }
+
+    try {
+        if (commandName === 'timeout') {
+            await interaction.deferReply({ ephemeral: true });
     
-        if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
-            const embed = new EmbedBuilder()
-                .setColor('Red')
-                .setAuthor({
-                    name: client.user.username,
-                    iconURL: client.user.displayAvatarURL({ dynamic: true }),
-                })
-                .setDescription('Você não tem permissão para usar este comando.')
-                .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-                .setTimestamp()
-                .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            await interaction.reply({ embeds: [embed], ephemeral: true });
-            return;
-        }
-
-        if (!guildMember) {
-            await interaction.reply({ content: 'Usuário não encontrado no servidor.', ephemeral: true });
-            return;
-        }
-
-        const payload = {
-            username: user.tag,
-            avatarUrl: user.displayAvatarURL({ dynamic: true }),
-            accountCreatedDate: user.createdAt,
-            joinedServerDate: guildMember.joinedAt,
-            infraction: 'timeouts',
-            reason: `O usuário ${user.tag} recebeu um timeout de 3 minutos.`,
-            moderator: member.user.tag,
-        };
+            const user = options.getUser('usuario');
+            const guildMember = interaction.guild.members.cache.get(user.id);
     
-        try {
-            const api = getApiUrl();
-            await api.post(`/users/${user.tag}`, payload, {
-                headers: { 'Content-Type': 'application/json' },
-            });
-            info.info(`Infração registrada no backend para o usuário ${user.tag}.`);
-        } catch (backendError) {
-            erro.error(`Erro ao registrar infração no backend para o usuário ${user.tag} - ${backendError.message}`);            
-        }
+            if (!guildMember) {
+                await interaction.editReply({ content: 'Usuário não encontrado no servidor.', ephemeral: true });
+                return;
+            }
+    
+            const reason = `O usuário ${user.tag} recebeu um timeout de 3 minutos.`;
+            const type = 'timeouts';
 
-        try {
+            let userData = await Users.findOne({ username: user.tag });
+
+            if (!userData) {
+                userData = new Users({
+                    userId: user.id,
+                    username: user.tag,
+                    avatarUrl: user.displayAvatarURL({ dynamic: true }),
+                    accountCreatedDate: user.createdAt,
+                    joinedServerDate: guildMember.joinedAt,
+                    infractions: { timeouts: 1 },
+                    logs: [{
+                        type,
+                        reason,
+                        date: new Date(),
+                        moderator: member.user.tag,
+                    }]
+                });
+            } else {
+                userData.infractions.timeouts = (userData.infractions.timeouts || 0) + 1;
+                userData.logs.push({
+                    type,
+                    reason,
+                    date: new Date(),
+                    moderator: member.user.tag,
+                });
+            }
+
+            await userData.save();
+            
             await guildMember.timeout(3 * 60 * 1000, 'Timeout de 3 minutos aplicado pelo bot');
             const embed = new EmbedBuilder()
                 .setColor('#ff0000')
@@ -78,15 +92,17 @@ const timeout = async (interaction) => {
                 .setTimestamp()
                 .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
 
-            await interaction.reply({ embeds: [embed] });
+            await interaction.editReply({ embeds: [embed] });
 
-            const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
-            discordChannel2.send(`O usuário ${user.tag} recebeu um timeout de 3 minutos.`);
+            const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
+            await logChannel.send(`Timeout aplicado com sucesso no usuário ${user.tag}.`);
 
-        } catch (error) {
-            console.error(error);
-            await interaction.reply({ content: 'Não foi possível aplicar o timeout no usuário.', ephemeral: true });
-        }
+            info.info(`Timeout aplicado com sucesso no usuário ${user.tag}.`);
+        } 
+    } catch (error) {
+        erro.error('Erro ao aplicar timeout:', error);
+        const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);
+        await logChannel.send(`Erro ao aplicar timeout: ${error}`);
     }
 };
 

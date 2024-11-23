@@ -28,8 +28,7 @@ const getWeather = async (interaction) => {
             await interaction.reply({ embeds: [embed], ephemeral: true });
             return;
         }
-
-        // Defer reply to prevent the interaction from timing out
+        
         await interaction.deferReply();
 
         const response = await axios.get(url);

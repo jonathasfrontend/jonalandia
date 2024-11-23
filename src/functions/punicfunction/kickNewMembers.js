@@ -17,7 +17,6 @@ async function autoKickNewMembers() {
         const sevenDaysAgo = new Date(now);
         sevenDaysAgo.setDate(now.getDate() - 7);
 
-        // Verifica se a conta foi criada há menos de 7 dias
         if (accountCreatedAt > sevenDaysAgo && !member.user.bot) {
             try {
                 const embed = new EmbedBuilder()

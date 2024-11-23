@@ -3,7 +3,7 @@ const { client } = require('../../Client');
 const { info, erro } = require('../../logger');
 const inappropriateWordsData = require('../../config/InappropriateWords.json');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
-const axios = require('axios')
+const Users = require('../../models/infracoesUsersSchema');
 
 const inappropriateWords = inappropriateWordsData.inappropriateWords;
 
@@ -21,25 +21,38 @@ async function detectInappropriateWords(message) {
         try {
             await message.delete();
 
-            const payload = {
-                username: message.author.username,
-                avatarUrl: message.author.displayAvatarURL(),
-                accountCreatedDate: message.author.createdAt,
-                joinedServerDate: message.member.joinedAt,
-                infraction: 'inappropriateLanguage',
-                reason: `Uso de palavras inadequadas: ${foundWord}`,
-                moderator: client.user.username,
-            };
+            const reason = `O usuário ${message.author.username} usou palavras inadequadas: ${foundWord}`;
+            const type = 'inappropriateLanguage';
 
-            try {
-                const api = getApiUrl();
-                await api.post(`/users/${message.author.username}`, payload, {
-                    headers: { 'Content-Type': 'application/json' },
+            let userData = await Users.findOne({ username: message.author.username });
+
+            if (!userData) {
+                userData = new Users({
+                    userId: message.author.id,
+                    username: message.author.username,
+                    avatarUrl: message.author.displayAvatarURL(),
+                    accountCreatedDate: message.author.createdAt,
+                    joinedServerDate: message.member.joinedAt,
+                    infractions: { inappropriateLanguage: 1 },
+                    logs: [{
+                        type,
+                        reason,
+                        date: new Date(),
+                        moderator: client.user.tag,
+                    }]
                 });
-                info.info(`Infração registrada no backend para o usuário ${message.author.username}.`);
-            } catch (backendError) {
-                erro.error(`Erro ao registrar infração no backend para o usuário ${message.author.username} - ${backendError.message}`);            
+            } else {
+                userData.infractions.inappropriateLanguage = (userData.infractions.inappropriateLanguage || 0) + 1;
+                userData.logs.push({
+                    type,
+                    reason,
+                    date: new Date(),
+                    moderator: client.user.tag,
+                });
             }
+
+        await userData.save();
+
 
             const discordChannelDelete = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
             discordChannelDelete.send(`Mensagem de ${message.author.tag} deletada devido a palavras inadequadas: "${foundWord}".`);
