@@ -44,6 +44,7 @@ const { searchUserDB } = require('./commands/moderador/searchUser');
 const { premioSorteio } = require('./commands/moderador/premiosorteio')
 const { limpaSorteio } = require('./commands/moderador/limpasorteio')
 const { sortear } = require('./commands/moderador/sortear')
+const { voteParaBan } = require('./commands/moderador/voteparaban')
 
 const { bdServerConect } = require('./config/bdServerConect');
 
@@ -310,20 +311,33 @@ client.once('ready', () => {
         },
     ],
   });
-
+  
   client.application?.commands.create({
     name: 'limpasorteio',
     description: 'Limpa todos os participantes do sorteio (Moderador)',
   });
-
+  
   client.application?.commands.create({
     name: 'sortear',
     description: 'Realiza o sorteio e exibe o vencedor',
   });
-
+  
   client.application?.commands.create({
     name: 'infosorteio',
     description: 'Lista os participantes e informações do sorteio',
+  });
+
+  client.application?.commands.create({
+    name: 'voteparaban',
+    description: 'Inicia uma votação para banir um usuário.',
+    options: [
+        {
+            type: 6,
+            name: 'usuario',
+            description: 'Selecione o usuário para iniciar a votação de ban.',
+            required: true,
+        },
+    ],
   });
   
 });
@@ -385,6 +399,8 @@ client.on('interactionCreate', async (interaction) => {
     await sortear(interaction);
   } else if (commandName === 'infosorteio') {
     await infoSorteio(interaction);
+  } else if (commandName === 'voteparaban') {
+    await voteParaBan(interaction);
   }
 });
 
