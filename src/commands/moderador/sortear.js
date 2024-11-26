@@ -64,7 +64,7 @@ async function sortear(interaction){
         .setFooter({ text: `Por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` });
 
       const sorteioChannel = client.channels.cache.get(process.env.CHANNEL_ID_SORTEIOS);
-      sorteioChannel.send({ embeds: [embed] });
+      sorteioChannel.reply({ embeds: [embed] });
 
       await interaction.reply('Sorteio realizado com sucesso!' , { ephemeral: true });
 
