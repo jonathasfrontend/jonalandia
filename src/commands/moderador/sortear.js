@@ -63,8 +63,8 @@ async function sortear(interaction){
         .setTimestamp()
         .setFooter({ text: `Por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` });
 
-      const sorteioChannel = client.channels.cache.get(process.env.CHANNEL_ID_SORTEIOS);
-      sorteioChannel.reply({ embeds: [embed] });
+        const sorteioChannel = client.channels.cache.get(process.env.CHANNEL_ID_SORTEIOS);
+        sorteioChannel.send({ embeds: [embed] }); // Usando send ao invés de reply
 
       await interaction.reply('Sorteio realizado com sucesso!' , { ephemeral: true });
 
