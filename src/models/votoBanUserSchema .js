@@ -37,7 +37,7 @@ const VoteSchema = new mongoose.Schema({
       }, // Nome do usuário que votou
       vote: {
         type: String,
-        enum: ['yes', 'no'],
+        enum: ['sim', 'nao'],
         required: true }, // Voto: "yes" ou "no"
     },
   ],

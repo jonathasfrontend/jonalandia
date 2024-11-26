@@ -67,7 +67,6 @@ async function voteParaBan(interaction) {
       const row = new ActionRowBuilder()
 			  .addComponents(btnSim, btnNao);
 
-      // Criar Embed de votação
       const embed = new EmbedBuilder()
         .setColor("#ff0000")
         .setTitle('Votação para Ban')
@@ -95,11 +94,21 @@ async function voteParaBan(interaction) {
           if (!vote) return;
 
           if (vote.votes.some(v => v.userId === buttonInteraction.user.id)) {
-            await buttonInteraction.reply('Você já votou nesta votação.', { ephemeral: true });
+            const embed = new EmbedBuilder()
+            .setColor("#ff0000")
+            .setTitle('Você já votou')
+            .setAuthor({
+              name: client.user.username,
+              iconURL: client.user.displayAvatarURL({ dynamic: true }),
+            })
+            .setDescription('Você já votou nesta votação.')
+            .setThumbnail(`${targetUser.displayAvatarURL({ dynamic: true })}`)
+
+          await buttonInteraction.reply({ embeds: [embed], ephemeral: true });
             return;
           }
 
-          const voto = votoButtonId.startsWith('sim') ? 'yes' : 'no';
+          const voto = votoButtonId.startsWith('sim') ? 'sim' : 'nao';
           vote.votes.push({
             userId: buttonInteraction.user.id,
             username: buttonInteraction.user.username,
@@ -107,13 +116,23 @@ async function voteParaBan(interaction) {
           });
           await vote.save();
 
-          await buttonInteraction.reply(`Você votou ${voto === 'yes' ? 'sim' : 'não'} nesta votação.`);
+          const embed = new EmbedBuilder()
+            .setColor("#00ff00")
+            .setTitle(`Seu voto é: ${voto} para banir`)
+            .setAuthor({
+              name: client.user.username,
+              iconURL: client.user.displayAvatarURL({ dynamic: true }),
+            })
+            .setDescription(`Você votou **${voto}** na votação para banir **${targetUser.tag}**.`)
+            .setThumbnail(`${targetUser.displayAvatarURL({ dynamic: true })}`)
+
+          await buttonInteraction.reply({ embeds: [embed], ephemeral: true });
         }
       });
 
       setTimeout(async () => {
-        const yesVotes = await Vote.countDocuments({ _id: newVote.id, 'votes.vote': 'yes' });
-        const noVotes = await Vote.countDocuments({ _id: newVote.id, 'votes.vote': 'no' });
+        const yesVotes = await Vote.countDocuments({ _id: newVote.id, 'votes.vote': 'sim' });
+        const noVotes = await Vote.countDocuments({ _id: newVote.id, 'votes.vote': 'nao' });
 
         const endedEmbed = EmbedBuilder.from(embed)
           .setTitle('Votação Encerrada')
