@@ -4,6 +4,7 @@ const { info, erro } = require('../../Logger');
 const inappropriateWordsData = require('../../config/InappropriateWords.json');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 const Users = require('../../models/infracoesUsersSchema');
+const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 
 const inappropriateWords = inappropriateWordsData.inappropriateWords;
 
@@ -24,34 +25,16 @@ async function detectInappropriateWords(message) {
             const reason = `O usuário ${message.author.username} usou palavras inadequadas: ${foundWord}`;
             const type = 'inappropriateLanguage';
 
-            let userData = await Users.findOne({ username: message.author.username });
-
-            if (!userData) {
-                userData = new Users({
-                    userId: message.author.id,
-                    username: message.author.username,
-                    avatarUrl: message.author.displayAvatarURL(),
-                    accountCreatedDate: message.author.createdAt,
-                    joinedServerDate: message.member.joinedAt,
-                    infractions: { inappropriateLanguage: 1 },
-                    logs: [{
-                        type,
-                        reason,
-                        date: new Date(),
-                        moderator: client.user.tag,
-                    }]
-                });
-            } else {
-                userData.infractions.inappropriateLanguage = (userData.infractions.inappropriateLanguage || 0) + 1;
-                userData.logs.push({
-                    type,
-                    reason,
-                    date: new Date(),
-                    moderator: client.user.tag,
-                });
-            }
-
-        await userData.save();
+            saveUserInfractions(
+                message.author.id,
+                message.author.tag,
+                message.author.displayAvatarURL({ dynamic: true }),
+                message.author.createdAt,
+                message.member.joinedAt,
+                type,
+                reason,
+                client.user.tag
+            )
 
 
             const discordChannelDelete = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);

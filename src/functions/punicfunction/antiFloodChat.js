@@ -2,7 +2,7 @@ const { Collection, italic } = require('discord.js');
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
 const { info, erro } = require('../../Logger');
-const Users = require('../../models/infracoesUsersSchema');
+const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 const members = new Collection();
 
 async function antiFloodChat(message) {
@@ -28,34 +28,16 @@ async function antiFloodChat(message) {
         const reason = ` O usuário ${author} levou timeout por flood de mensagens!`;
         const type = 'floodTimeouts';
 
-        let userData = await Users.findOne({ username: message.author.username });
-
-        if (!userData) {
-            userData = new Users({
-                userId: message.author.id,
-                username: message.author.username,
-                avatarUrl: message.author.displayAvatarURL(),
-                accountCreatedDate: message.author.createdAt,
-                joinedServerDate: message.member.joinedAt,
-                infractions: { floodTimeouts: 1 },
-                logs: [{
-                    type,
-                    reason,
-                    date: new Date(),
-                    moderator: client.user.tag,
-                }]
-            });
-        } else {
-            userData.infractions.floodTimeouts = (userData.infractions.floodTimeouts || 0) + 1;
-            userData.logs.push({
-                type,
-                reason,
-                date: new Date(),
-                moderator: client.user.tag,
-            });
-        }
-
-        await userData.save();
+        saveUserInfractions(
+            author.id,
+            author.tag,
+            author.displayAvatarURL({ dynamic: true }),
+            author.createdAt,
+            member.joinedAt,
+            type,
+            reason,
+            client.user.tag
+        )
 
 
         // Timeout do membro

@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require('../../Client');
 const { info, erro } = require('../../Logger');
-const Users = require('../../models/infracoesUsersSchema');
+const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 async function unbanUser(interaction) {
@@ -65,36 +65,18 @@ async function unbanUser(interaction) {
                 erro.error(`Não foi possível enviar mensagem privada para o usuário ${userToUnban.tag}`);
             }
 
-            let userData = await Users.findOne({ username: userToUnban.tag });
-
             const type = 'unbans';
 
-            if (!userData) {
-                userData = new Users({
-                    userId: userToUnban.id,
-                    username: userToUnban.tag,
-                    avatarUrl: userToUnban.displayAvatarURL({ dynamic: true }),
-                    accountCreatedDate: userToUnban.createdAt,
-                    joinedServerDate: member.joinedAt,
-                    infractions: { unbans: 1 },
-                    logs: [{
-                        type,
-                        reason,
-                        date: new Date(),
-                        moderator: member.user.tag,
-                    }]
-                });
-            } else {
-                userData.infractions.unbans = (userData.infractions.unbans || 0) + 1;
-                userData.logs.push({
-                    type,
-                    reason,
-                    date: new Date(),
-                    moderator: member.user.tag,
-                });
-            }
-
-            await userData.save();
+            saveUserInfractions(
+                userToUnban.id,
+                userToUnban.tag,
+                userToUnban.displayAvatarURL({ dynamic: true }),
+                userToUnban.createdAt,
+                userToUnban.joinedAt,
+                type,
+                reason,
+                member.user.tag
+            )
 
             const embed = new EmbedBuilder()
                 .setColor('Green')

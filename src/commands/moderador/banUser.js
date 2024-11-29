@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require('../../Client');
 const { info, erro } = require('../../Logger');
-const Users = require('../../models/infracoesUsersSchema');
+const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 async function banUser(interaction) {
@@ -55,35 +55,17 @@ async function banUser(interaction) {
 
             const reason = `O usuário ${userToBan.tag} foi banido do servidor.`;
             const type = 'bans';
-
-            let userData = await Users.findOne({ username: userToBan.tag });
-
-            if (!userData) {
-                userData = new Users({
-                    userId: userToBan.id,
-                    username: userToBan.tag,
-                    avatarUrl: userToBan.displayAvatarURL({ dynamic: true }),
-                    accountCreatedDate: userToBan.createdAt,
-                    joinedServerDate: memberToBan.joinedAt,
-                    infractions: { bans: 1 },
-                    logs: [{
-                        type,
-                        reason,
-                        date: new Date(),
-                        moderator: member.user.tag,
-                    }]
-                });
-            } else {
-                userData.infractions.bans = (userData.infractions.bans || 0) + 1;
-                userData.logs.push({
-                    type,
-                    reason,
-                    date: new Date(),
-                    moderator: member.user.tag,
-                });
-            }
-
-            await userData.save();
+            
+            saveUserInfractions(
+                userToBan.id,
+                userToBan.tag,
+                userToBan.displayAvatarURL({ dynamic: true }),
+                userToBan.createdAt,
+                memberToBan.joinedAt,
+                type,
+                reason,
+                member.user.tag
+            )
 
             await memberToBan.ban({ reason: "Para dúvidas, fale com o dono do servidor." });
 

@@ -3,7 +3,7 @@ const blockedLinksData = require('../../config/blockedLinks.json');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 const { client } = require('../../Client');
 const { info, erro } = require('../../Logger');
-const Users = require('../../models/infracoesUsersSchema');
+const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 
 const blockedLinks = blockedLinksData.blockedLinks.map(pattern => new RegExp(pattern));
 
@@ -19,34 +19,16 @@ async function blockLinks(message) {
             const reason = `Mensagem bloqueada por conter links. Usuário: ${message.author.tag}, Tipo de link: ${blockedLinks.find(regex => regex.test(message.content)).source}`;
             const type = 'serverLinksPosted';
 
-            let userData = await Users.findOne({ username: message.author.username });
-
-            if (!userData) {
-                userData = new Users({
-                    userId: message.author.id,
-                    username: message.author.username,
-                    avatarUrl: message.author.displayAvatarURL(),
-                    accountCreatedDate: message.author.createdAt,
-                    joinedServerDate: message.member.joinedAt,
-                    infractions: { serverLinksPosted: 1 },
-                    logs: [{
-                        type,
-                        reason,
-                        date: new Date(),
-                        moderator: client.user.tag,
-                    }]
-                });
-            } else {
-                userData.infractions.serverLinksPosted = (userData.infractions.serverLinksPosted || 0) + 1;
-                userData.logs.push({
-                    type,
-                    reason,
-                    date: new Date(),
-                    moderator: client.user.tag,
-                });
-            }
-
-            await userData.save();
+            saveUserInfractions(
+                message.author.id,
+                message.author.tag,
+                message.author.displayAvatarURL({ dynamic: true }),
+                message.author.createdAt,
+                message.member.joinedAt,
+                type,
+                reason,
+                client.user.tag
+            )
 
             const embed = new EmbedBuilder()
                 .setColor('#FF0000')

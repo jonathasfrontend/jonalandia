@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../../Client");
 const { info, erro } = require('../../Logger');
-const Users = require('../../models/infracoesUsersSchema');
+const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 async function expulsar(interaction) {
@@ -44,62 +44,44 @@ async function expulsar(interaction) {
         if (commandName === 'expulsar') {
             await interaction.deferReply({ ephemeral: true });
             
-            const user = options.getUser('usuario');
-            const targetMember = await interaction.guild.members.fetch(user.id);
+            const userToKick = options.getUser('usuario');
+            const targetMember = await interaction.guild.members.fetch(userToKick.id);
 
             try {
-                await user.send("Você foi expulso do servidor Jonalandia.");
+                await userToKick.send("Você foi expulso do servidor Jonalandia.");
             } catch (dmError) {
-                console.error(`Não foi possível enviar mensagem direta para ${user.tag}:`, dmError.message);
+                console.error(`Não foi possível enviar mensagem direta para ${userToKick.tag}:`, dmError.message);
             }
 
-            const reason = `O usuário ${user.tag} foi expulso do servidor.`;
+            const reason = `O usuário ${userToKick.tag} foi expulso do servidor.`;
             const type = 'expulsion';
 
-            let userData = await Users.findOne({ username: user.tag });
-
-            if (!userData) {
-                userData = new Users({
-                    userId: user.id,
-                    username: user.tag,
-                    avatarUrl: user.displayAvatarURL({ dynamic: true }),
-                    accountCreatedDate: user.createdAt,
-                    joinedServerDate: targetMember.joinedAt,
-                    infractions: { expulsion: 1 },
-                    logs: [{
-                        type,
-                        reason,
-                        date: new Date(),
-                        moderator: member.user.tag,
-                    }]
-                });
-            } else {
-                userData.infractions.expulsion = (userData.infractions.expulsion || 0) + 1;
-                userData.logs.push({
-                    type,
-                    reason,
-                    date: new Date(),
-                    moderator: member.user.tag,
-                });
-            }
-
-            await userData.save();
+            saveUserInfractions(
+                userToKick.id,
+                userToKick.tag,
+                userToKick.displayAvatarURL({ dynamic: true }),
+                userToKick.createdAt,
+                targetMember.joinedAt,
+                type,
+                reason,
+                client.user.tag
+            )
 
             await targetMember.kick("Para dúvidas, fale com o dono do servidor.");
 
             const embed = new EmbedBuilder()
                 .setColor('#ff0000')
                 .setTitle('Expulsão aplicada')
-                .setDescription(`O usuário ${user.tag} foi expulso do servidor.`)
+                .setDescription(`O usuário ${userToKick.tag} foi expulso do servidor.`)
                 .setTimestamp()
                 .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
 
             await interaction.editReply({ embeds: [embed] });
 
             const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
-            await logChannel.send(`Expulsão aplicada com sucesso no usuário ${user.tag}.`);
+            await logChannel.send(`Expulsão aplicada com sucesso no usuário ${userToKick.tag}.`);
 
-            info.info(`Expulsão aplicada com sucesso no usuário ${user.tag}.`);
+            info.info(`Expulsão aplicada com sucesso no usuário ${userToKick.tag}.`);
         } 
     } catch (error) {
         erro.error('Erro ao aplicar a expulsão:', error);

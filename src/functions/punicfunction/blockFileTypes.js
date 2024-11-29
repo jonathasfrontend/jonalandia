@@ -4,6 +4,7 @@ const blockedFileExtensions = require('../../config/blockedFileExtensions.json')
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 const { info, erro } = require('../../Logger');
 const Users = require('../../models/infracoesUsersSchema');
+const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 
 async function blockFileTypes(message) {
     if (!message.inGuild()) return;
@@ -21,34 +22,16 @@ async function blockFileTypes(message) {
                 const reason = `Tentativa de envio de arquivo com extensão bloqueada: ${blockedAttachments.map(att => att.name).join(', ')}`;
                 const type = 'blockedFiles';
 
-                let userData = await Users.findOne({ username: message.author.username });
-
-                if (!userData) {
-                    userData = new Users({
-                        userId: message.author.id,
-                        username: message.author.username,
-                        avatarUrl: message.author.displayAvatarURL(),
-                        accountCreatedDate: message.author.createdAt,
-                        joinedServerDate: message.member.joinedAt,
-                        infractions: { blockedFiles: 1 },
-                        logs: [{
-                            type,
-                            reason,
-                            date: new Date(),
-                            moderator: client.user.tag,
-                        }]
-                    });
-                } else {
-                    userData.infractions.blockedFiles = (userData.infractions.blockedFiles || 0) + 1;
-                    userData.logs.push({
-                        type,
-                        reason,
-                        date: new Date(),
-                        moderator: client.user.tag,
-                    });
-                }
-
-                await userData.save();
+                saveUserInfractions(
+                    message.author.id,
+                    message.author.tag,
+                    message.author.displayAvatarURL({ dynamic: true }),
+                    message.author.createdAt,
+                    message.member.joinedAt,
+                    type,
+                    reason,
+                    client.user.tag
+                )
 
 
                 const embed = new EmbedBuilder()

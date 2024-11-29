@@ -10,9 +10,9 @@ const { blockFileTypes } = require('./functions/punicfunction/blockFileTypes');
 const { onMemberAdd } = require('./functions/onMemberAdd');
 const { ruleMembreAdd } = require('./functions/ruleMembreAdd');
 const { onMemberRemove } = require('./functions/onMemberRemove');
+const { Status } = require('./functions/statusBot');
 const { checkUpdateRoles } = require('./functions/checkUpdateRoles');
 const { scheduleBirthdayCheck } = require('./functions/checkBirthdays');
-const { Status } = require('./functions/statusBot');
 const { scheduleNotificationYoutubeCheck } = require('./functions/onNotificationYoutube');
 const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
 const { scheduleonNotificationFreeGamesCheck } = require('./functions/onNotificationFreeGames');
@@ -52,9 +52,9 @@ require('dotenv').config()
 
 client.once('ready', () => {
   bdServerConect();
+  Status();
   checkUpdateRoles();
   scheduleBirthdayCheck();
-  Status();
   scheduleNotificationYoutubeCheck();
   scheduleNotificationTwitchCheck();
   scheduleonNotificationFreeGamesCheck();

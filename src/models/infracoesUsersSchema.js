@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
+const UserSchemaInfraction = new mongoose.Schema({
     userId: { 
         type: String,
         required: true,
@@ -82,4 +82,4 @@ const UserSchema = new mongoose.Schema({
     ]
 });
 
-module.exports = mongoose.model('Users', UserSchema);
+module.exports = mongoose.model('Infractions', UserSchemaInfraction);

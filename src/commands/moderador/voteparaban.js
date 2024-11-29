@@ -2,6 +2,7 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('
 const Vote = require('../../models/votoBanUserSchema ');
 const { client } = require("../../Client");
 const { info, erro } = require('../../Logger');
+const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 async function voteParaBan(interaction) {
@@ -22,8 +23,8 @@ async function voteParaBan(interaction) {
       .setTimestamp()
       .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
     await interaction.reply({ embeds: [embed], ephemeral: true });
-  return;
-}
+    return;
+  }
 
   if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
     const embed = new EmbedBuilder()
@@ -37,11 +38,11 @@ async function voteParaBan(interaction) {
       .setTimestamp()
       .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
     await interaction.reply({ embeds: [embed], ephemeral: true });
-  return;
+    return;
   }
 
   try {
-    if (commandName === 'voteparaban'){
+    if (commandName === 'voteparaban') {
       const targetUser = interaction.options.getUser('usuario');
       const endTime = new Date(Date.now() + 5 * 60 * 1000); // Votação dura 5 minutos
 
@@ -65,7 +66,7 @@ async function voteParaBan(interaction) {
         .setStyle(ButtonStyle.Danger)
 
       const row = new ActionRowBuilder()
-			  .addComponents(btnSim, btnNao);
+        .addComponents(btnSim, btnNao);
 
       const embed = new EmbedBuilder()
         .setColor("#ff0000")
@@ -84,7 +85,7 @@ async function voteParaBan(interaction) {
         .setFooter({ text: `Por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` });
 
       await interaction.reply({ embeds: [embed], components: [row] });
-      
+
       client.on('interactionCreate', async (buttonInteraction) => {
         if (!buttonInteraction.isButton()) return;
         const votoButtonId = buttonInteraction.customId;
@@ -95,16 +96,16 @@ async function voteParaBan(interaction) {
 
           if (vote.votes.some(v => v.userId === buttonInteraction.user.id)) {
             const embed = new EmbedBuilder()
-            .setColor("#ff0000")
-            .setTitle('Você já votou')
-            .setAuthor({
-              name: client.user.username,
-              iconURL: client.user.displayAvatarURL({ dynamic: true }),
-            })
-            .setDescription('Você já votou nesta votação.')
-            .setThumbnail(`${targetUser.displayAvatarURL({ dynamic: true })}`)
+              .setColor("#ff0000")
+              .setTitle('Você já votou')
+              .setAuthor({
+                name: client.user.username,
+                iconURL: client.user.displayAvatarURL({ dynamic: true }),
+              })
+              .setDescription('Você já votou nesta votação.')
+              .setThumbnail(`${targetUser.displayAvatarURL({ dynamic: true })}`)
 
-          await buttonInteraction.reply({ embeds: [embed], ephemeral: true });
+            await buttonInteraction.reply({ embeds: [embed], ephemeral: true });
             return;
           }
 
@@ -138,16 +139,31 @@ async function voteParaBan(interaction) {
           .setTitle('Votação Encerrada')
           .setDescription(`Votação encerrada para **${targetUser.tag}**.`)
           .setFields(
-            { name: 'Contabilidade dos votos', 
+            {
+              name: 'Contabilidade dos votos',
               value: `
                 Sim: ${yesVotes}
                 Não: ${noVotes}
-              ` 
+              `
             }
           );
 
         try {
           await interaction.editReply({ embeds: [endedEmbed], components: [] });
+
+          const reason = `O O usuário foi banido por votação. Sim: ${yesVotes} Não: ${noVotes}`;
+          const type = 'bans';
+
+          saveUserInfractions(
+            targetUser.id,
+            targetUser.tag,
+            targetUser.displayAvatarURL({ dynamic: true }),
+            targetUser.createdAt,
+            targetUser.joinedAt,
+            type,
+            reason,
+            interaction.user.tag
+          )
 
           await newVote.deleteOne();
 
@@ -159,7 +175,7 @@ async function voteParaBan(interaction) {
           erro.error('Erro ao encerrar a votação:', err);
         }
       }, 5 * 60 * 1000);
-      
+
       const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
       await logChannel.send(`Votação para banir ${targetUser.tag} iniciada por ${interaction.user.tag}`);
 

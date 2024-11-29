@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
 const { info, erro } = require('../../Logger');
-const Users = require('../../models/infracoesUsersSchema');
+const { saveUserInfractions } = require("../../utils/saveUserInfractions");
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 async function kickUser(interaction) {
@@ -67,34 +67,16 @@ async function kickUser(interaction) {
             const reason = `Usuário ${userToKick.tag} expulso do canal de voz.`;
             const type = 'voiceChannelKicks';
 
-            let userData = await Users.findOne({ username: userToKick.tag });
-
-            if (!userData) {
-                userData = new Users({
-                    userId: userToKick.id,
-                    username: userToKick.tag,
-                    avatarUrl: userToKick.displayAvatarURL({ dynamic: true }),
-                    accountCreatedDate: userToKick.createdAt,
-                    joinedServerDate: memberToKick.joinedAt,
-                    infractions: { voiceChannelKicks: 1 },
-                    logs: [{
-                        type,
-                        reason,
-                        date: new Date(),
-                        moderator: interaction.member.user.tag,
-                    }]
-                });
-            } else {
-                userData.infractions.voiceChannelKicks = (userData.infractions.voiceChannelKicks || 0) + 1;
-                userData.logs.push({
-                    type,
-                    reason,
-                    date: new Date(),
-                    moderator: interaction.member.user.tag,
-                });
-            }
-
-            await userData.save();
+            saveUserInfractions(
+                userToKick.id,
+                userToKick.tag,
+                userToKick.displayAvatarURL({ dynamic: true }),
+                userToKick.createdAt,
+                memberToKick.joinedAt,
+                type,
+                reason,
+                member.user.tag
+            )
 
             await memberToKick.voice.disconnect();
 
