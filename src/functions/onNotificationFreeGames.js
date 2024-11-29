@@ -3,7 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 const cron = require('node-cron');
 const GameNotification = require('../models/gameNotificationSchema');
 const { client } = require('../Client');
-const { info, erro } = require('../logger');
+const { info, erro } = require('../Logger');
 
 async function onNotificationFreeGames() {
     try {

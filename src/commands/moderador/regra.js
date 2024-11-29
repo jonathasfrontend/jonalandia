@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
-const mensageRegra = async (interaction) => {
+async function mensageRegra(interaction){
  if (!interaction.isCommand()) return;
  
  const { commandName, member, channelId } = interaction;

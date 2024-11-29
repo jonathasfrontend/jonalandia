@@ -2,7 +2,7 @@ const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require("
 const { client } = require("../../Client");
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
-const cargo = async (interaction) => {
+async function cargo(interaction) {
     if (!interaction.isCommand()) return;
 
     const { commandName, member, channelId } = interaction;

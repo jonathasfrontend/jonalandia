@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
-const { info, erro } = require('../logger');
+const { info, erro } = require('../Logger');
 
 function onMemberAdd(member) {
  const welcomeChannel = member.guild.channels.cache.get(process.env.CHANNEL_ID_BEMVINDO);

@@ -1,4 +1,4 @@
-const { info, erro } = require('../logger');
+const { info, erro } = require('../Logger');
 
 function ruleMembreAdd(member) {
     const cargoRecemChegado = process.env.CARGO_RECEM_CHEGADO;

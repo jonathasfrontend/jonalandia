@@ -1,9 +1,9 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
-const { info, erro } = require('../logger');
+const { info, erro } = require('../Logger');
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
-const searchGuild = async (interaction) => {
+async function searchGuild(interaction) {
     if (!interaction.isCommand()) return;
     const { commandName, channelId } = interaction;
 

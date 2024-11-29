@@ -1,7 +1,7 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const Vote = require('../../models/votoBanUserSchema ');
 const { client } = require("../../Client");
-const { info, erro } = require('../../logger');
+const { info, erro } = require('../../Logger');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 async function voteParaBan(interaction) {

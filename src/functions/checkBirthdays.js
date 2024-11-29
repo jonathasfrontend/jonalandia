@@ -2,7 +2,7 @@ const cron = require('node-cron');
 const onNotificationBirthdaySchema = require('../models/onNotificationBirthdaySchema');
 const { client } = require('../Client');
 const { EmbedBuilder } = require('discord.js');
-const { info, erro } = require('../logger');
+const { info, erro } = require('../Logger');
 
 async function checkBirthdays() {
     const today = new Date();

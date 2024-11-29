@@ -1,5 +1,5 @@
 const { client } = require("../Client");
-const { info, erro } = require('../logger');
+const { info, erro } = require('../Logger');
 const onNotificationTwitchSchema = require("../models/onNotificationTwitchSchema");
 const axios = require('axios');
 const { EmbedBuilder } = require("discord.js");

@@ -1,10 +1,10 @@
 const { EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 const { client } = require("../Client");
-const { info, erro } = require('../logger');
+const { info, erro } = require('../Logger');
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
-const getWeather = async (interaction) => {
+async function getWeather(interaction) {
     const city = interaction.options.getString("cidade");
     const { channelId } = interaction;
 

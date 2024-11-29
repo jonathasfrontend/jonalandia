@@ -1,9 +1,9 @@
 const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, PermissionsBitField } = require("discord.js");
 const { client } = require("../../Client");
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
-const { info, erro } = require('../../logger');
+const { info, erro } = require('../../Logger');
 
-const ticket = async (interaction) => {
+async function ticket(interaction) {
     if (!interaction.isCommand()) return;
 
     const { commandName, member, channelId } = interaction;

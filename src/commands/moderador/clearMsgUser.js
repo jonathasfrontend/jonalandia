@@ -1,10 +1,10 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
 
-const clearUser = async (interaction) => {
+async function clearUser(interaction) {
     if (!interaction.isCommand()) return;
 
-    const { commandName, options, member, channelId } = interaction;
+    const { commandName, options, member } = interaction;
 
     if (commandName === 'clearuser') {    
         if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
@@ -22,8 +22,8 @@ const clearUser = async (interaction) => {
             return;
         }
         
-        const numberOfMessages = interaction.options.getInteger('numero');
-        const user = interaction.options.getUser('usuario');
+        const numberOfMessages = options.getInteger('numero');
+        const user = options.getUser('usuario');
 
         if (numberOfMessages <= 0 || numberOfMessages > 100) {
             const embed = new EmbedBuilder()

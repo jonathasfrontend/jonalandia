@@ -1,4 +1,4 @@
-const { info } = require('./logger');
+const { info } = require('./Logger');
 const { client } = require('./Client');
 
 const { antiFloodChat } = require('./functions/punicfunction/antiFloodChat');

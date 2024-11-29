@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { info, erro } = require('../../logger');
+const { info, erro } = require('../../Logger');
 const { client } = require("../../Client");
 
 async function autoKickNewMembers() {

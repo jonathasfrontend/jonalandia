@@ -1,4 +1,4 @@
-const { erro, info } = require('../logger');
+const { erro, info } = require('../Logger');
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../Client");
 const Sorteio = require('../models/sorteioSchema')

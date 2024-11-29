@@ -1,10 +1,10 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
 
-const clearAll = async (interaction) => {
+async function clearAll(interaction) {
     if (!interaction.isCommand()) return;
 
-    const { commandName, options, member, channelId } = interaction;
+    const { commandName, options, member } = interaction;
 
     if (commandName === 'clearall') {
         if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {

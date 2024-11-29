@@ -1,10 +1,11 @@
 const { EmbedBuilder } = require('discord.js');
-const { info, erro } = require('../../logger');
+const { info, erro } = require('../../Logger');
 const { client } = require('../../Client');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
-const createEmbed = async (interaction) => {
+async function createEmbed(interaction) {
   if (!interaction.isCommand()) return;
+  
   const { commandName, options, member, channelId } = interaction;
   if (commandName === 'embed') {
 
@@ -39,10 +40,10 @@ const createEmbed = async (interaction) => {
       return;
   }
 
-    const titulo = interaction.options.getString('titulo');
-    const descricao = interaction.options.getString('descricao');
-    const canal = interaction.options.getChannel('canal');
-    const cor = interaction.options.getString('cor');
+    const titulo = options.getString('titulo');
+    const descricao = options.getString('descricao');
+    const canal = options.getChannel('canal');
+    const cor = options.getString('cor');
 
     const embed = new EmbedBuilder()
       .setTitle(titulo)

@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const { info, erro } = require('../logger');
+const { info, erro } = require('../Logger');
 const { client } = require("../Client");
 
 function UpdateRoles() {

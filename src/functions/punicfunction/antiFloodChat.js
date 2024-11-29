@@ -1,7 +1,7 @@
 const { Collection, italic } = require('discord.js');
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
-const { info, erro } = require('../../logger');
+const { info, erro } = require('../../Logger');
 const Users = require('../../models/infracoesUsersSchema');
 const members = new Collection();
 

@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
 const onNotificationBirthdaySchema = require('../models/onNotificationBirthdaySchema');
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
-const { info, erro } = require('../logger');
+const { info, erro } = require('../Logger');
 
 async function Birthday (interaction){
     const { commandName, channelId } = interaction;

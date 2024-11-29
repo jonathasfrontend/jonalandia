@@ -1,7 +1,7 @@
 const Users = require('../../models/infracoesUsersSchema');
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../../Client");
-const { info, erro } = require('../../logger');
+const { info, erro } = require('../../Logger');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
 async function searchUserDB(interaction) {

@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const blockedLinksData = require('../../config/blockedLinks.json');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 const { client } = require('../../Client');
-const { info, erro } = require('../../logger');
+const { info, erro } = require('../../Logger');
 const Users = require('../../models/infracoesUsersSchema');
 
 const blockedLinks = blockedLinksData.blockedLinks.map(pattern => new RegExp(pattern));

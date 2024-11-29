@@ -3,18 +3,15 @@ const { combine, timestamp, printf } = format;
 const path = require('path');
 const fs = require('fs');
 
-// Define o caminho da pasta logs dentro da pasta src existente
 const logDir = path.join(__dirname, 'logs');
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir, { recursive: true });
 }
 
-// Formato personalizado para a saída de log
 const logFormat = printf(({ level, message, timestamp }) => {
     return `${timestamp} [${level.toUpperCase()}]: ${message}`;
 });
 
-// Configura o logger
 const info = createLogger({
     level: 'info',
     format: combine(

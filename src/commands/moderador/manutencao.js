@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
-const manutencao = async (interaction) => {
+async function manutencao(interaction) {
     if (!interaction.isCommand()) return;
 
     const { commandName, member, channelId } = interaction;

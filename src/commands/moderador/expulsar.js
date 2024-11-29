@@ -1,10 +1,10 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../../Client");
-const { info, erro } = require('../../logger');
+const { info, erro } = require('../../Logger');
 const Users = require('../../models/infracoesUsersSchema');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
-const expulsar = async (interaction) => {
+async function expulsar(interaction) {
     if (!interaction.isCommand()) return;
 
     const { commandName, options, channelId, member } = interaction;
