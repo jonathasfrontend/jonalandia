@@ -12,12 +12,22 @@ async function updateUserStats(user, xp, coins, gems) {
     gems = isNaN(gems) || gems === undefined ? 0 : Math.floor(gems);
 
     const userData = await User.findOneAndUpdate(
-      { userId: user.id },
       {
-        $set: { username: user.username },
-        $inc: { xp, coins, gems },
+        userId: user.id,
+        avatarUrl: user.displayAvatarURL({ dynamic: true }),
+        username: user.username,
       },
-      { new: true, upsert: true }
+      {
+        $inc: {
+          xp,
+          coins,
+          gems,
+        },
+      },
+      {
+        new: true,
+        upsert: true,
+      }
     );
 
     console.log(`Atualizado: ${userData.username} - XP: ${userData.xp}, Moedas: ${userData.coins}, Gemas: ${userData.gems}`);
@@ -55,27 +65,26 @@ async function handleVoiceActivity(member, duration) {
   setTimeout(() => voiceCooldowns.delete(member.user.id), 60000); // 1 minuto de cooldown
 }
 
+async function handleEventParticipation(user) {
+  await updateUserStats(user, 50, 20, 5); // Valores arbitrários para eventos 50 XP, 20 moedas, 5 gemas
+}
 
 // função para monitorar atividade online
 async function handlePresenceUpdate(oldPresence, newPresence) {
   if (!newPresence || !newPresence.member || newPresence.user.bot) return;
 
-  // Verifica se já está no cooldown
-  if (cooldownPresence.has(newPresence.user.id)) return;
+  // Verifique o status do membro
+  const status = newPresence.status;
 
-  // Verifica o status "online"
-  if (newPresence.status === PresenceUpdateStatus.Online) {
-    await updateUserStats(newPresence.user, 5, 2, 0); // Ganha 5 XP e 2 moedas
+  if (status === PresenceUpdateStatus.Online) {
+    if (cooldownPresence.has(newPresence.user.id)) return;
 
-    console.log(
-      `Presença atualizada para ${newPresence.user.username}: XP +5, Moedas +2`
-    );
+    await updateUserStats(newPresence.user, 5, 2, 0); // XP e Moedas
+    console.log(`XP e moedas adicionados para ${newPresence.user.username}`);
 
-    // Adiciona ao cooldown
     cooldownPresence.add(newPresence.user.id);
-    setTimeout(() => cooldownPresence.delete(newPresence.user.id), 60000); // 1 min de cooldown
-    console.log('Cooldown de presença adicionado para ' + newPresence.user.username + ' por 1 minuto.');
+    setTimeout(() => cooldownPresence.delete(newPresence.user.id), 60000);
   }
 }
 
-module.exports = { handleMessageActivity, handleVoiceActivity, handlePresenceUpdate };
+module.exports = { handleMessageActivity, handleVoiceActivity, handlePresenceUpdate, handleEventParticipation };

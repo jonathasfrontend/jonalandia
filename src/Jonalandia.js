@@ -20,6 +20,7 @@ const {
   handleMessageActivity,
   handleVoiceActivity,
   handlePresenceUpdate,
+  handleEventParticipation,
  } = require('./functions/activityMonitorXpMoedaGema');
 
 const { Help } = require('./commands/help');
@@ -32,6 +33,7 @@ const { generatorConselho } = require('./commands/generatorConselho');
 const { getWeather } = require('./commands/weather');
 const { sorteioUser } = require('./commands/sorteio')
 const { infoSorteio } = require('./commands/infoSorteio')
+const { Perfil } = require('./commands/perfil')
 
 const { mensageRegra } = require('./commands/moderador/regra');
 const { createEmbed } = require('./commands/moderador/createEmbed');
@@ -331,20 +333,32 @@ client.once('ready', () => {
     name: 'infosorteio',
     description: 'Lista os participantes e informações do sorteio',
   });
-
+  
   client.application?.commands.create({
     name: 'voteparaban',
     description: 'Inicia uma votação para banir um usuário.',
     options: [
-        {
-            type: 6,
-            name: 'usuario',
-            description: 'Selecione o usuário para iniciar a votação de ban.',
-            required: true,
-        },
+      {
+        type: 6,
+        name: 'usuario',
+        description: 'Selecione o usuário para iniciar a votação de ban.',
+        required: true,
+      },
     ],
   });
   
+  client.application?.commands.create({
+    name: 'perfil',
+    description: 'Mostra o perfil do usuário',
+    options: [
+      {
+        type: 6,
+        name: 'usuario',
+        description: 'Selecione o usuário.',
+        required: true,
+      },
+    ],
+  });
 });
 
 client.on('interactionCreate', async (interaction) => {
@@ -406,6 +420,8 @@ client.on('interactionCreate', async (interaction) => {
     await infoSorteio(interaction);
   } else if (commandName === 'voteparaban') {
     await voteParaBan(interaction);
+  } else if (commandName === 'perfil') {
+    await Perfil(interaction);
   }
 });
 
@@ -415,7 +431,11 @@ client.on('guildMemberAdd', autoKickNewMembers);
 
 client.on('guildMemberRemove', onMemberRemove);
 
-client.on('presenceUpdate', handlePresenceUpdate);
+client.on('presenceUpdate', async (oldPresence, newPresence) => {
+  handlePresenceUpdate(oldPresence, newPresence);
+});
+
+client.on('guildScheduledEventUserAdd', handleEventParticipation);
 
 client.on('messageCreate', blockLinks);
 client.on('messageCreate', antiFloodChat);

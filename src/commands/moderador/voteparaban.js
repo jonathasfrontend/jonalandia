@@ -8,7 +8,7 @@ const blockedChannels = require('../../config/blockedChannels.json').blockedChan
 async function voteParaBan(interaction) {
   if (!interaction.isCommand()) return;
 
-  const { commandName, member, channelId } = interaction;
+  const { commandName, member, channelId, options } = interaction;
 
   if (blockedChannels.includes(channelId)) {
     const embed = new EmbedBuilder()
@@ -43,7 +43,7 @@ async function voteParaBan(interaction) {
 
   try {
     if (commandName === 'voteparaban') {
-      const targetUser = interaction.options.getUser('usuario');
+      const targetUser = options.getUser('usuario');
       const endTime = new Date(Date.now() + 5 * 60 * 1000); // Votação dura 5 minutos
 
       // Salvar a votação no banco de dados
