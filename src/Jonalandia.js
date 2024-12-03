@@ -16,6 +16,11 @@ const { scheduleBirthdayCheck } = require('./functions/checkBirthdays');
 const { scheduleNotificationYoutubeCheck } = require('./functions/onNotificationYoutube');
 const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
 const { scheduleonNotificationFreeGamesCheck } = require('./functions/onNotificationFreeGames');
+const { 
+  handleMessageActivity,
+  handleVoiceActivity,
+  handlePresenceUpdate,
+ } = require('./functions/activityMonitorXpMoedaGema');
 
 const { Help } = require('./commands/help');
 const { searchUser } = require('./commands/searchUser');
@@ -55,9 +60,9 @@ client.once('ready', () => {
   Status();
   checkUpdateRoles();
   scheduleBirthdayCheck();
-  scheduleNotificationYoutubeCheck();
-  scheduleNotificationTwitchCheck();
-  scheduleonNotificationFreeGamesCheck();
+  // scheduleNotificationYoutubeCheck();
+  // scheduleNotificationTwitchCheck();
+  // scheduleonNotificationFreeGamesCheck();
 
   info.info('O bot Jonalandia está online!');
 
@@ -406,12 +411,35 @@ client.on('interactionCreate', async (interaction) => {
 
 client.on('guildMemberAdd', onMemberAdd);
 client.on('guildMemberAdd', ruleMembreAdd);
+client.on('guildMemberAdd', autoKickNewMembers);
+
 client.on('guildMemberRemove', onMemberRemove);
 
-client.on('guildMemberAdd', autoKickNewMembers);
+client.on('presenceUpdate', handlePresenceUpdate);
+
 client.on('messageCreate', blockLinks);
 client.on('messageCreate', antiFloodChat);
 client.on('messageCreate', detectInappropriateWords);
 client.on('messageCreate', blockFileTypes);
+client.on('messageCreate', handleMessageActivity);
+
+const voiceStates = new Map();
+
+client.on('voiceStateUpdate', async (oldState, newState) => {
+  const memberId = newState.id;
+
+  if (!oldState.channel && newState.channel) {
+    // Usuário entrou em um canal de voz
+    voiceStates.set(memberId, Date.now());
+  } else if (oldState.channel && !newState.channel) {
+    // Usuário saiu de um canal de voz
+    const startTime = voiceStates.get(memberId);
+    if (startTime) {
+      const duration = Date.now() - startTime; // Duração em milissegundos
+      voiceStates.delete(memberId);
+      await handleVoiceActivity(newState.member, duration);
+    }
+  }
+});
 
 client.login(process.env.TOKEN);
