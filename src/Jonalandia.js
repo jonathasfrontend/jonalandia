@@ -435,7 +435,7 @@ client.on('presenceUpdate', async (oldPresence, newPresence) => {
   handlePresenceUpdate(oldPresence, newPresence);
 });
 
-client.on('guildScheduledEventUserAdd', handleEventParticipation);
+client.on('interactionCreate', handleEventParticipation);
 
 client.on('messageCreate', blockLinks);
 client.on('messageCreate', antiFloodChat);

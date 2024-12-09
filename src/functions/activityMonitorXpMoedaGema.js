@@ -65,8 +65,18 @@ async function handleVoiceActivity(member, duration) {
   setTimeout(() => voiceCooldowns.delete(member.user.id), 60000); // 1 minuto de cooldown
 }
 
-async function handleEventParticipation(user) {
-  await updateUserStats(user, 50, 20, 5); // Valores arbitrários para eventos 50 XP, 20 moedas, 5 gemas
+async function handleEventParticipation(user, interaction) {
+  try {
+    if (!interaction.isButton()) return;
+    
+    if (interaction.customId === 'me_interessa') {
+      console.log(`Usuário ${user.username} está participando do evento.`);
+      await updateUserStats(user, 50, 20, 5); // Valores arbitrários para eventos 50 XP, 20 moedas, 5 gemas
+    }
+    console.log('Estatísticas atualizadas com sucesso.');
+  } catch (error) {
+    console.error('Erro ao atualizar estatísticas do evento:', error);
+  }
 }
 
 // função para monitorar atividade online
