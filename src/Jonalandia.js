@@ -62,9 +62,9 @@ client.once('ready', () => {
   Status();
   checkUpdateRoles();
   scheduleBirthdayCheck();
-  // scheduleNotificationYoutubeCheck();
-  // scheduleNotificationTwitchCheck();
-  // scheduleonNotificationFreeGamesCheck();
+  scheduleNotificationYoutubeCheck();
+  scheduleNotificationTwitchCheck();
+  scheduleonNotificationFreeGamesCheck();
 
   info.info('O bot Jonalandia está online!');
 
@@ -431,11 +431,9 @@ client.on('guildMemberAdd', autoKickNewMembers);
 
 client.on('guildMemberRemove', onMemberRemove);
 
-client.on('presenceUpdate', async (oldPresence, newPresence) => {
-  handlePresenceUpdate(oldPresence, newPresence);
-});
+client.on('presenceUpdate', handlePresenceUpdate);
 
-client.on('interactionCreate', handleEventParticipation);
+// client.on('interactionCreate', handleEventParticipation);
 
 client.on('messageCreate', blockLinks);
 client.on('messageCreate', antiFloodChat);
