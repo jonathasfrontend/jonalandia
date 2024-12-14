@@ -1,13 +1,14 @@
-const Users = require('../../models/infracoesUsersSchema');
 const { EmbedBuilder } = require('discord.js');
+const RankingUser = require('../../models/rankingUserSechema');
+const InfractionUser = require('../../models/infracoesUsersSchema');
 const { client } = require("../../Client");
-const { info, erro } = require('../../Logger');
+const { erro, info } = require('../../Logger');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 
-async function searchUserDB(interaction) {
-    if (!interaction.isCommand()) return;
+async function perfilInfoUser(interaction) {
+    const { commandName, channelId, options, guild } = interaction;
 
-    const { commandName, member, options, channelId } = interaction;
+    if (!interaction.isCommand()) return;
 
     if (blockedChannels.includes(channelId)) {
         const embed = new EmbedBuilder()
@@ -25,96 +26,114 @@ async function searchUserDB(interaction) {
         return;
     }
 
-    if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
-        const embed = new EmbedBuilder()
-            .setColor('Red')
-            .setAuthor({
-                name: client.user.username,
-                iconURL: client.user.displayAvatarURL({ dynamic: true }),
-            })
-            .setDescription('Você não tem permissão para usar este comando.')
-            .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-            .setTimestamp()
-            .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-        await interaction.reply({ embeds: [embed], ephemeral: true });
-        return;
-    }
-
     try {
-        if (commandName === 'infouser'){
-            await interaction.deferReply({ ephemeral: true });
+        if (commandName === 'infouser') {
+            await interaction.deferReply();
 
-            const user = options.getUser('usuario');
+            const userOption = options.getUser('usuario');
+            const userId = userOption.id;
+            const user = await client.users.fetch(userId);
+            const member = await guild.members.fetch(userId);
 
-            const userData = await Users.findOne( { username: user.tag } );
+            // Buscar dados de ranking e infrações no banco
+            const rankingData = await RankingUser.findOne({ username: user.tag });
+            const infractionData = await InfractionUser.findOne({ username: user.tag });
 
-            if (!userData) {
+            if (!rankingData && !infractionData) {
                 return interaction.editReply({
-                    content: `❌ Usuário **${user.username}** não encontrado no banco de dados.`,
+                    content: `❌ Nenhum dado encontrado para o usuário **${user.tag}** no banco de dados.`,
+                    ephemeral: true,
                 });
             }
 
+            // Função para formatar duração
+            const formatDuration = (ms) => {
+                const seconds = Math.floor(ms / 1000);
+                const minutes = Math.floor(seconds / 60);
+                const hours = Math.floor(minutes / 60);
+                const days = Math.floor(hours / 24);
+                const months = Math.floor(days / 30);
+                const years = Math.floor(days / 365);
+
+                if (years > 0) return `${years} anos`;
+                if (months > 0) return `${months} meses`;
+                if (days > 0) return `${days} dias`;
+                if (hours > 0) return `${hours} horas`;
+                if (minutes > 0) return `${minutes} minutos`;
+                return `${seconds} segundos`;
+            };
+
+            const now = new Date();
+            const accountCreation = user.createdAt;
+            const serverJoin = member.joinedAt;
+            const creationDiff = formatDuration(now - accountCreation);
+            const joinDiff = formatDuration(now - serverJoin);
+
+            // Criar embed com dados combinados
             const embed = new EmbedBuilder()
-                .setTitle(`Informações do Usuário: ${userData.username}`)
-                .setThumbnail(userData.avatarUrl)
-                .setColor('#3498db')
+                .setColor('#FFFFFF')
+                .setTitle(`Perfil Completo de ${user.tag}`)
+                .setThumbnail(user.displayAvatarURL({ dynamic: true }))
                 .addFields(
+                    { name: '👤 Nome', value: `${user.tag}`, inline: true },
+                    { name: '🆔 ID', value: `${user.id}`, inline: true },
+                    { name: 'Menção', value: `<@${user.id}>`, inline: true },
+                    { name: '✅ Conta Criada', value: `${accountCreation.toLocaleDateString('pt-BR', { month: 'long', day: 'numeric', year: 'numeric' })} (há ${creationDiff})`, inline: false },
+                    { name: '🟦 Entrou no Servidor', value: `${serverJoin.toLocaleDateString('pt-BR', { month: 'long', day: 'numeric', year: 'numeric' })} (há ${joinDiff})`, inline: false }
+                );
+
+            if (rankingData) {
+                embed.addFields(
+                    { name: '⭐ XP', value: `${rankingData.xp}`, inline: true },
+                    { name: '💵 Moedas', value: `${rankingData.coins}`, inline: true },
+                    { name: '💎 Gemas', value: `${rankingData.gems}`, inline: true }
+                );
+                if (rankingData.bannerUrl) {
+                    embed.setImage(rankingData.bannerUrl);
+                }
+            }
+
+            if (infractionData) {
+                embed.addFields(
                     {
                         name: 'Infrações',
                         value: `
-                        🗣️ Linguagem Inapropriada: ${userData.infractions.inappropriateLanguage}
-                        ⏳ Timeouts: ${userData.infractions.timeouts}
-                        🚪 Expulsões de Canal de Voz: ${userData.infractions.voiceChannelKicks}
-                        🚪 Expulsões do Servidor: ${userData.infractions.expulsion}
-                        ⛔ Bans: ${userData.infractions.bans}
-                        🔓 Unbans: ${userData.infractions.unbans}
-                        💬 Flood Timeouts: ${userData.infractions.floodTimeouts}
-                        📂 Arquivos Bloqueados: ${userData.infractions.blockedFiles}
-                        🔗 Links Postados: ${userData.infractions.serverLinksPosted}`,
+                        🗣️ Linguagem Inapropriada: ${infractionData.infractions.inappropriateLanguage}
+                        ⏳ Timeouts: ${infractionData.infractions.timeouts}
+                        🚪 Expulsões de Canal de Voz: ${infractionData.infractions.voiceChannelKicks}
+                        🚪 Expulsões do Servidor: ${infractionData.infractions.expulsion}
+                        ⛔ Bans: ${infractionData.infractions.bans}
+                        🔓 Unbans: ${infractionData.infractions.unbans}
+                        💬 Flood Timeouts: ${infractionData.infractions.floodTimeouts}
+                        📂 Arquivos Bloqueados: ${infractionData.infractions.blockedFiles}
+                        🔗 Links Postados: ${infractionData.infractions.serverLinksPosted}`,
                         inline: false,
-                    },
-                    {
-                        name: 'Conta Criada em',
-                        value: new Date(userData.accountCreatedDate).toLocaleDateString(),
-                        inline: true,
-                    },
-                    {
-                        name: 'Entrou no Servidor em',
-                        value: new Date(userData.joinedServerDate).toLocaleDateString(),
-                        inline: true,
                     }
-                )
-                .setFooter({
-                    text: 'Informações atualizadas em tempo real',
-                    iconURL: userData.avatarUrl,
-                });
+                );
 
-            if (userData.logs && userData.logs.length > 0) {
-                const logs = userData.logs
-                .map(
-                    (log) =>
-                        `**[${log.type}]** ${log.reason} (por ${log.moderator} em ${new Date(
-                        log.date
-                    ).toLocaleDateString()})`
-                )
-                    .join('\n');
+                if (infractionData.logs && infractionData.logs.length > 0) {
+                    const logs = infractionData.logs
+                        .map(
+                            (log) => `**[${log.type}]** ${log.reason} (por ${log.moderator} em ${new Date(log.date).toLocaleDateString()})`
+                        )
+                        .join('\n');
                     embed.addFields([{ name: '📜 Logs de Moderação', value: logs }]);
-            } else {
-                embed.addFields([{ name: '📜 Logs de Moderação', value: 'Nenhum log encontrado.' }]);
+                } else {
+                    embed.addFields([{ name: '📜 Logs de Moderação', value: 'Nenhum log encontrado.' }]);
+                }
             }
 
-            await interaction.editReply({ embeds: [embed] })
-            
-            const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
-            await logChannel.send(`Informações do usuário ${userData.username} consultadas com sucesso.`);
+            await interaction.editReply({ embeds: [embed] });
 
-            info.info(`Informações do usuário ${userData.username} consultadas com sucesso.`);
-        } 
+            const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
+            await logChannel.send(`Comando de perfil executado para ${user.tag} por ${interaction.user.tag} no servidor ${interaction.guild.name}`);
+            info.info(`Comando de perfil executado com sucesso para ${user.tag}`);
+        }
     } catch (error) {
-        erro.error('Erro ao buscar informações do usuário:', error);
+        erro.error('Erro ao executar o comando de perfil', error);
         const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);
-        await logChannel.send(`Erro ao buscar informações do usuário: ${error}`);
+        await logChannel.send(`Erro ao executar o comando de perfil: ${error.message}`);
     }
 }
 
-module.exports = { searchUserDB };
+module.exports = { perfilInfoUser };

@@ -16,13 +16,9 @@ const { scheduleBirthdayCheck } = require('./functions/checkBirthdays');
 const { scheduleNotificationYoutubeCheck } = require('./functions/onNotificationYoutube');
 const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
 const { scheduleonNotificationFreeGamesCheck } = require('./functions/onNotificationFreeGames');
-const { 
-  handleMessageActivity,
-  handleVoiceActivity,
- } = require('./functions/activityMonitorXpMoedaGema');
+const { handleMessageActivity, handleVoiceActivity, } = require('./functions/activityMonitorXpMoedaGema');
 
 const { Help } = require('./commands/help');
-const { searchUser } = require('./commands/searchUser');
 const { searchGuild } = require('./commands/searchGuild');
 const { menssageFile } = require('./commands/mensage');
 const { Birthday } = require('./commands/birthday');
@@ -45,7 +41,7 @@ const { expulsar } = require('./commands/moderador/expulsar');
 const { banUser } = require('./commands/moderador/banUser');
 const { unbanUser } = require('./commands/moderador/unbanUser');
 const { kickUser } = require('./commands/moderador/kickUser');
-const { searchUserDB } = require('./commands/moderador/searchUser');
+const { perfilInfoUser } = require('./commands/moderador/searchUser');
 const { premioSorteio } = require('./commands/moderador/premiosorteio')
 const { limpaSorteio } = require('./commands/moderador/limpasorteio')
 const { sortear } = require('./commands/moderador/sortear')
@@ -74,17 +70,6 @@ client.once('ready', () => {
   client.application?.commands.create({
     name: 'regra',
     description: 'Responde um embed de regras do servidor (Moderador)',
-  })
-
-  client.application?.commands.create({
-    name: 'usuario',
-    description: 'Busca informações do usuario',
-    options: [{
-      type: 3, // Tipo 3 representa uma string
-      name: 'usuario',
-      description: 'Coloque o nome do usuario.',
-      required: true,
-    }],
   })
 
   client.application?.commands.create({
@@ -359,6 +344,7 @@ client.once('ready', () => {
   });
 });
 
+
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
@@ -370,8 +356,6 @@ client.on('interactionCreate', async (interaction) => {
     await menssageFile(interaction);
   } else if (commandName === 'regra') {
     await mensageRegra(interaction);
-  } else if (commandName === 'usuario') {
-    await searchUser(interaction);
   } else if (commandName === 'help') {
     await Help(interaction);
   } else if (commandName === 'server') {
@@ -405,7 +389,7 @@ client.on('interactionCreate', async (interaction) => {
   } else if (commandName === 'clima') {
     await getWeather(interaction);
   } else if (commandName === 'infouser') {
-    await searchUserDB(interaction);
+    await perfilInfoUser(interaction);
   } else if (commandName === 'sorteio') {
     await sorteioUser(interaction);
   } else if (commandName === 'premiosorteio') {
