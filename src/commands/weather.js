@@ -2,6 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 const { client } = require("../Client");
 const { info, erro } = require('../Logger');
+const { saveUpdateUserPoints } = require("../utils/saveUpdateUserPoints");
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 async function getWeather(interaction) {
@@ -35,7 +36,7 @@ async function getWeather(interaction) {
         const data = response.data;
 
         const embed = new EmbedBuilder()
-            .setColor("Blue")
+            .setColor("FFFFFF")
             .setTitle(`**Clima em ${data.name}**`)
             .setDescription(`> ### **${data.weather?.[0]?.description}**` || "Descrição não disponível")
             .setThumbnail(`http://openweathermap.org/img/wn/${data.weather?.[0]?.icon}.png`)
@@ -57,6 +58,8 @@ async function getWeather(interaction) {
             .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
 
         await interaction.editReply({ embeds: [embed] });
+
+        saveUpdateUserPoints(interaction.user, 10, 5, 1);
 
         info.info(`Clima em ${data.name} consultado por ${interaction.user.tag}`);
 

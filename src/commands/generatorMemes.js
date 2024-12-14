@@ -3,6 +3,7 @@ const { client } = require("../Client");
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 const axios = require('axios');
+const { saveUpdateUserPoints } = require('../utils/saveUpdateUserPoints');
 
 async function generatorMemes(interaction) {
     if (!interaction.isCommand()) return;
@@ -34,7 +35,7 @@ async function generatorMemes(interaction) {
     
             if (memeData) {
                 const memeEmbed = new EmbedBuilder()
-                    .setColor('#F4D03F')
+                    .setColor('#FFFFFF')
                     .setTitle(memeData.description)
                     .setImage(memeData.url)
                     .setFooter({ text: 'Aqui está seu meme!' });
@@ -44,6 +45,8 @@ async function generatorMemes(interaction) {
                 await interaction.reply('Ocorreu um erro ao buscar o meme. Tente novamente mais tarde.');
             }
         }
+
+        saveUpdateUserPoints(interaction.user, 10, 5, 1);
 
     } catch (error) {
         console.error('Erro ao obter meme:', error.message);

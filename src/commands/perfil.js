@@ -36,7 +36,7 @@ async function Perfil(interaction){
             }
 
             const embed = new EmbedBuilder()
-                .setColor('#00FF00')
+                .setColor('#FFFFFF')
                 .setTitle(`Perfil de ${userData.username}`)
                 .addFields(
                 { name: 'XP', value: `${userData.xp}`, inline: true },

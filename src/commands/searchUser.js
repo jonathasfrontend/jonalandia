@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
 const { info, erro } = require('../Logger');
+const { saveUpdateUserPoints } = require("../utils/saveUpdateUserPoints");
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 async function searchUser(interaction) {
@@ -77,6 +78,8 @@ async function searchUser(interaction) {
                     .setThumbnail(user.displayAvatarURL({ dynamic: true }))
                     
                     await interaction.reply({ embeds: [embed] });
+
+                    saveUpdateUserPoints(interaction.user, 10, 5, 1);
 
                     const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
                     discordChannel2.send(`O usuário ${user.tag} foi consultado por ${interaction.user.tag} no servidor ${interaction.guild.name}`);

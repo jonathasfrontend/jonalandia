@@ -2,6 +2,7 @@ const axios = require('axios');
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../Client");
 const { erro } = require('../Logger');
+const { saveUpdateUserPoints } = require('../utils/saveUpdateUserPoints');
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 async function generatorConselho(interaction) {
@@ -30,7 +31,7 @@ async function generatorConselho(interaction) {
             const advice = response.data.slip.advice;
 
             const embed = new EmbedBuilder()
-                .setColor('#00FF00')
+                .setColor('#FFFFFF')
                 .setTitle('💡 Conselho do Dia')
                 .setDescription(`"${advice}"`)
                 .setTimestamp()
@@ -42,6 +43,7 @@ async function generatorConselho(interaction) {
             await interaction.reply({ embeds: [embed] });
         }
 
+        saveUpdateUserPoints(interaction.user, 10, 5, 1);
 
     } catch (error) {
         erro.error('Erro ao buscar conselho:', error);

@@ -3,6 +3,7 @@ const { client } = require("../Client");
 const onNotificationBirthdaySchema = require('../models/onNotificationBirthdaySchema');
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 const { info, erro } = require('../Logger');
+const { saveUpdateUserPoints } = require("../utils/saveUpdateUserPoints");
 
 async function Birthday (interaction){
     const { commandName, channelId } = interaction;
@@ -48,6 +49,7 @@ async function Birthday (interaction){
         await interaction.reply(`Aniversário salvo: ${day}/${month}`);
         info.info(`Aniversário salvo: ${day}/${month} para ${username}`);
 
+        saveUpdateUserPoints(interaction.user, 10, 5, 1);
 
     }
 }

@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
 const { info, erro } = require('../Logger');
+const { saveUpdateUserPoints } = require("../utils/saveUpdateUserPoints");
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 async function searchGuild(interaction) {
@@ -52,6 +53,8 @@ async function searchGuild(interaction) {
                 .setFooter({ text: `Por: ${client.user ? client.user.tag : "Usuário não encontrado"}`, iconURL: client.user ? client.user.displayAvatarURL({ dynamic: true }) : "" });
 
             await interaction.reply({ embeds: [embed] });
+
+            saveUpdateUserPoints(interaction.user, 10, 5, 1);
 
             const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
             discordChannel2.send(`Informações do Servidor ${guild.name} consultadas por ${interaction.user.tag}`);

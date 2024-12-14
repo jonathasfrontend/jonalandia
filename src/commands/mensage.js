@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
+const { saveUpdateUserPoints } = require("../utils/saveUpdateUserPoints");
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 async function menssageFile(interaction) {
@@ -33,6 +34,9 @@ async function menssageFile(interaction) {
       .setDescription(`**Oi **${interaction.user}`);
 
     await interaction.reply({ embeds: [embed] });
+
+    saveUpdateUserPoints(interaction.user, 10, 5, 1);
+    
   }
 };
 

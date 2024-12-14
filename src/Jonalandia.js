@@ -19,8 +19,6 @@ const { scheduleonNotificationFreeGamesCheck } = require('./functions/onNotifica
 const { 
   handleMessageActivity,
   handleVoiceActivity,
-  handlePresenceUpdate,
-  handleEventParticipation,
  } = require('./functions/activityMonitorXpMoedaGema');
 
 const { Help } = require('./commands/help');
@@ -430,10 +428,6 @@ client.on('guildMemberAdd', ruleMembreAdd);
 client.on('guildMemberAdd', autoKickNewMembers);
 
 client.on('guildMemberRemove', onMemberRemove);
-
-client.on('presenceUpdate', handlePresenceUpdate);
-
-// client.on('interactionCreate', handleEventParticipation);
 
 client.on('messageCreate', blockLinks);
 client.on('messageCreate', antiFloodChat);
