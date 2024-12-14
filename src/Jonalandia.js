@@ -28,6 +28,7 @@ const { getWeather } = require('./commands/weather');
 const { sorteioUser } = require('./commands/sorteio')
 const { infoSorteio } = require('./commands/infoSorteio')
 const { Perfil } = require('./commands/perfil')
+const { tranferirMoeda } = require('./commands/transferir')
 
 const { mensageRegra } = require('./commands/moderador/regra');
 const { createEmbed } = require('./commands/moderador/createEmbed');
@@ -342,6 +343,25 @@ client.once('ready', () => {
       },
     ],
   });
+
+  client.application?.commands.create({
+    name: 'transferir',
+    description: 'Transfere moedas para outro usuário',
+    options: [
+      {
+        type: 6,
+        name: 'usuario',
+        description: 'O usuário para quem você deseja transferir moedas.',
+        required: true,
+      },
+      {
+        type: 4, // Tipo 4 é para número inteiro
+        name: 'quantidade',
+        description: 'A quantidade de moedas que você deseja transferir',
+        required: true,
+      },
+    ],
+  });
 });
 
 
@@ -404,6 +424,8 @@ client.on('interactionCreate', async (interaction) => {
     await voteParaBan(interaction);
   } else if (commandName === 'perfil') {
     await Perfil(interaction);
+  } else if (commandName === 'transferir') {
+    await tranferirMoeda(interaction);
   }
 });
 

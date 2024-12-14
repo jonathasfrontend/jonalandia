@@ -77,7 +77,7 @@ async function perfilInfoUser(interaction) {
                 .addFields(
                     { name: '👤 Nome', value: `${user.tag}`, inline: true },
                     { name: '🆔 ID', value: `${user.id}`, inline: true },
-                    { name: 'Menção', value: `<@${user.id}>`, inline: true },
+                    { name: '👤 Menção', value: `<@${user.id}>`, inline: true },
                     { name: '✅ Conta Criada', value: `${accountCreation.toLocaleDateString('pt-BR', { month: 'long', day: 'numeric', year: 'numeric' })} (há ${creationDiff})`, inline: false },
                     { name: '🟦 Entrou no Servidor', value: `${serverJoin.toLocaleDateString('pt-BR', { month: 'long', day: 'numeric', year: 'numeric' })} (há ${joinDiff})`, inline: false }
                 );
