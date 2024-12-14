@@ -1,6 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
 const { info, erro } = require('../Logger');
+const { saveUpdateUserPoints } = require("../utils/saveUpdateUserPoints");
 
 function onMemberAdd(member) {
  const welcomeChannel = member.guild.channels.cache.get(process.env.CHANNEL_ID_BEMVINDO);
@@ -34,6 +35,8 @@ function onMemberAdd(member) {
     
     const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
     discordChannel.send(`${member.user} Acabou de entrar no servidor ${member.guild}.`)
+
+    saveUpdateUserPoints(member.user, 100, 50, 5);
     
  } else {
   erro.error('Canal de boas-vindas não encontrado. Certifique-se de configurar o ID do canal corretamente.');

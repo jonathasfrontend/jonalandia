@@ -59,7 +59,7 @@ async function onNotificationTwitch() {
 }
 
 function scheduleNotificationTwitchCheck() {
-    cron.schedule('*/10 * * * *', () => {
+    cron.schedule('*/6 * * * *', () => { 
         onNotificationTwitch();
     });
 }

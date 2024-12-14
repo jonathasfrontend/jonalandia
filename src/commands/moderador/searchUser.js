@@ -75,8 +75,8 @@ async function perfilInfoUser(interaction) {
                 .setTitle(`Perfil Completo de ${user.tag}`)
                 .setThumbnail(user.displayAvatarURL({ dynamic: true }))
                 .addFields(
-                    { name: '👤 Nome', value: `${user.tag}`, inline: true },
-                    { name: '🆔 ID', value: `${user.id}`, inline: true },
+                    { name: '👤 Nome', value: `**${user.tag}**`, inline: true },
+                    { name: '🆔 ID', value: `**${user.id}**`, inline: true },
                     { name: '👤 Menção', value: `<@${user.id}>`, inline: true },
                     { name: '✅ Conta Criada', value: `${accountCreation.toLocaleDateString('pt-BR', { month: 'long', day: 'numeric', year: 'numeric' })} (há ${creationDiff})`, inline: false },
                     { name: '🟦 Entrou no Servidor', value: `${serverJoin.toLocaleDateString('pt-BR', { month: 'long', day: 'numeric', year: 'numeric' })} (há ${joinDiff})`, inline: false }
@@ -84,12 +84,12 @@ async function perfilInfoUser(interaction) {
 
             if (rankingData) {
                 embed.addFields(
-                    { name: '⭐ XP', value: `${rankingData.xp}`, inline: true },
-                    { name: '💵 Moedas', value: `${rankingData.coins}`, inline: true },
-                    { name: '💎 Gemas', value: `${rankingData.gems}`, inline: true }
+                    { name: '⭐ XP', value: `**${rankingData.xp.toLocaleString('pt-BR')}**`, inline: true },
+                    { name: '💵 Jonacoins', value: `**${rankingData.coins.toLocaleString('pt-BR')}**`, inline: true },
+                    { name: '💎 Gemas', value: `**${rankingData.gems.toLocaleString('pt-BR')}**`, inline: true}
                 );
-                if (rankingData.bannerUrl) {
-                    embed.setImage(rankingData.bannerUrl);
+                if (rankingData.avatarUrl) {
+                    embed.setImage(rankingData.avatarUrl);
                 }
             }
 

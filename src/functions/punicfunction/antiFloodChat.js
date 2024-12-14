@@ -3,6 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
 const { info, erro } = require('../../Logger');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
+const { saveUpdateUserPoints } = require('../../utils/saveUpdateUserPoints');
 const members = new Collection();
 
 async function antiFloodChat(message) {
@@ -39,6 +40,7 @@ async function antiFloodChat(message) {
             client.user.tag
         )
 
+        saveUpdateUserPoints(author, -200, 0, 0);
 
         // Timeout do membro
         member?.timeout(60_000, "Flood de mensagens");

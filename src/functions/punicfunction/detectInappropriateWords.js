@@ -5,6 +5,7 @@ const inappropriateWordsData = require('../../config/InappropriateWords.json');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 const Users = require('../../models/infracoesUsersSchema');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
+const { saveUpdateUserPoints } = require('../../utils/saveUpdateUserPoints');
 
 const inappropriateWords = inappropriateWordsData.inappropriateWords;
 
@@ -36,6 +37,7 @@ async function detectInappropriateWords(message) {
                 client.user.tag
             )
 
+            saveUpdateUserPoints(message.author, -200, 0, 0);
 
             const discordChannelDelete = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
             discordChannelDelete.send(`Mensagem de ${message.author.tag} deletada devido a palavras inadequadas: "${foundWord}".`);

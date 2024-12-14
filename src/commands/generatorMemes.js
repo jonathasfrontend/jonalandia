@@ -46,7 +46,7 @@ async function generatorMemes(interaction) {
             }
         }
 
-        saveUpdateUserPoints(interaction.user, 10, 5, 1);
+        saveUpdateUserPoints(interaction.user, 100, 90, 1);
 
     } catch (error) {
         console.error('Erro ao obter meme:', error.message);

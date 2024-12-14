@@ -10,7 +10,7 @@ async function handleMessageActivity(message) {
   cooldowns.add(message.author.id);
   setTimeout(() => cooldowns.delete(message.author.id), 60000); // 1 minuto de cooldown
 
-  await saveUpdateUserPoints(message.author, 10, 5, 1); // Exemplo: 10 XP, 5 moedas, 1 gema
+  await saveUpdateUserPoints(message.author, 100, 120, 4); // Exemplo: 100 XP, 120 moedas, 4 gema
 }
 
 async function handleVoiceActivity(member, duration) {
@@ -20,10 +20,10 @@ async function handleVoiceActivity(member, duration) {
   voiceCooldowns.add(member.user.id);
 
   const minutes = Math.floor(duration / 60000);
-  const xp = minutes * 2;
-  const coins = minutes;
+  const xp = minutes * 20; // Exemplo: 60 minutos = 1200 XP
+  const coins = minutes * 30;  // Exemplo: 60 minutos = 1800 moedas
 
-  await saveUpdateUserPoints(member.user, xp, coins, 0);
+  await saveUpdateUserPoints(member.user, xp, coins, 2); 
 
   console.log(`XP e Moedas atualizados para ${member.user.username}: ${xp} XP, ${coins} Moedas.`);
 

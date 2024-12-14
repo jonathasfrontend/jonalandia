@@ -29,6 +29,7 @@ const { sorteioUser } = require('./commands/sorteio')
 const { infoSorteio } = require('./commands/infoSorteio')
 const { Perfil } = require('./commands/perfil')
 const { tranferirMoeda } = require('./commands/transferir')
+const { Recompensas } = require('./commands/recompensas')
 
 const { mensageRegra } = require('./commands/moderador/regra');
 const { createEmbed } = require('./commands/moderador/createEmbed');
@@ -362,6 +363,12 @@ client.once('ready', () => {
       },
     ],
   });
+
+  client.application?.commands.create({
+    name: 'recompensa',
+    description: 'Receba recompensas todos os dias!',
+  });
+
 });
 
 
@@ -426,6 +433,8 @@ client.on('interactionCreate', async (interaction) => {
     await Perfil(interaction);
   } else if (commandName === 'transferir') {
     await tranferirMoeda(interaction);
+  } else if (commandName === 'recompensa') {
+    await Recompensas(interaction);
   }
 });
 

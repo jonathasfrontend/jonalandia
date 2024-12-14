@@ -4,6 +4,7 @@ const blockedChannels = require('../../config/blockedChannels.json').blockedChan
 const { client } = require('../../Client');
 const { info, erro } = require('../../Logger');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
+const { saveUpdateUserPoints } = require('../../utils/saveUpdateUserPoints');
 
 const blockedLinks = blockedLinksData.blockedLinks.map(pattern => new RegExp(pattern));
 
@@ -29,6 +30,8 @@ async function blockLinks(message) {
                 reason,
                 client.user.tag
             )
+
+            saveUpdateUserPoints(message.author, -200, 0, 0);
 
             const embed = new EmbedBuilder()
                 .setColor('#FF0000')

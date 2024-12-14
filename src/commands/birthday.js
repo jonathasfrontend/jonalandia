@@ -49,7 +49,7 @@ async function Birthday (interaction){
         await interaction.reply(`Aniversário salvo: ${day}/${month}`);
         info.info(`Aniversário salvo: ${day}/${month} para ${username}`);
 
-        saveUpdateUserPoints(interaction.user, 10, 5, 1);
+        saveUpdateUserPoints(interaction.user, 100, 50, 1);
 
     }
 }

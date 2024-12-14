@@ -54,7 +54,7 @@ async function searchGuild(interaction) {
 
             await interaction.reply({ embeds: [embed] });
 
-            saveUpdateUserPoints(interaction.user, 10, 5, 1);
+            saveUpdateUserPoints(interaction.user, 120, 100, 2);
 
             const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
             discordChannel2.send(`Informações do Servidor ${guild.name} consultadas por ${interaction.user.tag}`);

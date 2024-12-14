@@ -59,7 +59,7 @@ async function getWeather(interaction) {
 
         await interaction.editReply({ embeds: [embed] });
 
-        saveUpdateUserPoints(interaction.user, 10, 5, 1);
+        saveUpdateUserPoints(interaction.user, 100, 80, 1);
 
         info.info(`Clima em ${data.name} consultado por ${interaction.user.tag}`);
 

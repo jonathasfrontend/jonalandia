@@ -71,9 +71,9 @@ async function Perfil(interaction) {
                     { name: '👤 Menção', value: `<@${user.id}>`, inline: true },
                     { name: '✅ Conta Criada', value: `${accountCreation.toLocaleDateString('pt-BR', { month: 'long', day: 'numeric', year: 'numeric' })} (há ${creationDiff})`, inline: false },
                     { name: '🟦 Entrou no Servidor', value: `${serverJoin.toLocaleDateString('pt-BR', { month: 'long', day: 'numeric', year: 'numeric' })} (há ${joinDiff})`, inline: false },
-                    { name: '⭐ XP', value: `${userData.xp}`, inline: true },
-                    { name: '💵 Moedas', value: `${userData.coins}`, inline: true },
-                    { name: '💎 Gemas', value: `${userData.gems}`, inline: true }
+                    { name: '⭐ XP', value: `${userData.xp.toLocaleString('pt-BR')}`, inline: true },
+                    { name: '💵 Jonacoins', value: `${userData.coins.toLocaleString('pt-BR')}`, inline: true },
+                    { name: '💎 Gemas', value: `${userData.gems.toLocaleString('pt-BR')}`, inline: true }                    
                 )
                 .setImage(userData.bannerUrl || null) // Banner opcional
                 .setFooter({ text: 'Continue participando para ganhar mais pontos!', iconURL: client.user.displayAvatarURL({ dynamic: true }) });
