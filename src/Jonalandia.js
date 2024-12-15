@@ -1,5 +1,6 @@
 const { info } = require('./Logger');
 const { client } = require('./Client');
+const { gemOptions } = require('./webhooks/gemOptions');
 
 const { antiFloodChat } = require('./functions/punicfunction/antiFloodChat');
 const { blockLinks } = require('./functions/punicfunction/blockLinks');
@@ -30,6 +31,7 @@ const { infoSorteio } = require('./commands/infoSorteio')
 const { Perfil } = require('./commands/perfil')
 const { tranferirMoeda } = require('./commands/transferir')
 const { Recompensas } = require('./commands/recompensas')
+const { compraGema } = require('./commands/compragema')
 
 const { mensageRegra } = require('./commands/moderador/regra');
 const { createEmbed } = require('./commands/moderador/createEmbed');
@@ -369,6 +371,20 @@ client.once('ready', () => {
     description: 'Receba recompensas todos os dias!',
   });
 
+  client.application?.commands.create({
+    name: 'compragema',
+    description: 'Compre gemas para usar no servidor.',
+    options: [
+      {
+        type: 4, // INTEGER
+        name: 'quantidade',
+        description: 'Quantidade de gemas que deseja comprar.',
+        required: true,
+        choices: gemOptions.map(opt => ({ name: `${opt.amount} Gemas por ${opt.price}`, value: opt.amount })),
+      },
+    ],
+  });  
+
 });
 
 
@@ -435,6 +451,8 @@ client.on('interactionCreate', async (interaction) => {
     await tranferirMoeda(interaction);
   } else if (commandName === 'recompensa') {
     await Recompensas(interaction);
+  } else if (commandName === 'compragema') {
+    await compraGema(interaction);
   }
 });
 

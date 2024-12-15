@@ -74,6 +74,7 @@ async function perfilInfoUser(interaction) {
                 .setColor('#FFFFFF')
                 .setTitle(`Perfil Completo de ${user.tag}`)
                 .setThumbnail(user.displayAvatarURL({ dynamic: true }))
+                .setFooter({ text: `Por: ${client.user ? client.user.tag : "Usuário não encontrado"}`, iconURL: client.user ? client.user.displayAvatarURL({ dynamic: true }) : "" })
                 .addFields(
                     { name: '👤 Nome', value: `**${user.tag}**`, inline: true },
                     { name: '🆔 ID', value: `**${user.id}**`, inline: true },
@@ -89,7 +90,7 @@ async function perfilInfoUser(interaction) {
                     { name: '💎 Gemas', value: `**${rankingData.gems.toLocaleString('pt-BR')}**`, inline: true}
                 );
                 if (rankingData.avatarUrl) {
-                    embed.setImage(rankingData.avatarUrl);
+                    embed.setImage(rankingData.avatarUrl)
                 }
             }
 
@@ -113,13 +114,12 @@ async function perfilInfoUser(interaction) {
 
                 if (infractionData.logs && infractionData.logs.length > 0) {
                     const logs = infractionData.logs
-                        .map(
-                            (log) => `**[${log.type}]** ${log.reason} (por ${log.moderator} em ${new Date(log.date).toLocaleDateString()})`
+                        .map((log) => `\n **${log.type}:**\n ${log.reason}\n *(por ${log.moderator} em ${new Date(log.date).toLocaleDateString()})*`
                         )
                         .join('\n');
-                    embed.addFields([{ name: '📜 Logs de Moderação', value: logs }]);
+                    embed.addFields([{ name: '📜 Logs de Moderação', value: logs }])
                 } else {
-                    embed.addFields([{ name: '📜 Logs de Moderação', value: 'Nenhum log encontrado.' }]);
+                    embed.addFields([{ name: '📜 Logs de Moderação', value: 'Nenhum log encontrado.' }])
                 }
             }
 

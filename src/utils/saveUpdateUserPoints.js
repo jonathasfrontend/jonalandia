@@ -11,6 +11,7 @@ async function saveUpdateUserPoints(user, xp, coins, gems) {
                 userId: user.id,
                 avatarUrl: user.displayAvatarURL({ dynamic: true }),
                 username: user.username,
+                dailyRewardTimestamp: null,
             },
             {
                 $inc: {
