@@ -1,6 +1,6 @@
 const { info } = require('./Logger');
 const { client } = require('./Client');
-const { gemOptions } = require('./webhooks/gemOptions');
+const { gemOptions, gemPrices } = require('./webhooks/gemOptions');
 
 const { antiFloodChat } = require('./functions/punicfunction/antiFloodChat');
 const { blockLinks } = require('./functions/punicfunction/blockLinks');
@@ -33,6 +33,7 @@ const { Perfil } = require('./commands/perfil')
 const { tranferirMoeda } = require('./commands/transferir')
 const { Recompensas } = require('./commands/recompensas')
 const { compraGema } = require('./commands/compragema')
+const { vendeGema } = require('./commands/vendegema')
 
 const { mensageRegra } = require('./commands/moderador/regra');
 const { createEmbed } = require('./commands/moderador/createEmbed');
@@ -385,6 +386,20 @@ client.once('ready', () => {
         choices: gemOptions.map(opt => ({ name: `${opt.amount} Gemas por ${opt.price}`, value: opt.amount })),
       },
     ],
+  });
+
+  client.application?.commands.create({
+    name: 'vendegema',
+    description: 'Vede gemas.',
+    options: [
+      {
+        type: 4, // INTEGER
+        name: 'quantidade',
+        description: 'Quantidade de gemas',
+        required: true,
+        choices: gemPrices.map(opt => ({ name: `Vender suas ${opt.amount} Gemas por ${opt.price}R$`, value: opt.amount })),
+      },
+    ],
   });  
 
 });
@@ -454,6 +469,8 @@ client.on('interactionCreate', async (interaction) => {
     await Recompensas(interaction);
   } else if (commandName === 'compragema') {
     await compraGema(interaction);
+  } else if (commandName === 'vendegema') {
+    await vendeGema(interaction);
   }
 });
 

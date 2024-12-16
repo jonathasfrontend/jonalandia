@@ -41,9 +41,9 @@ async function Recompensas(interaction) {
         const embed = new EmbedBuilder()
             .setColor('Green')
             .setTitle('🎉 Recompensa Diária Resgatada!')
-            .setDescription(`Você recebeu ${reward} moedas como recompensa diária!`)
+            .setDescription(`Você recebeu ${reward.toLocaleString('pt-BR')} moedas como recompensa diária!`)
             .addFields(
-                { name: '💰 Seu saldo atual', value: `${userData.coins} moedas`, inline: true },
+                { name: '💰 Seu saldo atual', value: `${userData.coins.toLocaleString('pt-BR')} moedas`, inline: true },
             )
             .setFooter({ text: 'Volte amanhã para resgatar novamente!', iconURL: client.user.displayAvatarURL({ dynamic: true }) });
         await interaction.reply({ embeds: [embed] });

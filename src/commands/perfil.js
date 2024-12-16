@@ -34,6 +34,13 @@ async function Perfil(interaction) {
                 return interaction.reply({ content: 'Você ainda não possui um perfil.', ephemeral: true });
             }
 
+            const guildOwnerId = interaction.guild.ownerId;
+            if (userOption.id === guildOwnerId) {
+                if (interaction.user.id !== guildOwnerId) {
+                    return interaction.reply({ content: 'Você não tem permissão para ver o perfil do dono do servidor.', ephemeral: true });
+                }
+            }
+
             // Dados adicionais do usuário
             const userId = userOption.id;
             const user = await client.users.fetch(userId);

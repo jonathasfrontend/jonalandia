@@ -1,5 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const Transaction = require('../models/transactionSchema');
+const Transaction = require('../models/transactionCompraSchema');
 const User = require('../models/rankingUserSechema');
 const cron = require('node-cron');
 const { client } = require("../Client");
@@ -52,7 +52,7 @@ async function verificarPagamentosPendentes() {
 }
 
 function scheduleVerificarPagamentosPendentes() {
-  cron.schedule('*/1 * * * *', () => { 
+  cron.schedule('*/2 * * * *', () => { 
     verificarPagamentosPendentes();
   });
 }

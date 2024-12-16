@@ -8,12 +8,14 @@ async function saveUpdateUserPoints(user, xp, coins, gems) {
 
         const userData = await User.findOneAndUpdate(
             {
-                userId: user.id,
-                avatarUrl: user.displayAvatarURL({ dynamic: true }),
-                username: user.username,
-                dailyRewardTimestamp: null,
+                userId: user.id, // Use apenas o identificador único
             },
             {
+                $set: {
+                    avatarUrl: user.displayAvatarURL({ dynamic: true }),
+                    username: user.username,
+                    dailyRewardTimestamp: null,
+                },
                 $inc: {
                     xp,
                     coins,

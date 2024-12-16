@@ -1,8 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
 const Stripe = require('stripe');
 const User = require('../models/rankingUserSechema');
-const Transaction = require('../models/transactionSchema');
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); // Configure no .env
+const TransactionCompra = require('../models/transactionCompraSchema');
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const { gemOptions } = require('../webhooks/gemOptions');
 
 async function compraGema(interaction) {
@@ -42,20 +42,24 @@ async function compraGema(interaction) {
   });
 
   // Registrar transação no banco de dados
-  const transaction = new Transaction({
+  const transactionCompra = new TransactionCompra({
     userId: user.id,
     username: user.username,
     gemAmount: gemOption.amount,
     price: gemOption.price,
     stripeSessionId: session.id,
   });
-  await transaction.save();
+  await transactionCompra.save();
 
   const embed = new EmbedBuilder()
     .setColor('Blue')
     .setTitle('Compra de Gemas')
     .setDescription(
-      `Você está comprando **${gemOption.amount} gemas** por R$${gemOption.price}.\n\nClique no link abaixo para finalizar a compra:\n[Pagamento Seguro](<${session.url}>)`
+      `Você está comprando **${gemOption.amount} gemas** por R$${gemOption.price}.
+      Clique no link abaixo para finalizar a compra:
+      [Pagamento Seguro](<${session.url}>)
+      **O deposito será efetuado 2 min apos o pagamento!**
+      `
     )
     .setFooter({ text: 'Pagamento via Stripe' });
 
