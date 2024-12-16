@@ -18,6 +18,7 @@ const { scheduleNotificationYoutubeCheck } = require('./functions/onNotification
 const { scheduleNotificationTwitchCheck } = require('./functions/onNotificationTwitch');
 const { scheduleonNotificationFreeGamesCheck } = require('./functions/onNotificationFreeGames');
 const { handleMessageActivity, handleVoiceActivity, } = require('./functions/activityMonitorXpMoedaGema');
+const { scheduleVerificarPagamentosPendentes } = require('./functions/checkPendingPayments');
 
 const { Help } = require('./commands/help');
 const { searchGuild } = require('./commands/searchGuild');
@@ -63,6 +64,7 @@ client.once('ready', () => {
   scheduleNotificationYoutubeCheck();
   scheduleNotificationTwitchCheck();
   scheduleonNotificationFreeGamesCheck();
+  scheduleVerificarPagamentosPendentes();
 
   info.info('O bot Jonalandia está online!');
 
@@ -386,7 +388,6 @@ client.once('ready', () => {
   });  
 
 });
-
 
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;

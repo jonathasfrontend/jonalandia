@@ -49,7 +49,6 @@ async function compraGema(interaction) {
     price: gemOption.price,
     stripeSessionId: session.id,
   });
-
   await transaction.save();
 
   const embed = new EmbedBuilder()
