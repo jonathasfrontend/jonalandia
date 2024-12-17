@@ -2,8 +2,8 @@ const { client } = require("../Client");
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 const { erro, info } = require('../Logger');
 const Stripe = require('stripe');
-const User = require('../models/rankingUserSechema');
-const TransactionVenda = require('../models/transactionVendaSchema');
+const User = require('../models/onPerfilUserSechema');
+const TransactionVenda = require('../models/onTransactionVendaSchema');
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const { gemPrices } = require('../webhooks/gemOptions');
 

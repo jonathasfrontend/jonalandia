@@ -1,6 +1,6 @@
 const { info, erro } = require('../Logger');
 const { client } = require('../Client');
-const Infractions = require('../models/infracoesUsersSchema');
+const Infractions = require('../models/onInfracoesUsersSchema');
 
 async function saveUserInfractions(
     userId,

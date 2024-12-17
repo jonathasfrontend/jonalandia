@@ -1,4 +1,4 @@
-const User = require('../models/rankingUserSechema');
+const User = require('../models/onPerfilUserSechema');
 
 async function saveUpdateUserPoints(user, xp, coins, gems) {
     try {

@@ -1,4 +1,4 @@
-const Premio = require('../../models/premioSorteioSchema');
+const Premio = require('../../models/onPremioSorteioSchema');
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
 const { erro, info } = require('../../Logger');

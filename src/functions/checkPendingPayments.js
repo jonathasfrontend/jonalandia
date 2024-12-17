@@ -1,6 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const Transaction = require('../models/transactionCompraSchema');
-const User = require('../models/rankingUserSechema');
+const Transaction = require('../models/onTransactionCompraSchema');
+const User = require('../models/onPerfilUserSechema');
 const cron = require('node-cron');
 const { client } = require("../Client");
 const { EmbedBuilder } = require('discord.js');

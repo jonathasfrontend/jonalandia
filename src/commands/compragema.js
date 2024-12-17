@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const Stripe = require('stripe');
-const TransactionCompra = require('../models/transactionCompraSchema');
+const TransactionCompra = require('../models/onTransactionCompraSchema');
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const { client } = require("../Client");
 const { gemOptions } = require('../webhooks/gemOptions');

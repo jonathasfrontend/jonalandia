@@ -16,6 +16,6 @@ const sorteioSchema = new mongoose.Schema({
     },
 });
 
-const Sorteio = mongoose.model('Sorteio', sorteioSchema);
+const Sorteio = mongoose.model('onSorteioSchema', sorteioSchema);
 
 module.exports = Sorteio;

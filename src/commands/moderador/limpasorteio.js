@@ -1,5 +1,5 @@
-const Sorteio = require('../../models/sorteioSchema');
-const Premio = require('../../models/premioSorteioSchema');
+const Sorteio = require('../../models/onSorteioSchema');
+const Premio = require('../../models/onPremioSorteioSchema');
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
 const { erro, info } = require('../../Logger');

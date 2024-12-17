@@ -25,4 +25,4 @@ const PostSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('oNGameNotificationSchema', PostSchema);
+module.exports = mongoose.model('onGameNotificationSchema', PostSchema);

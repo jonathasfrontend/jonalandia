@@ -3,7 +3,7 @@ const { client } = require('../../Client');
 const blockedFileExtensions = require('../../config/blockedFileExtensions.json').blockedFileExtensions;
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 const { info, erro } = require('../../Logger');
-const Users = require('../../models/infracoesUsersSchema');
+const Users = require('../../models/onInfracoesUsersSchema');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 
 async function blockFileTypes(message) {

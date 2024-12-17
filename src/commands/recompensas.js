@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const User = require('../models/rankingUserSechema');
+const User = require('../models/onPerfilUserSechema');
 const { client } = require("../Client");
 const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 const { erro, info } = require('../Logger');

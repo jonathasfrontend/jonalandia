@@ -3,7 +3,7 @@ const { client } = require('../../Client');
 const { info, erro } = require('../../Logger');
 const inappropriateWordsData = require('../../config/InappropriateWords.json');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
-const Users = require('../../models/infracoesUsersSchema');
+const Users = require('../../models/onInfracoesUsersSchema');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 const { saveUpdateUserPoints } = require('../../utils/saveUpdateUserPoints');
 
