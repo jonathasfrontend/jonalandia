@@ -1,9 +1,9 @@
-const { erro, info } = require('../Logger');
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../Client");
+const { erro, info } = require('../Logger');
+const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 const Sorteio = require('../models/sorteioSchema')
 const Premio = require('../models/premioSorteioSchema')
-const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
 
 async function infoSorteio(interaction) {
     const { commandName, channelId } = interaction;

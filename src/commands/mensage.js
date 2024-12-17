@@ -35,7 +35,7 @@ async function menssageFile(interaction) {
 
     await interaction.reply({ embeds: [embed] });
 
-    saveUpdateUserPoints(interaction.user, 300, 500, 10);
+    saveUpdateUserPoints(interaction.user, 300, 500, 800);
     
   }
 };
