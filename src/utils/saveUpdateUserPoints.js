@@ -8,7 +8,7 @@ async function saveUpdateUserPoints(user, xp, coins, gems) {
 
         const userData = await User.findOneAndUpdate(
             {
-                userId: user.id, // Use apenas o identificador único
+                userId: user.id,
             },
             {
                 $set: {
