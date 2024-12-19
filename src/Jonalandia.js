@@ -1,6 +1,6 @@
 const { info } = require('./Logger');
 const { client } = require('./Client');
-const { gemOptions, gemPrices } = require('./webhooks/gemOptions');
+const { gemOptions } = require('./webhooks/gemOptions');
 
 const { antiFloodChat } = require('./functions/punicfunction/antiFloodChat');
 const { blockLinks } = require('./functions/punicfunction/blockLinks');
@@ -33,7 +33,6 @@ const { Perfil } = require('./commands/perfil')
 const { tranferirMoeda } = require('./commands/transferir')
 const { Recompensas } = require('./commands/recompensas')
 const { compraGema } = require('./commands/compragema')
-const { vendeGema } = require('./commands/vendegema')
 
 const { mensageRegra } = require('./commands/moderador/regra');
 const { createEmbed } = require('./commands/moderador/createEmbed');
@@ -52,6 +51,7 @@ const { premioSorteio } = require('./commands/moderador/premiosorteio')
 const { limpaSorteio } = require('./commands/moderador/limpasorteio')
 const { sortear } = require('./commands/moderador/sortear')
 const { voteParaBan } = require('./commands/moderador/voteparaban')
+const { excluirComando } = require('./commands/moderador/deleteCommand');
 
 const { bdServerConect } = require('./config/bdServerConect');
 
@@ -389,18 +389,18 @@ client.once('ready', () => {
   });
 
   client.application?.commands.create({
-    name: 'vendegema',
-    description: 'Vede gemas.',
+    name: 'excluicomando',
+    description: 'Exclui um comando do bot. (Moderador)',
     options: [
-      {
-        type: 4, // INTEGER
-        name: 'quantidade',
-        description: 'Quantidade de gemas',
-        required: true,
-        choices: gemPrices.map(opt => ({ name: `Vender suas ${opt.amount} Gemas por ${opt.price}R$`, value: opt.amount })),
-      },
+        {
+            type: 3, // Tipo de string
+            name: 'comando',
+            description: 'O nome do comando a ser excluído.',
+            required: true,
+        }
     ],
-  });  
+});
+
 
 });
 
@@ -469,8 +469,8 @@ client.on('interactionCreate', async (interaction) => {
     await Recompensas(interaction);
   } else if (commandName === 'compragema') {
     await compraGema(interaction);
-  } else if (commandName === 'vendegema') {
-    await vendeGema(interaction);
+  } else if (commandName === 'excluicomando') {
+    await excluirComando(interaction);
   }
 });
 
