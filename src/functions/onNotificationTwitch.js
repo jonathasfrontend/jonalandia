@@ -4,18 +4,24 @@ const onNotificationTwitchSchema = require("../models/onNotificationTwitchSchema
 const axios = require('axios');
 const { EmbedBuilder } = require("discord.js");
 const cron = require('node-cron');
-const streamersData = require('../config/streamers.json');
-
-const streamers = streamersData;
+const streamersData = require('../config/twitch.json');
 
 async function onNotificationTwitch() {
-    for (let streamer of streamers) {
+    for (let streamer of streamersData) {
         try {
             const uptimeResponse = await axios.get(`https://decapi.me/twitch/uptime/${streamer}`);
             const avatarResponse = await axios.get(`https://decapi.me/twitch/avatar/${streamer}`);
             const titleResponse = await axios.get(`https://decapi.me/twitch/title/${streamer}`);
             const gameResponse = await axios.get(`https://decapi.me/twitch/game/${streamer}`);
             const imageResponse = `https://static-cdn.jtvnw.net/previews-ttv/live_user_${streamer}-440x248.jpg`;
+
+            if (!streamersData) {
+                erro.error('Nenhum streamer foi encontrado no arquivo twitch.json')
+            }
+
+            if (`${streamer} is offline`) {
+                info.info(`${streamer} está offline.`);
+            }
 
             if (uptimeResponse.data !== `${streamer} is offline`) {
                 const embed = new EmbedBuilder()
@@ -59,7 +65,7 @@ async function onNotificationTwitch() {
 }
 
 function scheduleNotificationTwitchCheck() {
-    cron.schedule('*/6 * * * *', () => { 
+    cron.schedule('*/5 * * * *', () => { 
         onNotificationTwitch();
     });
 }

@@ -62,7 +62,7 @@ client.once('ready', () => {
   Status();
   checkUpdateRoles();
   scheduleBirthdayCheck();
-  scheduleNotificationYoutubeCheck();
+  // scheduleNotificationYoutubeCheck();
   scheduleNotificationTwitchCheck();
   scheduleonNotificationFreeGamesCheck();
   scheduleVerificarPagamentosPendentes();
@@ -399,8 +399,7 @@ client.once('ready', () => {
             required: true,
         }
     ],
-});
-
+  });
 
 });
 

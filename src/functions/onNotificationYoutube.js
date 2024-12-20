@@ -5,34 +5,11 @@ const onNotificationYoutubeSchema = require('../models/onNotificationYoutubeSche
 const { google } = require('googleapis');
 const cron = require('node-cron');
 const youtube = google.youtube({version: 'v3', auth: 'AIzaSyBpv77J9fbBuwDfRtDke0XRST_Db_bHJFk'});
-const channels = require('../config/channels.json');
+const channels = require('../config/youtube.json');
 
 require('dotenv').config()
 
-let lastVideoIds = {
-    'Manual do Mundo': 1647708800000,
-    'LOUD Coringa': 1647708800000,
-    'LOUD': 1647708800000,
-    'Piuzinho': 1647708800000,
-    'Rocketseat': 1647708800000,
-    'Ei Nerd': 1647708800000,
-    'Bruno Fraga': 1647708800000,
-    'Davi': 1647708800000,
-    'viniccius13': 1647708800000,
-    'MW Informatica': 1647708800000,
-    'Cadê a chave?': 1647708800000,
-    'Cyntia': 1647708800000,
-    'Dune': 1647708800000,
-    'Mayk Brito': 1647708800000,
-    'PAULINHO O LOKO': 1647708800000,
-    'Labz': 1647708800000,
-    'Comédia Maurício Meirelles [OFICIAL]': 1647708800000,
-    'Cortes do Gabepeixe Oficial': 1647708800000,
-    'Barbixas': 1647708800000,
-    'Aqueles Caras': 1647708800000,
-    'CASTELO CLIPS': 1647708800000,
-    'Joaninha Camilo': 1647708800000,
-};
+let lastVideoIds = channels.map(channel => ({ [channel]: '1647708800000' })).reduce((acc, cur) => ({ ...acc, ...cur }), {});
 
 async function onNotificationYoutube() {
     for (let i = 0; i < channels.length; i++) {
@@ -94,7 +71,6 @@ async function onNotificationYoutube() {
                         await newNotification.save();
                         info.info(`Notificação Youtube para o título "${title}" armazenada no banco de dados.`);
                     }
-
                 }
             });
         });
@@ -102,11 +78,9 @@ async function onNotificationYoutube() {
 }
 
 function scheduleNotificationYoutubeCheck() {
-    cron.schedule('*/20 * * * *', () => {
+    cron.schedule('*/5 * * * *', () => {
         onNotificationYoutube();
     });
 }
 
 module.exports = { scheduleNotificationYoutubeCheck }
-
-// content: '<@&1253361488274657344>'

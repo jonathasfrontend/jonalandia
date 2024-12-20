@@ -1,9 +1,10 @@
+const { EmbedBuilder } = require('discord.js');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Transaction = require('../models/onTransactionCompraSchema');
 const User = require('../models/onPerfilUserSechema');
 const cron = require('node-cron');
 const { client } = require("../Client");
-const { EmbedBuilder } = require('discord.js');
+const { info, erro } = require('../Logger');
 
 async function verificarPagamentosPendentes() {
   try {
@@ -33,7 +34,7 @@ async function verificarPagamentosPendentes() {
           });
         }
 
-        console.log(`Pagamento confirmado para a transação ${transacao._id}.`);
+        info.info(`Pagamento confirmado para a transação ${transacao._id}.`);
 
         const embed = new EmbedBuilder()
           .setColor('Green')
@@ -47,7 +48,7 @@ async function verificarPagamentosPendentes() {
       }
     }
   } catch (error) {
-    console.error('Erro ao verificar pagamentos:', error.message);
+    erro.error('Erro ao verificar pagamentos:', error.message);
   }
 }
 

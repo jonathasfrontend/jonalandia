@@ -1,4 +1,5 @@
 const { saveUpdateUserPoints } = require('../utils/saveUpdateUserPoints');
+const { info, erro } = require('../Logger');
 
 const cooldowns = new Set();
 const voiceCooldowns = new Set();
@@ -25,7 +26,7 @@ async function handleVoiceActivity(member, duration) {
 
   await saveUpdateUserPoints(member.user, xp, coins, 2); 
 
-  console.log(`XP e Moedas atualizados para ${member.user.username}: ${xp} XP, ${coins} Moedas.`);
+  info.info(`XP e Moedas atualizados para ${member.user.username}: ${xp} XP, ${coins} Moedas.`);
 
   setTimeout(() => voiceCooldowns.delete(member.user.id), 60000); // 1 minuto de cooldown
 }
