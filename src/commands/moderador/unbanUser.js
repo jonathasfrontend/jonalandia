@@ -10,7 +10,8 @@ async function unbanUser(interaction) {
     const { commandName, options, member } = interaction;
 
     checkingComandChannelBlocked(interaction);
-    checkingComandExecuntionModerador(interaction);
+    const isAuthorized = await checkingComandExecuntionModerador(interaction);
+    if (!isAuthorized) return;
 
     try {
         if (commandName === 'desbanir') {
@@ -26,7 +27,7 @@ async function unbanUser(interaction) {
                 await interaction.reply({ embeds: [embed], ephemeral: true });
                 return;
             }
-            
+
             const reason = 'Você foi desbanido do servidor';
 
             await interaction.guild.members.unban(userToUnban.id, reason);
@@ -59,7 +60,7 @@ async function unbanUser(interaction) {
             await logChannel.send(`${userToUnban.tag} foi desbanido com sucesso!`);
 
             info.info(`${userToUnban.tag} foi desbanido com sucesso!`);
-        } 
+        }
     } catch (error) {
         erro.error('Erro ao desbanir o usuário:', error);
         const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);

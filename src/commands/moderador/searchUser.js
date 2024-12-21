@@ -11,7 +11,8 @@ async function perfilInfoUser(interaction) {
     if (!interaction.isCommand()) return;
 
     checkingComandChannelBlocked(interaction);
-    checkingComandExecuntionModerador(interaction);
+    const isAuthorized = await checkingComandExecuntionModerador(interaction);
+    if (!isAuthorized) return;
 
     try {
         if (commandName === 'infouser') {
@@ -74,7 +75,7 @@ async function perfilInfoUser(interaction) {
                 embed.addFields(
                     { name: '⭐ XP', value: `**${rankingData.xp.toLocaleString('pt-BR')}**`, inline: true },
                     { name: '💵 Jonacoins', value: `**${rankingData.coins.toLocaleString('pt-BR')}**`, inline: true },
-                    { name: '💎 Gemas', value: `**${rankingData.gems.toLocaleString('pt-BR')}**`, inline: true}
+                    { name: '💎 Gemas', value: `**${rankingData.gems.toLocaleString('pt-BR')}**`, inline: true }
                 );
                 if (rankingData.avatarUrl) {
                     embed.setImage(rankingData.avatarUrl)
@@ -86,15 +87,15 @@ async function perfilInfoUser(interaction) {
                     {
                         name: 'Infrações',
                         value: `
-                        🗣️ Linguagem Inapropriada: ${infractionData.infractions.inappropriateLanguage}
-                        ⏳ Timeouts: ${infractionData.infractions.timeouts}
-                        🚪 Expulsões de Canal de Voz: ${infractionData.infractions.voiceChannelKicks}
-                        🚪 Expulsões do Servidor: ${infractionData.infractions.expulsion}
-                        ⛔ Bans: ${infractionData.infractions.bans}
-                        🔓 Unbans: ${infractionData.infractions.unbans}
-                        💬 Flood Timeouts: ${infractionData.infractions.floodTimeouts}
-                        📂 Arquivos Bloqueados: ${infractionData.infractions.blockedFiles}
-                        🔗 Links Postados: ${infractionData.infractions.serverLinksPosted}`,
+                            🗣️ Linguagem Inapropriada: ${infractionData.infractions.inappropriateLanguage}
+                            ⏳ Timeouts: ${infractionData.infractions.timeouts}
+                            🚪 Expulsões de Canal de Voz: ${infractionData.infractions.voiceChannelKicks}
+                            🚪 Expulsões do Servidor: ${infractionData.infractions.expulsion}
+                            ⛔ Bans: ${infractionData.infractions.bans}
+                            🔓 Unbans: ${infractionData.infractions.unbans}
+                            💬 Flood Timeouts: ${infractionData.infractions.floodTimeouts}
+                            📂 Arquivos Bloqueados: ${infractionData.infractions.blockedFiles}
+                            🔗 Links Postados: ${infractionData.infractions.serverLinksPosted}`,
                         inline: false,
                     }
                 );

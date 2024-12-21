@@ -11,21 +11,22 @@ async function ticket(interaction) {
     if (commandName === 'ticket') {
 
         checkingComandChannelBlocked(interaction);
-        checkingComandExecuntionModerador(interaction);
+        const isAuthorized = await checkingComandExecuntionModerador(interaction);
+        if (!isAuthorized) return;
 
         const criarTicket = new ButtonBuilder()
-        .setCustomId('create_ticket')
-        .setLabel('Criar Ticket')
-        .setStyle(ButtonStyle.Primary)
-        .setEmoji('📩');
-        
+            .setCustomId('create_ticket')
+            .setLabel('Criar Ticket')
+            .setStyle(ButtonStyle.Primary)
+            .setEmoji('📩');
+
         const btnOpenTicket = new ActionRowBuilder().addComponents(criarTicket);
 
         const embedTicket = new EmbedBuilder()
             .setColor(0xffffff)
             .setDescription('Para sugestões, dúvidas ou denúncias, abra seu ticket.')
             .setTitle('Abra seu Ticket.')
-            .setFooter({iconURL: client.user.displayAvatarURL({ dynamic: true }), text: `${client.user.tag} - Ticket sem confusão` });
+            .setFooter({ iconURL: client.user.displayAvatarURL({ dynamic: true }), text: `${client.user.tag} - Ticket sem confusão` });
 
         await interaction.reply({ content: 'Botão enviado!', ephemeral: true });
 
@@ -38,15 +39,15 @@ async function ticket(interaction) {
 // Listener único para interações de botões
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isButton()) return;
-    
+
     const fecharTicket = new ButtonBuilder()
-    .setCustomId('close_ticket')
-    .setLabel('Fechar Ticket')
-    .setStyle(ButtonStyle.Danger)
-    .setEmoji('🔒');
+        .setCustomId('close_ticket')
+        .setLabel('Fechar Ticket')
+        .setStyle(ButtonStyle.Danger)
+        .setEmoji('🔒');
 
     const btnCloseTicket = new ActionRowBuilder().addComponents(fecharTicket);
-    
+
     if (interaction.customId === 'create_ticket') {
         const category = interaction.guild.channels.cache.get(process.env.CATEGORY_ID);
         if (!category || category.type !== 4) {
@@ -92,7 +93,7 @@ client.on('interactionCreate', async (interaction) => {
         });
         const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
         discordChannel2.send(`Ticket criado ${interaction.user.username} no canal <#${ticketChannel.id}>.`);
-        
+
         await interaction.reply({ content: `Ticket criado com sucesso: <#${ticketChannel.id}>`, ephemeral: true });
         info.info(`Ticket criado com sucesso para ${interaction.user.username} no canal <#${ticketChannel.id}>`);
 
@@ -102,7 +103,7 @@ client.on('interactionCreate', async (interaction) => {
             .setColor(0xffffff)
             .setTitle(`Olá <@${interaction.user.displayName}>`)
             .setDescription('O suporte estará com você em breve. Para fechar esse ticket clique em 🔒')
-            .setFooter({iconURL: client.user.displayAvatarURL({ dynamic: true }), text: `${client.user.tag} - Ticket sem confusão` });
+            .setFooter({ iconURL: client.user.displayAvatarURL({ dynamic: true }), text: `${client.user.tag} - Ticket sem confusão` });
 
         await ticketChannel.send({ embeds: [embedTicket], components: [btnCloseTicket] });
     }

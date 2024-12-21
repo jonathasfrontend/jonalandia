@@ -5,19 +5,20 @@ const { client } = require("../../Client");
 const { erro, info } = require('../../Logger');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require('../../utils/checkingComandsExecution');
 
-async function limpaSorteio(interaction){
+async function limpaSorteio(interaction) {
   if (!interaction.isCommand()) return;
- 
+
   const { commandName } = interaction;
-  
+
   checkingComandChannelBlocked(interaction);
-  checkingComandExecuntionModerador(interaction);
+  const isAuthorized = await checkingComandExecuntionModerador(interaction);
+  if (!isAuthorized) return;
 
   try {
-    if (commandName === 'limpasorteio'){
+    if (commandName === 'limpasorteio') {
       await Sorteio.deleteMany({});
       await Premio.deleteMany({});
-  
+
       const embed = new EmbedBuilder()
         .setColor("#00FF00")
         .setTitle(' 🎁 Sorteio limpo com sucesso!')
@@ -35,12 +36,12 @@ async function limpaSorteio(interaction){
     await logChannel.send(`Sorteio limpo com sucesso.`);
 
     info.info('Sorteio limpo com sucesso.');
-        
+
   } catch (error) {
     erro.error('Erro ao limpar sorteio:', error);
     const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);
     await logChannel.send(`Erro ao limpar sorteio: ${error}`);
-    
+
   }
 }
 

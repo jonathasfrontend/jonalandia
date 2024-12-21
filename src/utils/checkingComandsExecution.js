@@ -26,6 +26,8 @@ async function checkingComandExecuntionModerador(interaction) {
     const { member } = interaction;
 
     if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
+        await interaction.deferReply( { ephemeral: true } );
+
         const embed = new EmbedBuilder()
             .setColor('Red')
             .setAuthor({
@@ -36,9 +38,13 @@ async function checkingComandExecuntionModerador(interaction) {
             .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
             .setTimestamp()
             .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            await interaction.editReply({ embeds: [embed], ephemeral: true });
-        return;
+
+        await interaction.editReply({ embeds: [embed], ephemeral: true });
+        return false;
     }
+
+    return true;
 }
+
 
 module.exports = { checkingComandChannelBlocked, checkingComandExecuntionModerador };

@@ -5,12 +5,13 @@ const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = requ
 
 async function createEmbed(interaction) {
   if (!interaction.isCommand()) return;
-  
+
   const { commandName, options } = interaction;
   if (commandName === 'embed') {
 
     checkingComandChannelBlocked(interaction);
-    checkingComandExecuntionModerador(interaction);
+    const isAuthorized = await checkingComandExecuntionModerador(interaction);
+    if (!isAuthorized) return;
 
     const titulo = options.getString('titulo');
     const descricao = options.getString('descricao');

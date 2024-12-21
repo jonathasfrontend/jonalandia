@@ -10,7 +10,8 @@ async function banUser(interaction) {
     const { commandName, options, member } = interaction;
 
     checkingComandChannelBlocked(interaction);
-    checkingComandExecuntionModerador(interaction);
+    const isAuthorized = await checkingComandExecuntionModerador(interaction);
+    if (!isAuthorized) return;
 
     try {
         if (commandName === 'banir') {
@@ -27,7 +28,7 @@ async function banUser(interaction) {
 
             const reason = `O usuário ${userToBan.tag} foi banido do servidor.`;
             const type = 'bans';
-            
+
             saveUserInfractions(
                 userToBan.id,
                 userToBan.tag,
@@ -54,7 +55,7 @@ async function banUser(interaction) {
             await logChannel.send(`O usuário ${userToBan.tag} foi banido do servidor.`);
 
             info.info(`O usuário ${userToBan.tag} foi banido do servidor.`);
-        } 
+        }
     } catch (error) {
         erro.error('Erro ao banir usuario:', error);
         const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);

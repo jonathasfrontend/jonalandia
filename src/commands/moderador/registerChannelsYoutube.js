@@ -4,16 +4,17 @@ const { client } = require("../../Client");
 const { erro, info } = require('../../Logger');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require("../../utils/checkingComandsExecution");
 
-async function registerChannelsYoutube(interaction){
+async function registerChannelsYoutube(interaction) {
     if (!interaction.isCommand()) return;
- 
+
     const { commandName, options } = interaction;
-    
+
     checkingComandChannelBlocked(interaction);
-    checkingComandExecuntionModerador(interaction);
+    const isAuthorized = await checkingComandExecuntionModerador(interaction);
+    if (!isAuthorized) return;
 
     try {
-        if (commandName === 'registerchannelsyoutube'){
+        if (commandName === 'registerchannelsyoutube') {
 
             const NameChannel = options.getString('channel');
 

@@ -10,7 +10,8 @@ async function kickUser(interaction) {
     const { commandName, options, member } = interaction;
 
     checkingComandChannelBlocked(interaction);
-    checkingComandExecuntionModerador(interaction);
+    const isAuthorized = await checkingComandExecuntionModerador(interaction);
+    if (!isAuthorized) return;
 
     try {
         if (commandName === 'kickuser') {

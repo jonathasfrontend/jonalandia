@@ -5,10 +5,12 @@ const { checkingComandExecuntionModerador } = require("../../utils/checkingComan
 async function clearUser(interaction) {
     if (!interaction.isCommand()) return;
 
-    const { commandName, options, member } = interaction;
+    const { commandName, options } = interaction;
 
-    if (commandName === 'clearuser') {    
-        checkingComandExecuntionModerador(interaction);
+    if (commandName === 'clearuser') {
+
+        const isAuthorized = await checkingComandExecuntionModerador(interaction);
+        if (!isAuthorized) return;
         
         const numberOfMessages = options.getInteger('numero');
         const user = options.getUser('usuario');

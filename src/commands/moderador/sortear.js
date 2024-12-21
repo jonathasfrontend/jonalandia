@@ -5,16 +5,17 @@ const { client } = require("../../Client");
 const { info, erro } = require('../../Logger');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require('../../utils/checkingComandsExecution');
 
-async function sortear(interaction){
+async function sortear(interaction) {
   if (!interaction.isCommand()) return;
 
   const { commandName } = interaction;
 
   checkingComandChannelBlocked(interaction);
-  checkingComandExecuntionModerador(interaction);
+  const isAuthorized = await checkingComandExecuntionModerador(interaction);
+  if (!isAuthorized) return;
 
   try {
-    if (commandName === 'sortear'){
+    if (commandName === 'sortear') {
       const premio = await Premio.findOne().sort({ dataCadastro: -1 }).limit(1); // Pega o último prêmio
       if (!premio) return interaction.reply('Não há prêmios cadastrados.');
 
@@ -35,10 +36,10 @@ async function sortear(interaction){
         .setTimestamp()
         .setFooter({ text: `Por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` });
 
-        const sorteioChannel = client.channels.cache.get(process.env.CHANNEL_ID_SORTEIOS);
-        sorteioChannel.send({ embeds: [embed] }); // Usando send ao invés de reply
+      const sorteioChannel = client.channels.cache.get(process.env.CHANNEL_ID_SORTEIOS);
+      sorteioChannel.send({ embeds: [embed] }); // Usando send ao invés de reply
 
-      await interaction.reply('Sorteio realizado com sucesso!' , { ephemeral: true });
+      await interaction.reply('Sorteio realizado com sucesso!', { ephemeral: true });
 
       const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
       await logChannel.send(`Sorteio realizado com sucesso.`);

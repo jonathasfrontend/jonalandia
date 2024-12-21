@@ -4,16 +4,17 @@ const { client } = require("../../Client");
 const { erro, info } = require('../../Logger');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require("../../utils/checkingComandsExecution");
 
-async function registerStreamersTwitch(interaction){
+async function registerStreamersTwitch(interaction) {
     if (!interaction.isCommand()) return;
- 
+
     const { commandName, options } = interaction;
-    
+
     checkingComandChannelBlocked(interaction);
-    checkingComandExecuntionModerador(interaction);
+    const isAuthorized = await checkingComandExecuntionModerador(interaction);
+    if (!isAuthorized) return;
 
     try {
-        if (commandName === 'registerstreamerstwitch'){
+        if (commandName === 'registerstreamerstwitch') {
 
             const NameStreamer = options.getString('streamer');
 

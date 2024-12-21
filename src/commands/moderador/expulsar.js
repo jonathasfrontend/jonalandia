@@ -7,15 +7,16 @@ const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = requ
 async function expulsar(interaction) {
     if (!interaction.isCommand()) return;
 
-    const { commandName, options, channelId, member } = interaction;
+    const { commandName, options } = interaction;
 
     checkingComandChannelBlocked(interaction);
-    checkingComandExecuntionModerador(interaction);
+    const isAuthorized = await checkingComandExecuntionModerador(interaction);
+    if (!isAuthorized) return;
 
     try {
         if (commandName === 'expulsar') {
             await interaction.deferReply({ ephemeral: true });
-            
+
             const userToKick = options.getUser('usuario');
             const targetMember = await interaction.guild.members.fetch(userToKick.id);
 
@@ -54,7 +55,7 @@ async function expulsar(interaction) {
             await logChannel.send(`Expulsão aplicada com sucesso no usuário ${userToKick.tag}.`);
 
             info.info(`Expulsão aplicada com sucesso no usuário ${userToKick.tag}.`);
-        } 
+        }
     } catch (error) {
         erro.error('Erro ao aplicar a expulsão:', error);
         const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);

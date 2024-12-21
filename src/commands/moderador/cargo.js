@@ -10,7 +10,8 @@ async function cargo(interaction) {
     if (commandName === 'cargo') {
 
         checkingComandChannelBlocked(interaction);
-        checkingComandExecuntionModerador(interaction);
+        const isAuthorized = await checkingComandExecuntionModerador(interaction);
+        if (!isAuthorized) return;
 
         // Definição de Botões
         const buttons = {
@@ -42,18 +43,18 @@ async function cargo(interaction) {
         };
 
         // Função para criar botões de cargo
-        const createButtons = (buttonList) => 
+        const createButtons = (buttonList) =>
             buttonList.map((button) => {
                 const buttonBuilder = new ButtonBuilder()
                     .setCustomId(button.id)
                     .setLabel(button.label)
                     .setStyle(ButtonStyle.Secondary);
-                
+
                 // Adiciona o emoji apenas se estiver definido
                 if (button.emoji) {
                     buttonBuilder.setEmoji(button.emoji);
                 }
-                
+
                 return buttonBuilder;
             });
 
@@ -72,8 +73,8 @@ async function cargo(interaction) {
             .setColor(0xffffff)
             .setTitle('Clique no cargo de Membro para desbloquear mais canais.');
         const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_CARGOS);
-        
-// Envio das linhas de botões (respeitando o limite de 5 por linha)
+
+        // Envio das linhas de botões (respeitando o limite de 5 por linha)
         await discordChannel.send({ embeds: [embedCargoMembro], components: [rows[0]] });
         await discordChannel.send({ components: [rows[1]] });
         await discordChannel.send({ components: [rows[2]] });

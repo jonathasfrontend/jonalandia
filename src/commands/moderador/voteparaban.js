@@ -11,14 +11,14 @@ async function voteParaBan(interaction) {
   const { commandName, options } = interaction;
 
   checkingComandChannelBlocked(interaction);
-  checkingComandExecuntionModerador(interaction);
+  const isAuthorized = await checkingComandExecuntionModerador(interaction);
+  if (!isAuthorized) return;
 
   try {
     if (commandName === 'voteparaban') {
       const targetUser = options.getUser('usuario');
-      const endTime = new Date(Date.now() + 5 * 60 * 1000); // Votação dura 5 minutos
+      const endTime = new Date(Date.now() + 5 * 60 * 1000);
 
-      // Salvar a votação no banco de dados
       const newVote = await Vote.create({
         targetUserId: targetUser.id,
         targetUsername: targetUser.username,

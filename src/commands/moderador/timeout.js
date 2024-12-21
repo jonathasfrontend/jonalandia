@@ -10,20 +10,21 @@ async function timeout(interaction) {
     const { commandName, options, member } = interaction;
 
     checkingComandChannelBlocked(interaction);
-    checkingComandExecuntionModerador(interaction);
+    const isAuthorized = await checkingComandExecuntionModerador(interaction);
+    if (!isAuthorized) return;
 
     try {
         if (commandName === 'timeout') {
             await interaction.deferReply({ ephemeral: true });
-    
+
             const userToTimeout = options.getUser('usuario');
             const guildMember = interaction.guild.members.cache.get(userToTimeout.id);
-    
+
             if (!guildMember) {
                 await interaction.editReply({ content: 'Usuário não encontrado no servidor.', ephemeral: true });
                 return;
             }
-    
+
             const reason = `O usuário ${userToTimeout.tag} recebeu um timeout de 3 minutos.`;
             const type = 'timeouts';
 
@@ -37,7 +38,7 @@ async function timeout(interaction) {
                 reason,
                 member.user.tag
             )
-            
+
             await guildMember.timeout(3 * 60 * 1000, 'Timeout de 3 minutos aplicado pelo bot');
             const embed = new EmbedBuilder()
                 .setColor('#ff0000')
@@ -52,7 +53,7 @@ async function timeout(interaction) {
             await logChannel.send(`Timeout aplicado com sucesso no usuário ${userToTimeout.tag}.`);
 
             info.info(`Timeout aplicado com sucesso no usuário ${userToTimeout.tag}.`);
-        } 
+        }
     } catch (error) {
         erro.error('Erro ao aplicar timeout:', error);
         const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);

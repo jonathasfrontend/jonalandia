@@ -8,9 +8,10 @@ async function clearAll(interaction) {
     const { commandName, options } = interaction;
 
     if (commandName === 'clearall') {
-        
-        checkingComandExecuntionModerador(interaction);
-        
+
+        const isAuthorized = await checkingComandExecuntionModerador(interaction);
+        if (!isAuthorized) return;
+
 
         if (options.data.length > 0 && options.data[0].name === 'number') {
             const numberOfMessages = options.data[0].value;
@@ -50,7 +51,7 @@ async function clearAll(interaction) {
                 discordChannel2.send(`As últimas ${numberOfMessages} mensagens foram deletadas por ${interaction.user.tag} `)
 
             } catch (error) {
-              let errorMessage = 'Ocorreu um erro ao tentar deletar as mensagens.';
+                let errorMessage = 'Ocorreu um erro ao tentar deletar as mensagens.';
                 if (error.rawError && error.rawError.message === 'You can only bulk delete messages that are under 14 days old.') {
                     errorMessage = 'Você só pode deletar mensagens que têm menos de 14 dias.';
                 }
