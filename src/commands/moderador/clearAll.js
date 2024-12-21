@@ -1,26 +1,15 @@
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
+const { checkingComandExecuntionModerador } = require("../../utils/checkingComandsExecution");
 
 async function clearAll(interaction) {
     if (!interaction.isCommand()) return;
 
-    const { commandName, options, member } = interaction;
+    const { commandName, options } = interaction;
 
     if (commandName === 'clearall') {
-        if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
-            const embed = new EmbedBuilder()
-                .setColor('Red')
-                .setAuthor({
-                    name: client.user.username,
-                    iconURL: client.user.displayAvatarURL({ dynamic: true }),
-                })
-                .setDescription('Você não tem permissão para usar este comando.')
-                .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-                .setTimestamp()
-                .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            await interaction.reply({ embeds: [embed], ephemeral: true });
-            return;
-        }
+        
+        checkingComandExecuntionModerador(interaction);
         
 
         if (options.data.length > 0 && options.data[0].name === 'number') {

@@ -2,28 +2,15 @@ const { EmbedBuilder } = require("discord.js");
 const { client } = require("../Client");
 const { info, erro } = require('../Logger');
 const { saveUpdateUserPoints } = require("../utils/saveUpdateUserPoints");
-const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
+const { checkingComandChannelBlocked } = require("../utils/checkingComandsExecution");
 
 async function searchGuild(interaction) {
     if (!interaction.isCommand()) return;
-    const { commandName, channelId } = interaction;
+    const { commandName } = interaction;
+
+    checkingComandChannelBlocked(interaction);
 
     if (commandName === 'server') {
-        if (blockedChannels.includes(channelId)) {
-            const embed = new EmbedBuilder()
-                .setColor('Red')
-                .setAuthor({
-                    name: client.user.username,
-                    iconURL: client.user.displayAvatarURL({ dynamic: true }),
-                })
-                .setTitle("Este comando não pode ser usado neste canal")
-                .setDescription('Vá ao canal <#1253377239370698873> para executar os comandos')
-                .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-                .setTimestamp()
-                .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            await interaction.reply({ embeds: [embed], ephemeral: true });
-            return;
-        }
 
         try {
             const guild = interaction.guild;
@@ -58,6 +45,8 @@ async function searchGuild(interaction) {
 
             const discordChannel2 = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT)
             discordChannel2.send(`Informações do Servidor ${guild.name} consultadas por ${interaction.user.tag}`);
+
+            info.info(`Informações do Servidor ${guild.name} consultadas com sucesso por ${interaction.user.tag}`);
 
         } catch (error) {
             erro.error(`Erro ao consultar informações do servidor: ${error}`);

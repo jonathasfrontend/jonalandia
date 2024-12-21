@@ -1,43 +1,16 @@
 const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require("discord.js");
 const { client } = require("../../Client");
-const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
+const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require('../../utils/checkingComandsExecution');
 
 async function cargo(interaction) {
     if (!interaction.isCommand()) return;
 
-    const { commandName, member, channelId } = interaction;
+    const { commandName } = interaction;
 
     if (commandName === 'cargo') {
-        if (blockedChannels.includes(channelId)) {
-            const embed = new EmbedBuilder()
-                .setColor('Red')
-                .setAuthor({
-                    name: client.user.username,
-                    iconURL: client.user.displayAvatarURL({ dynamic: true }),
-                })
-                .setTitle("Este comando não pode ser usado neste canal")
-                .setDescription('Vá ao canal <#1253377239370698873> para executar os comandos')
-                .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-                .setTimestamp()
-                .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            await interaction.reply({ embeds: [embed], ephemeral: true });
-            return;
-        }
-    
-        if (!member.roles.cache.has(process.env.CARGO_MODERADOR)) {
-            const embed = new EmbedBuilder()
-                .setColor('Red')
-                .setAuthor({
-                    name: client.user.username,
-                    iconURL: client.user.displayAvatarURL({ dynamic: true }),
-                })
-                .setDescription('Você não tem permissão para usar este comando.')
-                .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-                .setTimestamp()
-                .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
-            await interaction.reply({ embeds: [embed], ephemeral: true });
-            return;
-        }
+
+        checkingComandChannelBlocked(interaction);
+        checkingComandExecuntionModerador(interaction);
 
         // Definição de Botões
         const buttons = {
