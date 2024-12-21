@@ -1,17 +1,18 @@
 const { client } = require("../Client");
 const { info, erro } = require('../Logger');
-const { EmbedBuilder } = require("discord.js");
 const onNotificationYoutubeSchema = require('../models/onNotificationYoutubeSchema')
+const onYoutubeChannelSchema = require('../models/onYoutubeChannelSchema')
+const { EmbedBuilder } = require("discord.js");
 const { google } = require('googleapis');
 const cron = require('node-cron');
 const youtube = google.youtube({version: 'v3', auth: 'AIzaSyBpv77J9fbBuwDfRtDke0XRST_Db_bHJFk'});
-const channels = require('../config/youtube.json');
 
 require('dotenv').config()
 
-let lastVideoIds = channels.map(channel => ({ [channel]: '1647708800000' })).reduce((acc, cur) => ({ ...acc, ...cur }), {});
-
 async function onNotificationYoutube() {
+    const channels = await onYoutubeChannelSchema.find({});
+    const lastVideoIds = channels.map(channel => ({ [channel]: '1647708800000' })).reduce((acc, cur) => ({ ...acc, ...cur }), {});
+
     for (let i = 0; i < channels.length; i++) {
         let channelName = channels[i];
         let params = {
@@ -45,7 +46,6 @@ async function onNotificationYoutube() {
 
                 if (lastVideoIds[channelId] !== videoId) {
                     lastVideoIds[channelId] = videoId;
-
                     
                     const embed = new EmbedBuilder()
                         .setColor('Red')

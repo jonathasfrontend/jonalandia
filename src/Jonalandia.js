@@ -52,6 +52,8 @@ const { limpaSorteio } = require('./commands/moderador/limpasorteio')
 const { sortear } = require('./commands/moderador/sortear')
 const { voteParaBan } = require('./commands/moderador/voteparaban')
 const { excluirComando } = require('./commands/moderador/deleteCommand');
+const { registerStreamersTwitch } = require('./commands/moderador/registerStreamersTwitch');
+const { registerChannelsYoutube } = require('./commands/moderador/registerChannelsYoutube');
 
 const { bdServerConect } = require('./config/bdServerConect');
 
@@ -62,7 +64,7 @@ client.once('ready', () => {
   Status();
   checkUpdateRoles();
   scheduleBirthdayCheck();
-  // scheduleNotificationYoutubeCheck();
+  scheduleNotificationYoutubeCheck();
   scheduleNotificationTwitchCheck();
   scheduleonNotificationFreeGamesCheck();
   scheduleVerificarPagamentosPendentes();
@@ -401,6 +403,32 @@ client.once('ready', () => {
     ],
   });
 
+  client.application?.commands.create({
+    name: 'registerstreamerstwitch',
+    description: 'Cadastra um novo streamer para ser notificado. (Moderador)',
+    options: [
+        {
+            type: 3, // Tipo de string
+            name: 'streamer',
+            description: 'O nome do streamer.',
+            required: true,
+        }
+    ],
+  });
+
+  client.application?.commands.create({
+    name: 'registerchannelsyoutube',
+    description: 'Cadastra um novo canal do youtube para ser notificado. (Moderador)',
+    options: [
+        {
+            type: 3, // Tipo de string
+            name: 'channel',
+            description: 'O nome do canal.',
+            required: true,
+        }
+    ],
+  });
+
 });
 
 client.on('interactionCreate', async (interaction) => {
@@ -470,6 +498,10 @@ client.on('interactionCreate', async (interaction) => {
     await compraGema(interaction);
   } else if (commandName === 'excluicomando') {
     await excluirComando(interaction);
+  } else if (commandName === 'registerstreamerstwitch') {
+    await registerStreamersTwitch(interaction);
+  } else if (commandName === 'registerchannelsyoutube') {
+    await registerChannelsYoutube(interaction);
   }
 });
 
