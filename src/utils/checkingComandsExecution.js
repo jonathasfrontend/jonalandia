@@ -18,8 +18,10 @@ async function checkingComandChannelBlocked(interaction) {
             .setTimestamp()
             .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
         await interaction.reply({ embeds: [embed], ephemeral: true });
-        return;
+        return false;
     }
+
+    return true;
 }
 
 async function checkingComandExecuntionModerador(interaction) {

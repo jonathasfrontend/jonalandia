@@ -50,7 +50,7 @@ async function onNotificationFreeGames() {
 }
 
 function scheduleonNotificationFreeGamesCheck(){
-    cron.schedule('0 13 * * *', () => {
+    cron.schedule('*/5 * * * *', () => { 
         onNotificationFreeGames();
     });
 }

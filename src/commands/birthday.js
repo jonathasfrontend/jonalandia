@@ -8,8 +8,8 @@ async function Birthday (interaction){
 
     if (!interaction.isCommand()) return;
 
-    checkingComandChannelBlocked(interaction);
-    
+    const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
+    if (!authorizedExecutionComand) return;
 
     if (commandName === 'birthday') {
 

@@ -9,9 +9,10 @@ async function createEmbed(interaction) {
   const { commandName, options } = interaction;
   if (commandName === 'embed') {
 
-    checkingComandChannelBlocked(interaction);
-    const isAuthorized = await checkingComandExecuntionModerador(interaction);
-    if (!isAuthorized) return;
+    const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
+    if (!authorizedExecutionComand) return;
+    const authorizedExecutionComandModerador = await checkingComandExecuntionModerador(interaction);
+    if (!authorizedExecutionComandModerador) return;
 
     const titulo = options.getString('titulo');
     const descricao = options.getString('descricao');

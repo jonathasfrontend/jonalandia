@@ -3,7 +3,6 @@ const { client } = require('../../Client');
 const { info, erro } = require('../../Logger');
 const inappropriateWordsData = require('../../config/InappropriateWords.json');
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
-const Users = require('../../models/onInfracoesUsersSchema');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 const { saveUpdateUserPoints } = require('../../utils/saveUpdateUserPoints');
 
@@ -87,7 +86,10 @@ async function detectInappropriateWords(message) {
             await discordChannel.send({ embeds: [logEmbed] })
             
         } catch (error) {
-            erro.error(`Erro ao aplicar timeout em ${message.author.tag}:`, error);
+            const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);
+            discordChannel.send(`Erro ao tentar deletar mensagem de ${message.author.tag} por palavras inadequadas! ${error}`);
+
+            erro.error(`Erro ao tentar deletar mensagem de ${message.author.tag} por palavras inadequadas! ${error}`);
         }
     }
 }

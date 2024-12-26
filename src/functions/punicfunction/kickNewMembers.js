@@ -30,9 +30,10 @@ async function autoKickNewMembers() {
                     .setFooter({ text: `Expulsão realizada por ${guild.owner?.user.tag}`, iconURL: guild.iconURL() })
                     .setTimestamp();
                 await member.send({ embeds: [embed] });
-                info.info(`Mensagem enviada ao membro ${member.user.tag} antes da expulsão.`);
 
-                await member.kick('Conta criada há menos de 7 dias');
+                info.info(`Membro ${member.user.tag} foi notificado sobre a expulsão por conta nova.`);
+
+                await member.kick(`Conta criada há menos de 7 dias.`);
 
                 const logEmbed = new EmbedBuilder()
                     .setColor('#FF0000')

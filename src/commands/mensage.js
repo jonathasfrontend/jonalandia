@@ -8,7 +8,8 @@ async function menssageFile(interaction) {
 
   const { commandName } = interaction;
 
-  checkingComandChannelBlocked(interaction);
+  const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
+  if (!authorizedExecutionComand) return;
 
   if (commandName === 'oi') {
     const embed = await new EmbedBuilder()

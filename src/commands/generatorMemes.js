@@ -8,7 +8,8 @@ async function generatorMemes(interaction) {
     
     const { commandName } = interaction;
 
-    checkingComandChannelBlocked(interaction);
+    const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
+    if (!authorizedExecutionComand) return;
 
     try {
         const response = await axios.get("https://api.apileague.com/retrieve-random-meme?keywords=rocket", {

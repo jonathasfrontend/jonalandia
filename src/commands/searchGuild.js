@@ -8,7 +8,8 @@ async function searchGuild(interaction) {
     if (!interaction.isCommand()) return;
     const { commandName } = interaction;
 
-    checkingComandChannelBlocked(interaction);
+    const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
+    if (!authorizedExecutionComand) return;
 
     if (commandName === 'server') {
 

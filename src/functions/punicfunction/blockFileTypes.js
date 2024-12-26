@@ -3,7 +3,6 @@ const { client } = require('../../Client');
 const blockedFileExtensions = require('../../config/blockedFileExtensions.json').blockedFileExtensions;
 const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
 const { info, erro } = require('../../Logger');
-const Users = require('../../models/onInfracoesUsersSchema');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 
 async function blockFileTypes(message) {
@@ -43,8 +42,15 @@ async function blockFileTypes(message) {
 
                 await message.channel.send({ embeds: [embed], content: `${message.author}` });
 
+                info.info(`O usuário ${message.author.tag} tentou enviar um arquivo com extensão bloqueada em um canal restrito!`);
+
                 const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
                 discordChannel.send(`${message.author} tentou enviar um arquivo com extensão bloqueada em um canal restrito!`);
+            } else {
+                const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);
+                discordChannel.send(`erro ao tentar bloquear o envio de arquivos com extensões bloqueadas!`);
+
+                erro.error(`erro ao tentar bloquear o envio de arquivos com extensões bloqueadas!`);
             }
         }
     }

@@ -9,7 +9,8 @@ async function Perfil(interaction) {
 
     if (!interaction.isCommand()) return;
 
-    checkingComandChannelBlocked(interaction);
+    const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
+    if (!authorizedExecutionComand) return;
 
     try {
         if (commandName === 'perfil') {
@@ -17,7 +18,7 @@ async function Perfil(interaction) {
             const userData = await User.findOne({ username: userOption.username });
 
             if (!userData) {
-                return interaction.reply({ content: 'Você ainda não possui um perfil.', ephemeral: true });
+                return interaction.reply({ content: 'Este Usuario ainda não possui um perfil.', ephemeral: true });
             }
 
             const guildOwnerId = interaction.guild.ownerId;

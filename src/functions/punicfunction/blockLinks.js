@@ -47,10 +47,16 @@ async function blockLinks(message) {
 
             await message.channel.send({ content: `${message.author}`, embeds: [embed] });
 
+            info.info(`Mensagem bloqueada por conter links. Usuário: ${message.author.tag}, Tipo de link: ${blockedLinks.find(regex => regex.test(message.content)).source}`);
+
             const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
             discordChannel.send(`Mensagem bloqueada por conter links. Usuário: ${message.author.tag}, Tipo de link: ${blockedLinks.find(regex => regex.test(message.content)).source}`);
             
-            info.info(`Mensagem bloqueada por conter links. Usuário: ${message.author.tag}, Tipo de link: ${blockedLinks.find(regex => regex.test(message.content)).source}`);
+        } else {
+            const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);
+            discordChannel.send(`erro ao tentar bloquear o envio de arquivos com extensões bloqueadas!`);
+
+            erro.error(`erro ao tentar bloquear o envio de arquivos com extensões bloqueadas!`);
         }
     }
 }

@@ -9,9 +9,10 @@ async function mensageRegra(interaction) {
 
   if (commandName === 'regra') {
 
-    checkingComandChannelBlocked(interaction);
-    const isAuthorized = await checkingComandExecuntionModerador(interaction);
-    if (!isAuthorized) return;
+    const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
+    if (!authorizedExecutionComand) return;
+    const authorizedExecutionComandModerador = await checkingComandExecuntionModerador(interaction);
+    if (!authorizedExecutionComandModerador) return;
 
     const embed = await new EmbedBuilder()
       .setColor("White")

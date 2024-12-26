@@ -10,7 +10,8 @@ async function getWeather(interaction) {
 
     if (!interaction.isCommand()) return;
 
-    checkingComandChannelBlocked(interaction);
+    const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
+    if (!authorizedExecutionComand) return;
 
     try {
         if (commandName === 'clima') {
@@ -32,7 +33,6 @@ async function getWeather(interaction) {
                     { name: "🌡️ Temperatura", value: `${data.main.temp}°C`, inline: true },
                     { name: "🌡️ Sensação Térmica", value: `${data.main.feels_like}°C`, inline: true },
                     { name: "💧 Umidade", value: `${data.main.humidity}%`, inline: true },
-                    // { name: '\u200B', value: '\u200B', inline: true },
                     { name: "🌬️ Velocidade do Vento", value: `${data.wind.speed} m/s`, inline: true },
                     { name: "🌅 Nascer do Sol", value: new Date(data.sys.sunrise * 1000).toLocaleTimeString(), inline: true },
                     { name: "🌇 Pôr do Sol", value: new Date(data.sys.sunset * 1000).toLocaleTimeString(), inline: true },
