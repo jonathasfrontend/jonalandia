@@ -52,8 +52,11 @@ const { limpaSorteio } = require('./commands/moderador/limpasorteio')
 const { sortear } = require('./commands/moderador/sortear')
 const { voteParaBan } = require('./commands/moderador/voteparaban')
 const { excluirComando } = require('./commands/moderador/deleteCommand');
-const { registerStreamersTwitch } = require('./commands/moderador/registerStreamersTwitch');
-const { registerChannelsYoutube } = require('./commands/moderador/registerChannelsYoutube');
+
+const { registerStreamersTwitch } = require('./commands/initializebot/registerStreamersTwitch');
+const { registerChannelsYoutube } = require('./commands/initializebot/registerChannelsYoutube');
+const { addChannels } = require('./commands/initializebot/addChannels');
+const { removeChannels } = require('./commands/initializebot/removeChannels');
 
 const { bdServerConect } = require('./config/bdServerConect');
 
@@ -200,12 +203,12 @@ client.once('ready', () => {
     name: 'timeout',
     description: 'Aplica um timeout de 3 minutos em um usuário. (Moderador)',
     options: [
-        {
-            type: 6,
-            name: 'usuario',
-            description: 'Selecione o usuário para aplicar o timeout.',
-            required: true,
-        },
+      {
+        type: 6,
+        name: 'usuario',
+        description: 'Selecione o usuário para aplicar o timeout.',
+        required: true,
+      },
     ],
   });
 
@@ -213,12 +216,12 @@ client.once('ready', () => {
     name: 'expulsar',
     description: 'Expulsa um usuário do servidor (Moderador)',
     options: [
-        {
-            type: 6, // Tipo 6 é para selecionar usuário
-            name: 'usuario',
-            description: 'O usuário a ser expulso',
-            required: true,
-        },
+      {
+        type: 6, // Tipo 6 é para selecionar usuário
+        name: 'usuario',
+        description: 'O usuário a ser expulso',
+        required: true,
+      },
     ],
   });
 
@@ -236,28 +239,28 @@ client.once('ready', () => {
   });
 
   client.application?.commands.create({
-  name: 'desbanir',
-  description: 'Desbane um usuário do servidor (Moderador)',
-  options: [
-    {
-      type: 6, // Tipo 6 representa um usuário
-      name: 'usuario',
-      description: 'Selecione o usuário a ser desbanido',
-      required: true,
-    },
-  ],
+    name: 'desbanir',
+    description: 'Desbane um usuário do servidor (Moderador)',
+    options: [
+      {
+        type: 6, // Tipo 6 representa um usuário
+        name: 'usuario',
+        description: 'Selecione o usuário a ser desbanido',
+        required: true,
+      },
+    ],
   });
 
   client.application?.commands.create({
     name: 'kickuser',
     description: 'Expulsa um usuário do canal de voz. (Moderador)',
     options: [
-        {
-            type: 6, // Tipo para usuário (Discord user)
-            name: 'usuario',
-            description: 'O usuário a ser expulso do canal de voz.',
-            required: true,
-        }
+      {
+        type: 6, // Tipo para usuário (Discord user)
+        name: 'usuario',
+        description: 'O usuário a ser expulso do canal de voz.',
+        required: true,
+      }
     ],
   });
 
@@ -265,10 +268,10 @@ client.once('ready', () => {
     name: 'clima',
     description: 'Exibe a previsão do tempo para uma cidade especificada',
     options: [{
-        type: 3, // Tipo de string
-        name: 'cidade',
-        description: 'Nome da cidade para buscar o clima',
-        required: true,
+      type: 3, // Tipo de string
+      name: 'cidade',
+      description: 'Nome da cidade para buscar o clima',
+      required: true,
     }],
   });
 
@@ -276,12 +279,12 @@ client.once('ready', () => {
     name: 'infouser',
     description: 'Busca informações de um usuário pela API',
     options: [
-        {
-            type: 6, // Tipo string
-            name: 'usuario',
-            description: 'Nome do usuário a ser buscado.',
-            required: true,
-        },
+      {
+        type: 6, // Tipo string
+        name: 'usuario',
+        description: 'Nome do usuário a ser buscado.',
+        required: true,
+      },
     ],
   });
 
@@ -289,12 +292,12 @@ client.once('ready', () => {
     name: 'sorteio',
     description: 'Cadastrar para participar do sorteio',
     options: [
-        {
-            type: 6,
-            name: 'usuario',
-            description: 'Usuário a ser registrado no sorteio.',
-            required: true,
-        },
+      {
+        type: 6,
+        name: 'usuario',
+        description: 'Usuário a ser registrado no sorteio.',
+        required: true,
+      },
     ],
   });
 
@@ -302,30 +305,30 @@ client.once('ready', () => {
     name: 'premiosorteio',
     description: 'Cadastro de prêmio para sorteio (Moderador)',
     options: [
-        {
-            type: 3,
-            name: 'premio',
-            description: 'O prêmio.',
-            required: true,
-        },
+      {
+        type: 3,
+        name: 'premio',
+        description: 'O prêmio.',
+        required: true,
+      },
     ],
   });
-  
+
   client.application?.commands.create({
     name: 'limpasorteio',
     description: 'Limpa todos os participantes do sorteio (Moderador)',
   });
-  
+
   client.application?.commands.create({
     name: 'sortear',
     description: 'Realiza o sorteio e exibe o vencedor',
   });
-  
+
   client.application?.commands.create({
     name: 'infosorteio',
     description: 'Lista os participantes e informações do sorteio',
   });
-  
+
   client.application?.commands.create({
     name: 'voteparaban',
     description: 'Inicia uma votação para banir um usuário.',
@@ -338,7 +341,7 @@ client.once('ready', () => {
       },
     ],
   });
-  
+
   client.application?.commands.create({
     name: 'perfil',
     description: 'Mostra o perfil do usuário',
@@ -394,12 +397,12 @@ client.once('ready', () => {
     name: 'excluicomando',
     description: 'Exclui um comando do bot. (Moderador)',
     options: [
-        {
-            type: 3, // Tipo de string
-            name: 'comando',
-            description: 'O nome do comando a ser excluído.',
-            required: true,
-        }
+      {
+        type: 3, // Tipo de string
+        name: 'comando',
+        description: 'O nome do comando a ser excluído.',
+        required: true,
+      }
     ],
   });
 
@@ -407,12 +410,12 @@ client.once('ready', () => {
     name: 'registerstreamerstwitch',
     description: 'Cadastra um novo streamer para ser notificado. (Moderador)',
     options: [
-        {
-            type: 3, // Tipo de string
-            name: 'streamer',
-            description: 'O nome do streamer.',
-            required: true,
-        }
+      {
+        type: 3, // Tipo de string
+        name: 'streamer',
+        description: 'O nome do streamer.',
+        required: true,
+      }
     ],
   });
 
@@ -420,12 +423,48 @@ client.once('ready', () => {
     name: 'registerchannelsyoutube',
     description: 'Cadastra um novo canal do youtube para ser notificado. (Moderador)',
     options: [
+      {
+        type: 3, // Tipo de string
+        name: 'channel',
+        description: 'O nome do canal.',
+        required: true,
+      }
+    ],
+  });
+
+  client.application?.commands.create({
+    name: 'addchannels',
+    description: 'Adiciona canais ao banco de dados.',
+    options: [
         {
-            type: 3, // Tipo de string
-            name: 'channel',
-            description: 'O nome do canal.',
+            type: 3, // Tipo string
+            name: 'opcao',
+            description: 'Escolha entre "todos" ou "um"',
             required: true,
+            choices: [
+                { name: 'Todos os canais de texto', value: 'todos' },
+                { name: 'Adicionar um canal específico', value: 'um' }
+            ]
+        },
+        {
+            type: 7, // Tipo canal
+            name: 'canal',
+            description: 'Selecione o canal (opcional para a opção "um")',
+            required: false
         }
+    ]
+  });
+
+  client.application?.commands.create({
+    name: 'removechannels',
+    description: 'Remove um canal de texto do banco de dados. (Moderador)',
+    options: [
+      {
+        type: 7, // Tipo 7 é para selecionar um canal
+        name: 'channel',
+        description: 'Selecione o canal de texto a ser removido.',
+        required: true,
+      },
     ],
   });
 
@@ -502,6 +541,10 @@ client.on('interactionCreate', async (interaction) => {
     await registerStreamersTwitch(interaction);
   } else if (commandName === 'registerchannelsyoutube') {
     await registerChannelsYoutube(interaction);
+  } else if (commandName === 'addchannels') {
+    await addChannels(interaction);
+  } else if (commandName === 'removechannels') {
+    await removeChannels(interaction);
   }
 });
 

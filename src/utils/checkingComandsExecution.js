@@ -1,11 +1,23 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../Client");
-const blockedChannels = require('../config/blockedChannels.json').blockedChannels;
+const channelsIdBLockeds = require('../models/onAddChannelSchema');
+
+async function getBlockedChannels() {
+    try {
+        const channels = await channelsIdBLockeds.find();
+        return channels.map(channel => channel.channelId);
+    } catch (error) {
+        console.error("Erro ao buscar canais bloqueados:", error);
+        return [];
+    }
+}
 
 async function checkingComandChannelBlocked(interaction) {
     const { channelId } = interaction
 
-    if (blockedChannels.includes(channelId)) {
+    const channelsIdBLocke = await getBlockedChannels();
+
+    if (channelsIdBLocke.includes(channelId)) {
         const embed = new EmbedBuilder()
             .setColor('Red')
             .setAuthor({

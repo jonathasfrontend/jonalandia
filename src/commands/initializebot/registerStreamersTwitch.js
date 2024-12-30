@@ -1,29 +1,30 @@
 const { EmbedBuilder } = require("discord.js");
-const onYoutubeChannelSchema = require('../../models/onYoutubeChannelSchema');
+const onTwitchStreamersSchema = require('../../models/onTwitchStreamersSchema');
 const { client } = require("../../Client");
 const { erro, info } = require('../../Logger');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require("../../utils/checkingComandsExecution");
 
-async function registerChannelsYoutube(interaction) {
+async function registerStreamersTwitch(interaction) {
     if (!interaction.isCommand()) return;
 
     const { commandName, options } = interaction;
 
     const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
     if (!authorizedExecutionComand) return;
+    
     const authorizedExecutionComandModerador = await checkingComandExecuntionModerador(interaction);
     if (!authorizedExecutionComandModerador) return;
 
     try {
-        if (commandName === 'registerchannelsyoutube') {
+        if (commandName === 'registerstreamerstwitch') {
 
-            const NameChannel = options.getString('channel');
+            const NameStreamer = options.getString('streamer');
 
             const newStreamer = {
-                name: NameChannel,
+                name: NameStreamer,
             }
 
-            await onYoutubeChannelSchema.create(newStreamer);
+            await onTwitchStreamersSchema.create(newStreamer);
 
             const embed = new EmbedBuilder()
                 .setColor('#ffffff')
@@ -31,23 +32,23 @@ async function registerChannelsYoutube(interaction) {
                     name: client.user.username,
                     iconURL: client.user.displayAvatarURL({ dynamic: true }),
                 })
-                .setTitle('Canal cadastrado com sucesso.')
-                .setDescription(`Canal: ${NameChannel}`)
+                .setTitle('Streamer cadastrado com sucesso.')
+                .setDescription(`Streamer: ${NameStreamer}`)
                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
                 .setTimestamp()
                 .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) });
             await interaction.reply({ embeds: [embed], ephemeral: true });
 
             const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_INFO_BOT);
-            await logChannel.send(`Canal cadastrado com sucesso: ${NameChannel}`);
+            await logChannel.send(`Streamer cadastrado com sucesso: ${NameStreamer}`);
 
-            info.info(`Canal cadastrado com sucesso: ${NameChannel}`);
+            info.info(`Streamer cadastrado com sucesso: ${NameStreamer}`);
         }
     } catch (error) {
-        erro.error('Erro ao cadastrar o canal', error);
+        erro.error('Erro ao cadastrar o streamer', error);
         const logChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);
-        await logChannel.send(`Erro ao cadastrar o canal ${error}`);
+        await logChannel.send(`Erro ao cadastrar o streamer ${error}`);
     }
 }
 
-module.exports = { registerChannelsYoutube };
+module.exports = { registerStreamersTwitch };
