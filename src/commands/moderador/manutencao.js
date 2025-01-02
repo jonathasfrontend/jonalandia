@@ -9,6 +9,7 @@ async function manutencao(interaction) {
 
     const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
     if (!authorizedExecutionComand) return;
+    
     const authorizedExecutionComandModerador = await checkingComandExecuntionModerador(interaction);
     if (!authorizedExecutionComandModerador) return;
 

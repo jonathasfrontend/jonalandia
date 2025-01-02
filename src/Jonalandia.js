@@ -408,7 +408,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'registerstreamerstwitch',
-    description: 'Cadastra um novo streamer para ser notificado. (Moderador)',
+    description: 'Cadastra um novo streamer para ser notificado. (Moderador, Inicialização do Bot)',
     options: [
       {
         type: 3, // Tipo de string
@@ -421,7 +421,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'registerchannelsyoutube',
-    description: 'Cadastra um novo canal do youtube para ser notificado. (Moderador)',
+    description: 'Cadastra um novo canal do youtube para ser notificado. (Moderador, Inicialização do Bot)',
     options: [
       {
         type: 3, // Tipo de string
@@ -439,7 +439,7 @@ client.once('ready', () => {
         {
             type: 3, // Tipo string
             name: 'opcao',
-            description: 'Escolha entre "todos" ou "um"',
+            description: 'Escolha entre "todos" ou "um" (Moderador, Inicialização do Bot)',
             required: true,
             choices: [
                 { name: 'Todos os canais de texto', value: 'todos' },
@@ -457,7 +457,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'removechannels',
-    description: 'Remove um canal de texto do banco de dados. (Moderador)',
+    description: 'Remove um canal de texto do banco de dados. (Moderador, Inicialização do Bot)',
     options: [
       {
         type: 7, // Tipo 7 é para selecionar um canal
