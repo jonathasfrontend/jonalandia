@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require('../../Client');
 const blockedFileExtensions = require('../../config/blockedFileExtensions.json').blockedFileExtensions;
-const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
+const { getBlockedChannels } = require('../../utils/checkingComandsExecution')
 const { info, erro } = require('../../Logger');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 
@@ -9,7 +9,9 @@ async function blockFileTypes(message) {
     if (!message.inGuild()) return;
     if (message.author.bot) return;
 
-    if (blockedChannels.includes(message.channel.id)) {
+    const channelsIdBLocke = await getBlockedChannels();
+
+    if (channelsIdBLocke.includes(message.channel.id)) {
         if (message.attachments.size > 0) {
             const blockedAttachments = message.attachments.filter(attachment =>
                 blockedFileExtensions.some(ext => attachment.name.endsWith(ext))

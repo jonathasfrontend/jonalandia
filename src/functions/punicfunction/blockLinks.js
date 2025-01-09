@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const blockedLinksData = require('../../config/blockedLinks.json');
-const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
+const { getBlockedChannels } = require('../../utils/checkingComandsExecution');
 const { client } = require('../../Client');
 const { info, erro } = require('../../Logger');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
@@ -8,10 +8,13 @@ const { saveUpdateUserPoints } = require('../../utils/saveUpdateUserPoints');
 
 const blockedLinks = blockedLinksData.blockedLinks.map(pattern => new RegExp(pattern));
 
+
 async function blockLinks(message) {
     if (message.author.bot) return;
     
-    if (blockedChannels.includes(message.channel.id)) {
+    const channelsIdBLocke = await getBlockedChannels()
+    
+    if (channelsIdBLocke.includes(message.channel.id)) {
         const isBlocked = blockedLinks.some(regex => regex.test(message.content));
 
         if (isBlocked) {

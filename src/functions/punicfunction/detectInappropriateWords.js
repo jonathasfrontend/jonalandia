@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const { client } = require('../../Client');
 const { info, erro } = require('../../Logger');
 const inappropriateWordsData = require('../../config/InappropriateWords.json');
-const blockedChannels = require('../../config/blockedChannels.json').blockedChannels;
+const { getBlockedChannels } = require('../../utils/checkingComandsExecution');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 const { saveUpdateUserPoints } = require('../../utils/saveUpdateUserPoints');
 
@@ -10,7 +10,10 @@ const inappropriateWords = inappropriateWordsData.inappropriateWords;
 
 async function detectInappropriateWords(message) {
     if (message.author.bot) return;
-    if (!blockedChannels.includes(message.channel.id)) return;
+    
+    const channelsIdBLocke = await getBlockedChannels();
+    
+    if (!channelsIdBLocke.includes(message.channel.id)) return;
 
     // Verifica cada palavra usando regex para evitar subcadeias
     const foundWord = inappropriateWords.find(word => {
