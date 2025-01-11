@@ -1,5 +1,5 @@
 src/logs/
 /node_modules
 .env
-.vscode
+/.vscode
 config_db_user.json
