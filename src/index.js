@@ -1,4 +1,4 @@
-const { info } = require('./Logger');
+const { info } = require('./logger');
 const { client } = require('./Client');
 const { gemOptions } = require('./webhooks/gemOptions');
 
