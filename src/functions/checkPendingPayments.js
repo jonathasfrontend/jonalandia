@@ -4,7 +4,7 @@ const Transaction = require('../models/onTransactionCompraSchema');
 const User = require('../models/onPerfilUserSechema');
 const cron = require('node-cron');
 const { client } = require("../Client");
-const { info, erro } = require('../Logger');
+const { info, erro } = require('../logger');
 
 async function verificarPagamentosPendentes() {
   try {

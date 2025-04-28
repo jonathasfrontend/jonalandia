@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { info, erro } = require('../Logger');
+const { info, erro } = require('../logger');
 
 const user = process.env.MONGO_USER;
 const pass = process.env.MONGO_PASS;

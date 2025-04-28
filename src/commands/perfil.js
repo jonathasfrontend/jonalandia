@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const User = require('../models/onPerfilUserSechema');
 const { client } = require("../Client");
-const { erro, info } = require('../Logger');
+const { erro, info } = require('../logger');
 const { checkingComandChannelBlocked } = require('../utils/checkingComandsExecution');
 
 async function Perfil(interaction) {

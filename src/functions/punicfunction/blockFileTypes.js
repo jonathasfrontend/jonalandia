@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const { client } = require('../../Client');
 const blockedFileExtensions = require('../../config/blockedFileExtensions.json').blockedFileExtensions;
 const { getBlockedChannels } = require('../../utils/checkingComandsExecution')
-const { info, erro } = require('../../Logger');
+const { info, erro } = require('../../logger');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 
 async function blockFileTypes(message) {

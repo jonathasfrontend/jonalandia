@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const ChannelModel = require('../../models/onAddChannelSchema');
 const { client } = require('../../Client');
-const { erro, info } = require('../../Logger');
+const { erro, info } = require('../../logger');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require("../../utils/checkingComandsExecution");
 
 async function addChannels(interaction) {

@@ -1,5 +1,5 @@
 const { client } = require("../Client");
-const { info, erro } = require('../Logger');
+const { info, erro } = require('../logger');
 const onNotificationYoutubeSchema = require('../models/onNotificationYoutubeSchema')
 const onYoutubeChannelSchema = require('../models/onYoutubeChannelSchema')
 const { EmbedBuilder } = require("discord.js");

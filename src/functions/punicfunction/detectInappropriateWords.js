@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require('../../Client');
-const { info, erro } = require('../../Logger');
+const { info, erro } = require('../../logger');
 const inappropriateWordsData = require('../../config/InappropriateWords.json');
 const { getBlockedChannels } = require('../../utils/checkingComandsExecution');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');

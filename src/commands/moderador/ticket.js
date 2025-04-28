@@ -1,6 +1,6 @@
 const { EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, PermissionsBitField } = require("discord.js");
 const { client } = require("../../Client");
-const { info, erro } = require('../../Logger');
+const { info, erro } = require('../../logger');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require("../../utils/checkingComandsExecution");
 
 async function ticket(interaction) {

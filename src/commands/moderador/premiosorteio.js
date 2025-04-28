@@ -1,7 +1,7 @@
 const Premio = require('../../models/onPremioSorteioSchema');
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
-const { erro, info } = require('../../Logger');
+const { erro, info } = require('../../logger');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require('../../utils/checkingComandsExecution');
 
 async function premioSorteio(interaction) {

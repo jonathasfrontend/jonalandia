@@ -4,7 +4,7 @@ const TransactionCompra = require('../models/onTransactionCompraSchema');
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const { client } = require("../Client");
 const { gemOptions } = require('../webhooks/gemOptions');
-const { info, erro } = require('../Logger');
+const { info, erro } = require('../logger');
 const { checkingComandChannelBlocked } = require('../utils/checkingComandsExecution');
 
 async function compraGema(interaction) {

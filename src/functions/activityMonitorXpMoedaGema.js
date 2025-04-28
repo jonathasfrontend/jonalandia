@@ -1,5 +1,5 @@
 const { saveUpdateUserPoints } = require('../utils/saveUpdateUserPoints');
-const { info, erro } = require('../Logger');
+const { info, erro } = require('../logger');
 
 const cooldowns = new Set();
 const voiceCooldowns = new Set();

@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../../Client");
-const { info, erro } = require('../../Logger');
+const { info, erro } = require('../../logger');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require('../../utils/checkingComandsExecution');
 

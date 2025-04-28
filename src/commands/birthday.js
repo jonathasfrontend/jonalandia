@@ -1,4 +1,4 @@
-const { info, erro } = require('../Logger');
+const { info, erro } = require('../logger');
 const onNotificationBirthdaySchema = require('../models/onNotificationBirthdaySchema');
 const { saveUpdateUserPoints } = require("../utils/saveUpdateUserPoints");
 const { checkingComandChannelBlocked } = require("../utils/checkingComandsExecution");

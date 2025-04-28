@@ -2,7 +2,7 @@ const Sorteio = require('../../models/onSorteioSchema');
 const Premio = require('../../models/onPremioSorteioSchema');
 const { EmbedBuilder } = require("discord.js");
 const { client } = require("../../Client");
-const { info, erro } = require('../../Logger');
+const { info, erro } = require('../../logger');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require('../../utils/checkingComandsExecution');
 
 async function sortear(interaction) {

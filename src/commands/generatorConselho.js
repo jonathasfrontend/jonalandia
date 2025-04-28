@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { EmbedBuilder } = require('discord.js');
-const { erro } = require('../Logger');
+const { erro } = require('../logger');
 const { saveUpdateUserPoints } = require('../utils/saveUpdateUserPoints');
 const { checkingComandChannelBlocked } = require('../utils/checkingComandsExecution');
 

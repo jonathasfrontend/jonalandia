@@ -1,4 +1,4 @@
-const { info, erro } = require('../Logger');
+const { info, erro } = require('../logger');
 const { client } = require('../Client');
 const Infractions = require('../models/onInfracoesUsersSchema');
 

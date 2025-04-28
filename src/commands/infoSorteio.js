@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const { client } = require("../Client");
-const { erro, info } = require('../Logger');
+const { erro, info } = require('../logger');
 const Sorteio = require('../models/onSorteioSchema')
 const Premio = require('../models/onPremioSorteioSchema');
 const { checkingComandChannelBlocked } = require('../utils/checkingComandsExecution');

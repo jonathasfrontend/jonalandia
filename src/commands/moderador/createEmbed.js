@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { info, erro } = require('../../Logger');
+const { info, erro } = require('../../logger');
 const { client } = require('../../Client');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require('../../utils/checkingComandsExecution');
 

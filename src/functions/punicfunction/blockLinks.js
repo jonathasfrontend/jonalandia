@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const blockedLinksData = require('../../config/blockedLinks.json');
 const { getBlockedChannels } = require('../../utils/checkingComandsExecution');
 const { client } = require('../../Client');
-const { info, erro } = require('../../Logger');
+const { info, erro } = require('../../logger');
 const { saveUserInfractions } = require('../../utils/saveUserInfractions');
 const { saveUpdateUserPoints } = require('../../utils/saveUpdateUserPoints');
 
