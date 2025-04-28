@@ -61,8 +61,11 @@ async function voteParaBan(interaction) {
 
       client.on('interactionCreate', async (buttonInteraction) => {
         if (!buttonInteraction.isButton()) return;
+
         const votoButtonId = buttonInteraction.customId;
+
         if (votoButtonId.startsWith('sim') || votoButtonId.startsWith('nao')) {
+          
           const voteId = votoButtonId.slice(3);
           const vote = await Vote.findById(voteId);
           if (!vote) return;
