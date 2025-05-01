@@ -20,7 +20,7 @@ async function blockLinks(message) {
         if (isBlocked) {
             await message.delete();
             
-            const reason = `Mensagem bloqueada por conter links. Usuário: ${message.author.tag}, Tipo de link: ${blockedLinks.find(regex => regex.test(message.content)).source}`;
+            const reason = `Mensagem bloqueada por conter links! Usuário: ${message.author.tag}, Tipo de link: ${blockedLinks.find(regex => regex.test(message.content)).source}`;
             const type = 'serverLinksPosted';
 
             saveUserInfractions(
@@ -48,7 +48,7 @@ async function blockLinks(message) {
                 .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
                 .setFooter({ text: `Envio de links monitorado por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` });
 
-            await message.channel.send({ content: `${message.author}`, embeds: [embed] });
+            await message.channel.send({ content: `${message.author}`, embeds: [embed], ephemeral: true });
 
             info.info(`Mensagem bloqueada por conter links. Usuário: ${message.author.tag}, Tipo de link: ${blockedLinks.find(regex => regex.test(message.content)).source}`);
 

@@ -56,7 +56,7 @@ async function detectInappropriateWords(message) {
                 )
                 .setFooter({ text: `Envio de palavras inapropriadas monitorado por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` })
                 .setTimestamp();
-            await message.channel.send({ embeds: [channelEmbed] });
+            await message.channel.send({ embeds: [channelEmbed], ephemeral: true });
 
             const userEmbed = new EmbedBuilder()
                 .setColor('#FF0000')
@@ -68,7 +68,7 @@ async function detectInappropriateWords(message) {
                 )
                 .setFooter({ text: `Envio de palavras inapropriadas monitorado por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` })
                 .setTimestamp();
-            await message.author.send({ embeds: [userEmbed] });
+            await message.author.send({ embeds: [userEmbed], ephemeral: true });
 
             await message.member.timeout(300000, 'Uso de linguagem imprópria');
 
@@ -86,7 +86,7 @@ async function detectInappropriateWords(message) {
                 )
                 .setFooter({ text: `Ação registrada em ${new Date().toLocaleString()}`, iconURL: message.guild.iconURL() })
                 .setTimestamp();
-            await discordChannel.send({ embeds: [logEmbed] })
+            await discordChannel.send({ embeds: [logEmbed], ephemeral: true });
             
         } catch (error) {
             const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_LOGS_ERRO_BOT);
