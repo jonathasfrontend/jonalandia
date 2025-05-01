@@ -42,7 +42,7 @@ async function blockFileTypes(message) {
                     .setTimestamp()
                     .setFooter({ text: `Envio de arquivos monitorado por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` });
 
-                await message.channel.send({ embeds: [embed], content: `${message.author}` });
+                await message.channel.send({ embeds: [embed], content: `||${message.author}||` });
 
                 info.info(`O usuário ${message.author.tag} tentou enviar um arquivo com extensão bloqueada em um canal restrito!`);
 
