@@ -1,0 +1,13 @@
+{
+  "blockedLinks": [
+    "discord\\.gg\\/\\w+",
+    "steamcommunity\\.com\\/gift-card\\/pay\\/\\d+",
+    "(?:https?:\\/\\/)?(?:www\\.)?facebook\\.com\\/\\w+",
+    "(?:https?:\\/\\/)?(?:www\\.)?instagram\\.com\\/\\w+",
+    "(?:https?:\\/\\/)?(?:www\\.)?twitter\\.com\\/\\w+",
+    "(?:https?:\\/\\/)?(?:www\\.)?youtube\\.com\\/\\w+",
+    "(?:https?:\\/\\/)?(?:www\\.)?twitch\\.tv\\/\\w+",
+    "(?:https?:\\/\\/)?(?:www\\.)?tiktok\\.com\\/\\w+",
+    "(?:https?:\\/\\/)?(?:www\\.)?linkedin\\.com\\/\\w+"
+  ]
+}

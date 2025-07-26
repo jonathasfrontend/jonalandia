@@ -1,0 +1,9 @@
+{
+    "blockedFileExtensions": [
+        ".exe",
+        ".bat",
+        ".jar",
+        ".scr"
+    ]
+}
+  
