@@ -1,10 +1,18 @@
-# 🤖 Bot Jonalandia - Documentação Completa
+# 🤖 Bot Jonalandia
+
+<div align="center">
+
+![Jonalandia](jonalandia.png)
+
+**Um bot Discord para Gerenciamento do servidor Jonalandia**
 
 [![Version](https://img.shields.io/badge/version-1.1.1-blue.svg)](https://github.com/jonathasfrontend/jonalandia)
 [![Node.js](https://img.shields.io/badge/node.js-16%2B-green.svg)](https://nodejs.org/)
 [![Discord.js](https://img.shields.io/badge/discord.js-14.14.1-7289da.svg)](https://discord.js.org/)
 [![MongoDB](https://img.shields.io/badge/mongodb-8.8.0-green.svg)](https://mongodb.com/)
 [![License](https://img.shields.io/badge/license-Custom-red.svg)](./LICENSE)
+</div>
+
 
 ## 📋 Sumário
 
