@@ -54,7 +54,6 @@ O **Bot Jonalandia** é uma solução completa e avançada para servidores Disco
 - ✅ **40+ Comandos Especializados** - Cobrindo moderação, diversão e utilidades
 - ✅ **Sistema de Logs Avançado** - 6 níveis de log com rotação automática
 - ✅ **Segurança Multicamadas** - Proteção contra spam, links e conteúdo inadequado
-- ✅ **Economia Integrada** - XP, moedas virtuais e sistema de recompensas
 - ✅ **Notificações Inteligentes** - Monitoramento de plataformas externas
 - ✅ **Interface Moderna** - Embeds responsivos e componentes interativos
 
