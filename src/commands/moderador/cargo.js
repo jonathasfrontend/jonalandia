@@ -5,88 +5,83 @@ const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = requ
 async function cargo(interaction) {
     if (!interaction.isCommand()) return;
 
-    const { commandName } = interaction;
+    const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
+    if (!authorizedExecutionComand) return;
 
-    if (commandName === 'cargo') {
+    const authorizedExecutionComandModerador = await checkingComandExecuntionModerador(interaction);
+    if (!authorizedExecutionComandModerador) return;
 
-        const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
-        if (!authorizedExecutionComand) return;
-        
-        const authorizedExecutionComandModerador = await checkingComandExecuntionModerador(interaction);
-        if (!authorizedExecutionComandModerador) return;
+    // Definição de Botões
+    const buttons = {
+        membro: { id: 'membrocargo', label: 'Membro', emoji: '🟢' },
+        masculino: { id: 'masculino', label: 'Masculino', emoji: '💙' },
+        feminino: { id: 'feminino', label: 'Feminino', emoji: '❤' },
+        naobinario: { id: 'naobinario', label: 'Não binário', emoji: '💜' },
+        idade13_15: { id: '13_15', label: '13-15 anos' },
+        idade16_17: { id: '16_17', label: '16-17 anos' },
+        idade18: { id: 'idade18', label: '18+ anos' },
+        trabalhando: { id: 'trabalhando', label: 'Trabalhando' },
+        estudando: { id: 'estudando', label: 'Estudando' },
+        seguindoavida: { id: 'seguindoavida', label: 'Seguindo a Vida' },
 
-        // Definição de Botões
-        const buttons = {
-            membro: { id: 'membrocargo', label: 'Membro', emoji: '🟢' },
-            masculino: { id: 'masculino', label: 'Masculino', emoji: '💙' },
-            feminino: { id: 'feminino', label: 'Feminino', emoji: '❤' },
-            naobinario: { id: 'naobinario', label: 'Não binário', emoji: '💜' },
-            idade13_15: { id: '13_15', label: '13-15 anos' },
-            idade16_17: { id: '16_17', label: '16-17 anos' },
-            idade18: { id: 'idade18', label: '18+ anos' },
-            trabalhando: { id: 'trabalhando', label: 'Trabalhando' },
-            estudando: { id: 'estudando', label: 'Estudando' },
-            seguindoavida: { id: 'seguindoavida', label: 'Seguindo a Vida' },
+        freefire: { id: 'freefire', label: 'Free Fire', emoji: '🔫' },
+        minecraft: { id: 'minecraft', label: 'Minecraft', emoji: '⛏️' },
+        valorant: { id: 'valorant', label: 'Valorant', emoji: '🔫' },
+        fortnite: { id: 'fortnite', label: 'Fortnite', emoji: '🔫' },
+        lol: { id: 'lol', label: 'LOL', emoji: '⚔️' },
+        cs: { id: 'cs', label: 'CS', emoji: '🔫' },
+        roblox: { id: 'roblox', label: 'Roblox', emoji: '🎮' },
+        gtav: { id: 'gtav', label: 'GTAV', emoji: '🚗' },
+        clash_royale: { id: 'clash_royale', label: 'Clash Royale', emoji: '🏰' },
+        clash_of_clans: { id: 'clash_of_clans', label: 'Clash of Clans', emoji: '🏰' },
+        block_squad: { id: 'block_squad', label: 'Block Squad', emoji: '🟩' },
+        rocket_league: { id: 'rocket_league', label: 'Rocket League', emoji: '🚗' },
+        among_us: { id: 'among_us', label: 'Among Us', emoji: '🚀' },
+        red_dead: { id: 'red_dead', label: 'Red Dead', emoji: '🐎' }
+    };
 
-            freefire: { id: 'freefire', label: 'Free Fire', emoji: '🔫' },
-            minecraft: { id: 'minecraft', label: 'Minecraft', emoji: '⛏️' },
-            valorant: { id: 'valorant', label: 'Valorant', emoji: '🔫' },
-            fortnite: { id: 'fortnite', label: 'Fortnite', emoji: '🔫' },
-            lol: { id: 'lol', label: 'LOL', emoji: '⚔️' },
-            cs: { id: 'cs', label: 'CS', emoji: '🔫' },
-            roblox: { id: 'roblox', label: 'Roblox', emoji: '🎮' },
-            gtav: { id: 'gtav', label: 'GTAV', emoji: '🚗' },
-            clash_royale: { id: 'clash_royale', label: 'Clash Royale', emoji: '🏰' },
-            clash_of_clans: { id: 'clash_of_clans', label: 'Clash of Clans', emoji: '🏰' },
-            block_squad: { id: 'block_squad', label: 'Block Squad', emoji: '🟩' },
-            rocket_league: { id: 'rocket_league', label: 'Rocket League', emoji: '🚗' },
-            among_us: { id: 'among_us', label: 'Among Us', emoji: '🚀' },
-            red_dead: { id: 'red_dead', label: 'Red Dead', emoji: '🐎' }
-        };
+    // Função para criar botões de cargo
+    const createButtons = (buttonList) =>
+        buttonList.map((button) => {
+            const buttonBuilder = new ButtonBuilder()
+                .setCustomId(button.id)
+                .setLabel(button.label)
+                .setStyle(ButtonStyle.Secondary);
 
-        // Função para criar botões de cargo
-        const createButtons = (buttonList) =>
-            buttonList.map((button) => {
-                const buttonBuilder = new ButtonBuilder()
-                    .setCustomId(button.id)
-                    .setLabel(button.label)
-                    .setStyle(ButtonStyle.Secondary);
+            // Adiciona o emoji apenas se estiver definido
+            if (button.emoji) {
+                buttonBuilder.setEmoji(button.emoji);
+            }
 
-                // Adiciona o emoji apenas se estiver definido
-                if (button.emoji) {
-                    buttonBuilder.setEmoji(button.emoji);
-                }
+            return buttonBuilder;
+        });
 
-                return buttonBuilder;
-            });
+    // Organização dos botões em linhas
+    const rows = [
+        new ActionRowBuilder().addComponents(createButtons([buttons.membro])),
+        new ActionRowBuilder().addComponents(createButtons([buttons.masculino, buttons.feminino, buttons.naobinario])),
+        new ActionRowBuilder().addComponents(createButtons([buttons.idade13_15, buttons.idade16_17, buttons.idade18])),
+        new ActionRowBuilder().addComponents(createButtons([buttons.trabalhando, buttons.estudando, buttons.seguindoavida])),
+        new ActionRowBuilder().addComponents(createButtons([buttons.freefire, buttons.minecraft, buttons.valorant, buttons.fortnite, buttons.lol])),
+        new ActionRowBuilder().addComponents(createButtons([buttons.cs, buttons.roblox, buttons.gtav, buttons.clash_royale, buttons.clash_of_clans])),
+        new ActionRowBuilder().addComponents(createButtons([buttons.block_squad, buttons.rocket_league, buttons.among_us, buttons.red_dead]))
+    ];
 
-        // Organização dos botões em linhas
-        const rows = [
-            new ActionRowBuilder().addComponents(createButtons([buttons.membro])),
-            new ActionRowBuilder().addComponents(createButtons([buttons.masculino, buttons.feminino, buttons.naobinario])),
-            new ActionRowBuilder().addComponents(createButtons([buttons.idade13_15, buttons.idade16_17, buttons.idade18])),
-            new ActionRowBuilder().addComponents(createButtons([buttons.trabalhando, buttons.estudando, buttons.seguindoavida])),
-            new ActionRowBuilder().addComponents(createButtons([buttons.freefire, buttons.minecraft, buttons.valorant, buttons.fortnite, buttons.lol])),
-            new ActionRowBuilder().addComponents(createButtons([buttons.cs, buttons.roblox, buttons.gtav, buttons.clash_royale, buttons.clash_of_clans])),
-            new ActionRowBuilder().addComponents(createButtons([buttons.block_squad, buttons.rocket_league, buttons.among_us, buttons.red_dead]))
-        ];
+    const embedCargoMembro = new EmbedBuilder()
+        .setColor(0xffffff)
+        .setTitle('Clique no cargo de Membro para desbloquear mais canais.');
+    const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_CARGOS);
 
-        const embedCargoMembro = new EmbedBuilder()
-            .setColor(0xffffff)
-            .setTitle('Clique no cargo de Membro para desbloquear mais canais.');
-        const discordChannel = client.channels.cache.get(process.env.CHANNEL_ID_CARGOS);
+    // Envio das linhas de botões (respeitando o limite de 5 por linha)
+    await discordChannel.send({ embeds: [embedCargoMembro], components: [rows[0]] });
+    await discordChannel.send({ components: [rows[1]] });
+    await discordChannel.send({ components: [rows[2]] });
+    await discordChannel.send({ components: [rows[3]] });
 
-        // Envio das linhas de botões (respeitando o limite de 5 por linha)
-        await discordChannel.send({ embeds: [embedCargoMembro], components: [rows[0]] });
-        await discordChannel.send({ components: [rows[1]] });
-        await discordChannel.send({ components: [rows[2]] });
-        await discordChannel.send({ components: [rows[3]] });
-
-        const embedCargosGamers = new EmbedBuilder().setColor(0xffffff).setTitle('Cargos gamers');
-        await discordChannel.send({ embeds: [embedCargosGamers], components: [rows[4]] });
-        await discordChannel.send({ components: [rows[5]] });
-        await discordChannel.send({ components: [rows[6]] });
-    }
+    const embedCargosGamers = new EmbedBuilder().setColor(0xffffff).setTitle('Cargos gamers');
+    await discordChannel.send({ embeds: [embedCargosGamers], components: [rows[4]] });
+    await discordChannel.send({ components: [rows[5]] });
+    await discordChannel.send({ components: [rows[6]] });
 };
 
 // Listener para interações de botões

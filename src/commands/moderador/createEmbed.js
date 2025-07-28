@@ -6,7 +6,7 @@ const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = requ
 async function createEmbed(interaction) {
   if (!interaction.isCommand()) return;
 
-  const { commandName, options } = interaction;
+  const { options } = interaction;
 
   const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
   if (!authorizedExecutionComand) return;

@@ -9,19 +9,15 @@ async function menssageFile(interaction) {
 
   const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
   if (!authorizedExecutionComand) return;
-
-  if (commandName === 'oi') {
-    const embed = await new EmbedBuilder()
-      .setColor(0xffffff)
-      .setAuthor({
+  const embed = await new EmbedBuilder()
+    .setColor(0xffffff)
+    .setAuthor({
       name: client.user.username,
       iconURL: client.user.displayAvatarURL({ dynamic: true }),
-      })
-      .setDescription(`**Oi **${interaction.user}`);
+    })
+    .setDescription(`**Oi **${interaction.user}`);
 
-    await interaction.reply({ embeds: [embed] });
-    
-  }
+  await interaction.reply({ embeds: [embed] });
 };
 
 module.exports = { menssageFile };

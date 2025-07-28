@@ -6,7 +6,6 @@ const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = requ
 async function ticket(interaction) {
     if (!interaction.isCommand()) return;
 
-    const { commandName } = interaction;
     const context = {
         module: 'MODERATION',
         command: 'ticket',
@@ -14,7 +13,6 @@ async function ticket(interaction) {
         guild: interaction.guild?.name
     };
 
-    if (commandName === 'ticket') {
         logger.debug('Iniciando comando ticket', context);
 
         const authorizedExecutionComand = await checkingComandChannelBlocked(interaction);
@@ -49,7 +47,6 @@ async function ticket(interaction) {
         discordChannel1.send({ embeds: [embedTicket], components: [btnOpenTicket] });
 
         logger.info('Sistema de ticket configurado com sucesso', context);
-    }
 };
 
 // Listener único para interações de botões

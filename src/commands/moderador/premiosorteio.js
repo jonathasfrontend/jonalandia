@@ -6,8 +6,7 @@ const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = requ
 
 async function premioSorteio(interaction) {
     if (!interaction.isCommand()) return;
-
-    const { commandName } = interaction;
+    
     const context = {
         module: 'MODERATION',
         command: 'premiosorteio',
@@ -22,7 +21,7 @@ async function premioSorteio(interaction) {
         logger.warn('Comando premiosorteio bloqueado - canal não autorizado', context);
         return;
     }
-    
+
     const authorizedExecutionComandModerador = await checkingComandExecuntionModerador(interaction);
     if (!authorizedExecutionComandModerador) {
         logger.warn('Comando premiosorteio negado - usuário sem permissão de moderador', context);
@@ -30,36 +29,34 @@ async function premioSorteio(interaction) {
     }
 
     try {
-        if (commandName === 'premiosorteio') {
-            const premio = interaction.options.getString('premio');
-            const dono = interaction.user.username;
+        const premio = interaction.options.getString('premio');
+        const dono = interaction.user.username;
 
-            logger.debug(`Cadastrando prêmio: ${premio} para ${dono}`, context);
+        logger.debug(`Cadastrando prêmio: ${premio} para ${dono}`, context);
 
-            const novoPremio = new Premio({
-                premio,
-                dono,
-            });
+        const novoPremio = new Premio({
+            premio,
+            dono,
+        });
 
-            await novoPremio.save();
-            databaseEvent('SAVE', 'Premio', true, `Prêmio "${premio}" cadastrado por ${dono}`);
+        await novoPremio.save();
+        databaseEvent('SAVE', 'Premio', true, `Prêmio "${premio}" cadastrado por ${dono}`);
 
-            const embed = await new EmbedBuilder()
-                .setColor("#00FF00")
-                .setTitle(' 🎁 Prêmio cadastrado com sucesso!')
-                .setAuthor({
-                    name: client.user.username,
-                    iconURL: client.user.displayAvatarURL({ dynamic: true }),
-                })
-                .setDescription(' O prêmio foi registrado com sucesso.')
-                .setThumbnail(`${client.user.displayAvatarURL({ dynamic: true })}`)
-                .setTimestamp()
-                .setFooter({ text: `Por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` });
+        const embed = await new EmbedBuilder()
+            .setColor("#00FF00")
+            .setTitle(' 🎁 Prêmio cadastrado com sucesso!')
+            .setAuthor({
+                name: client.user.username,
+                iconURL: client.user.displayAvatarURL({ dynamic: true }),
+            })
+            .setDescription(' O prêmio foi registrado com sucesso.')
+            .setThumbnail(`${client.user.displayAvatarURL({ dynamic: true })}`)
+            .setTimestamp()
+            .setFooter({ text: `Por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` });
 
-            await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed], ephemeral: true });
 
-            logger.info(`Prêmio "${premio}" cadastrado com sucesso por ${dono}`, context);
-        }
+        logger.info(`Prêmio "${premio}" cadastrado com sucesso por ${dono}`, context);
     } catch (error) {
         logger.error('Erro ao cadastrar o prêmio', context, error);
         databaseEvent('SAVE', 'Premio', false, `Erro: ${error.message}`);

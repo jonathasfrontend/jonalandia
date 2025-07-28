@@ -5,7 +5,7 @@ const { Logger } = require('../../logger');
 const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = require('../../utils/checkingComandsExecution');
 
 async function perfilInfoUser(interaction) {
-    const { commandName, options, guild } = interaction;
+    const { options, guild } = interaction;
 
     if (!interaction.isCommand()) return;
 

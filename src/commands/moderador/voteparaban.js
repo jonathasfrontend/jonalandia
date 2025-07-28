@@ -8,7 +8,7 @@ const { checkingComandChannelBlocked, checkingComandExecuntionModerador } = requ
 async function voteParaBan(interaction) {
   if (!interaction.isCommand()) return;
 
-  const { commandName, options } = interaction;
+  const { options } = interaction;
   const context = {
     module: 'MODERATION',
     command: 'voteparaban',
@@ -31,7 +31,6 @@ async function voteParaBan(interaction) {
   }
 
   try {
-    if (commandName === 'voteparaban') {
       const targetUser = options.getUser('usuario');
       const endTime = new Date(Date.now() + 5 * 60 * 1000);
 
@@ -197,7 +196,6 @@ async function voteParaBan(interaction) {
         ...context,
         targetUser: targetUser.tag
       });
-    }
   } catch (error) {
     logger.error('Erro ao iniciar votação para ban', context, error);
     commandExecuted('voteparaban', interaction.user, interaction.guild, false);
