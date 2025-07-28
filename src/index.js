@@ -184,7 +184,7 @@ client.once('ready', () => {
   });
 
   client.application?.commands.create({
-    name: 'birthday',
+    name: 'aniversario',
     description: 'Registra o dia do seu aniversário ',
     options: [
       {
@@ -280,7 +280,7 @@ client.once('ready', () => {
 
   client.application?.commands.create({
     name: 'infouser',
-    description: 'Busca informações de um usuário pela API',
+    description: 'Busca informações de um usuário pela API (Moderador)',
     options: [
       {
         type: 6, // Tipo string
@@ -446,7 +446,7 @@ client.on('interactionCreate', async (interaction) => {
     await manutencao(interaction)
   } else if (commandName === 'embed') {
     await createEmbed(interaction);
-  } else if (commandName === 'birthday') {
+  } else if (commandName === 'aniversario') {
     await Birthday(interaction);
   } else if (commandName === 'timeout') {
     await timeout(interaction);
