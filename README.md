@@ -111,7 +111,7 @@ CARGO_MEMBRO=id_do_cargo_membro
 CARGO_MEMBRO_PLUS=id_do_cargo_membro_plus
 
 # External APIs
-WEATHER_API_KEY=sua_chave_api_clima
+OPENWEATHER_API_KEY=sua_chave_api_clima
 YOUTUBE_API_KEY=sua_chave_api_youtube
 TWITCH_CLIENT_ID=seu_client_id_twitch
 TWITCH_CLIENT_SECRET=seu_client_secret_twitch
@@ -524,8 +524,90 @@ CARGO_CS=123456789012345678
 # ====================================
 # APIS EXTERNAS
 # ====================================
-WEATHER_API_KEY=sua_chave_api_clima
+OPENWEATHER_API_KEY=sua_chave_api_clima
+YOUTUBE_API_KEY=sua_chave_api_youtube
+TWITCH_CLIENT_ID=seu_client_id_twitch
+TWITCH_CLIENT_SECRET=seu_client_secret_twitch
 ```
+
+### 🌤️ API de Clima - OpenWeatherMap
+
+O comando `/clima` utiliza a **API OpenWeatherMap** para fornecer informações meteorológicas em tempo real. Esta seção detalha como configurar e utilizar a integração com a API.
+
+#### 📋 Informações da API
+
+| Propriedade | Valor |
+|-------------|-------|
+| **Provider** | OpenWeatherMap |
+| **Coleção Utilizada** | Current Weather Data |
+| **Documentação** | [https://openweathermap.org/api](https://openweathermap.org/api) |
+| **Documentação Específica** | [https://openweathermap.org/current](https://openweathermap.org/current) |
+| **Formato de Resposta** | JSON |
+| **Idioma** | Português Brasileiro (pt_br) |
+
+#### 🔑 Configuração da Chave da API
+
+1. **Obtenha sua chave gratuita:**
+   - Acesse [OpenWeatherMap](https://openweathermap.org/api)
+   - Crie uma conta gratuita
+   - Navegue até a seção "API Keys"
+   - Copie sua chave de API
+
+2. **Configure no arquivo `.env`:**
+   ```env
+   OPENWEATHER_API_KEY=sua_chave_api_aqui
+   ```
+
+3. **Limitações do plano gratuito:**
+   - 1.000 chamadas por dia
+   - 60 chamadas por minuto
+   - Dados atualizados a cada 2 horas
+
+#### 🌍 Funcionalidades Implementadas
+
+O comando `/clima` fornece as seguintes informações meteorológicas:
+
+| Campo | Descrição | Formato |
+|-------|-----------|---------|
+| **🌡️ Temperatura** | Temperatura atual | `°C` |
+| **🌡️ Sensação Térmica** | Temperatura percebida | `°C` |
+| **💧 Umidade** | Umidade relativa do ar | `%` |
+| **🌬️ Velocidade do Vento** | Velocidade do vento | `m/s` |
+| **🌅 Nascer do Sol** | Horário do nascer do sol | `HH:MM:SS` |
+| **🌇 Pôr do Sol** | Horário do pôr do sol | `HH:MM:SS` |
+| **🌍 Coordenadas** | Latitude e longitude | `lat, lon` |
+| **🌐 Visibilidade** | Distância de visibilidade | `km` |
+| **🌐 Pressão** | Pressão atmosférica | `hPa` |
+| **🌐 Chuva (1h)** | Precipitação na última hora | `mm` |
+| **☁️ Nuvens** | Cobertura de nuvens | `%` |
+
+#### 💡 Exemplo de Uso
+
+```javascript
+// Comando Discord
+/clima cidade: São Paulo
+
+// URL da API construída automaticamente
+https://api.openweathermap.org/data/2.5/weather?q=São Paulo&units=metric&appid=API_KEY&lang=pt_br
+```
+
+#### 🔒 Segurança e Boas Práticas
+
+- **Proteção da Chave**: A chave da API é armazenada em variável de ambiente
+- **Rate Limiting**: O bot respeita os limites de taxa da API  
+- **Tratamento de Erros**: Erros de API são logados e tratados adequadamente
+- **Cache**: Considere implementar cache para reduzir chamadas desnecessárias
+
+#### 🐛 Solução de Problemas
+
+| Erro | Causa Possível | Solução |
+|------|----------------|---------|
+| `401 Unauthorized` | Chave de API inválida | Verifique a chave no arquivo `.env` |
+| `404 Not Found` | Cidade não encontrada | Verifique a grafia da cidade |
+| `429 Too Many Requests` | Limite de taxa excedido | Aguarde alguns minutos |
+| `Network Error` | Problema de conectividade | Verifique conexão com internet |
+
+---
 
 ### 🗄️ Configuração do MongoDB
 
