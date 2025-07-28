@@ -6,7 +6,7 @@
 
 **Um bot Discord para Gerenciamento do servidor Jonalandia**
 
-[![Version](https://img.shields.io/badge/version-1.1.1-blue.svg)](https://github.com/jonathasfrontend/jonalandia)
+[![Version](https://img.shields.io/badge/version-1.1.2-blue.svg)](https://github.com/jonathasfrontend/jonalandia)
 [![Node.js](https://img.shields.io/badge/node.js-16%2B-green.svg)](https://nodejs.org/)
 [![Discord.js](https://img.shields.io/badge/discord.js-14.14.1-7289da.svg)](https://discord.js.org/)
 [![MongoDB](https://img.shields.io/badge/mongodb-8.8.0-green.svg)](https://mongodb.com/)
@@ -33,7 +33,7 @@
 
 ## 🚀 Introdução
 
-O **Bot Jonalandia** é uma solução completa e avançada para servidores Discord, desenvolvida com foco na automação de tarefas de moderação, engajamento da comunidade e experiência personalizada. Criado por **Jonathas Oliveira**, o bot combina mais de 40 comandos especializados, sistema de logs avançado e funcionalidades de segurança.
+O **Bot Jonalandia** é uma solução completa e avançada para servidores Discord, desenvolvida com foco na automação de tarefas de moderação, engajamento da comunidade e experiência personalizada. Criado por **Jonathas Oliveira**, o bot combina mais de 25 comandos especializados, sistema de logs avançado e funcionalidades de segurança.
 
 ### 🎯 Principais Características
 
@@ -59,7 +59,7 @@ O **Bot Jonalandia** é uma solução completa e avançada para servidores Disco
 
 ### 🏆 Recursos Principais
 
-- ✅ **40+ Comandos Especializados** - Cobrindo moderação, diversão e utilidades
+- ✅ **25+ Comandos Especializados** - Cobrindo moderação, diversão e utilidades
 - ✅ **Sistema de Logs Avançado** - 6 níveis de log com rotação automática
 - ✅ **Segurança Multicamadas** - Proteção contra spam, links e conteúdo inadequado
 - ✅ **Notificações Inteligentes** - Monitoramento de plataformas externas
@@ -192,8 +192,7 @@ O bot foi projetado com arquitetura modular para facilitar manutenção e expans
 | Comando | Descrição | Uso | Permissão |
 |---------|-----------|-----|-----------|
 | `/regra` | Exibe regras do servidor | `/regra` | Moderador |
-| `/clearall` | Remove mensagens em massa (1-100) | `/clearall number: 50` | Moderador |
-| `/clearuser` | Remove mensagens de usuário específico | `/clearuser numero: 10 usuario: @user` | Moderador |
+| `/clean` | Sistema unificado de limpeza de mensagens | Ver exemplos abaixo | Moderador |
 | `/timeout` | Aplica timeout de 3 minutos | `/timeout usuario: @user` | Moderador |
 | `/banir` | Bane usuário do servidor | `/banir usuario: @user` | Moderador |
 | `/desbanir` | Remove ban de usuário | `/desbanir usuario: @user` | Moderador |
@@ -202,6 +201,38 @@ O bot foi projetado com arquitetura modular para facilitar manutenção e expans
 | `/embed` | Cria embed personalizado | `/embed titulo: "Título" descrição: "Texto"` | Moderador |
 | `/infouser` | Informações detalhadas do usuário | `/infouser usuario: @user` | Moderador |
 | `/voteparaban` | Inicia votação para banimento | `/voteparaban usuario: @user` | Moderador |
+
+#### 🧹 Comando `/clean` - Sistema Unificado de Limpeza
+
+O comando `/clean` combina as funcionalidades dos antigos comandos `/clearall` e `/clearuser` em uma interface moderna e intuitiva:
+
+**📋 Parâmetros:**
+- `tipo` - Escolha o tipo de limpeza:
+  - `🗑️ Limpar mensagens de um usuário específico`
+  - `🧹 Limpar últimas mensagens do canal`
+- `quantidade` - Número de mensagens a deletar (1-100)
+- `usuario` - Usuário alvo (obrigatório apenas se tipo = usuário)
+
+**💡 Exemplos de Uso:**
+
+1. **Limpar mensagens de um usuário:**
+   ```
+   /clean tipo: usuário quantidade: 10 usuario: @JohnDoe
+   ```
+   *Remove as últimas 10 mensagens do usuário @JohnDoe*
+
+2. **Limpar mensagens do canal:**
+   ```
+   /clean tipo: todas quantidade: 50
+   ```
+   *Remove as últimas 50 mensagens do canal atual*
+
+**✅ Recursos:**
+- ✨ Interface moderna com embeds estilizados
+- 🔒 Verificações de permissão de moderador
+- 📝 Logs automáticos das ações realizadas
+- ⚡ Tratamento inteligente de erros
+- 🛡️ Validação de mensagens com menos de 14 dias
 
 ### 🎲 Comandos de Sorteio
 
@@ -228,6 +259,24 @@ O bot foi projetado com arquitetura modular para facilitar manutenção e expans
 | `/removechannels` | Remove canal do sistema | `/removechannels channel: #canal` | Moderador |
 | `/registerstreamerstwitch` | Cadastra streamer Twitch | `/registerstreamerstwitch streamer: nome` | Moderador |
 | `/registerchannelsyoutube` | Cadastra canal YouTube | `/registerchannelsyoutube canal: url` | Moderador |
+
+---
+
+## 🆕 Atualizações Recentes
+
+### ✨ Comando `/clean` Unificado (v1.1.2)
+
+**🎯 Nova Funcionalidade:** Os comandos `/clearall` e `/clearuser` foram unificados no novo comando `/clean`, oferecendo:
+
+- **Interface Moderna**: Menu de seleção intuitivo para escolher o tipo de limpeza
+- **Experiência Melhorada**: Um único comando para todas as necessidades de limpeza
+- **Recursos Aprimorados**: 
+  - Embeds mais bonitos e informativos
+  - Melhor tratamento de erros
+  - Logs automáticos mais detalhados
+  - Validações de segurança aprimoradas
+
+**⚠️ Importante:** Os comandos antigos `/clearall` e `/clearuser` foram removidos. Use apenas `/clean` a partir desta versão.
 
 ---
 
@@ -652,7 +701,7 @@ Para reportar bugs, inclua:
 - [📋 Licença](./LICENSE)
 
 ### 🔄 Versionamento
-- **Versão Atual**: 1.1.1
+- **Versão Atual**: 1.1.2
 - **Sistema**: Semantic Versioning (SemVer)
 - **Changelog**: Disponível no repositório
 

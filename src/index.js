@@ -36,8 +36,7 @@ const { infoSorteio } = require('./commands/infoSorteio')
 
 const { mensageRegra } = require('./commands/moderador/regra');
 const { createEmbed } = require('./commands/moderador/createEmbed');
-const { clearAll } = require('./commands/moderador/clearAll');
-const { clearUser } = require('./commands/moderador/clearMsgUser');
+const { clean } = require('./commands/moderador/clean');
 const { cargo } = require('./commands/moderador/cargo');
 const { ticket } = require('./commands/moderador/ticket');
 const { manutencao } = require('./commands/moderador/manutencao');
@@ -100,31 +99,30 @@ client.once('ready', () => {
   })
 
   client.application?.commands.create({
-    name: 'clearall',
-    description: 'Deleta um número especificado de mensagens. (Moderador)',
-    options: [{
-      type: 4, // Alterado de 'INTEGER' para 4
-      name: 'number',
-      description: 'O número de mensagens a serem deletadas.',
-      required: true,
-    }],
-  });
-
-  client.application?.commands.create({
-    name: 'clearuser',
-    description: 'Deleta mensagens de um suario especifico. (Moderador)',
+    name: 'clean',
+    description: 'Limpa mensagens do canal ou de um usuário específico (Moderador)',
     options: [
       {
-        type: 4, // Inteiro para número de mensagens
-        name: 'numero',
-        description: 'O número de mensagens a serem deletadas.',
+        type: 3, // String choice
+        name: 'tipo',
+        description: 'Tipo de limpeza a ser realizada',
+        required: true,
+        choices: [
+          { name: '🗑️ Limpar mensagens de um usuário específico', value: 'usuario' },
+          { name: '🧹 Limpar últimas mensagens do canal', value: 'todas' }
+        ]
+      },
+      {
+        type: 4, // Integer
+        name: 'quantidade',
+        description: 'Quantidade de mensagens a serem deletadas (1-100)',
         required: true,
       },
       {
-        type: 6, // Tipo 6 é para usuário (Discord user)
+        type: 6, // User
         name: 'usuario',
-        description: 'O usuário cujas mensagens serão deletadas.',
-        required: true,
+        description: 'Usuário cujas mensagens serão deletadas (obrigatório se tipo = usuário)',
+        required: false,
       }
     ],
   });
@@ -430,8 +428,8 @@ client.on('interactionCreate', async (interaction) => {
 
   const { commandName } = interaction;
 
-  if (commandName === 'clearall') {
-    await clearAll(interaction);
+  if (commandName === 'clean') {
+    await clean(interaction);
   } else if (commandName === 'oi') {
     await menssageFile(interaction);
   } else if (commandName === 'regra') {
@@ -446,8 +444,6 @@ client.on('interactionCreate', async (interaction) => {
     await ticket(interaction)
   } else if (commandName === 'manutencao') {
     await manutencao(interaction)
-  } else if (commandName === 'clearuser') {
-    await clearUser(interaction)
   } else if (commandName === 'embed') {
     await createEmbed(interaction);
   } else if (commandName === 'birthday') {
