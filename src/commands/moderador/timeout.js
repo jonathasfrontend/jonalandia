@@ -41,6 +41,21 @@ async function timeout(interaction) {
             return;
         }
 
+        // Verifica se o usuário alvo é dono ou administrador do servidor
+        if (userToTimeout.id === interaction.guild.ownerId || guildMember.permissions.has('Administrator')) {
+            logger.warn(`Tentativa de timeout falhou para ${userToTimeout.tag} - usuário é dono ou administrador`, context);
+            
+            const embed = new EmbedBuilder()
+                .setColor('#FF0000')
+                .setTitle('⚠️ Timeout Falhou')
+                .setDescription(`Você não pode aplicar timeout em ${userToTimeout.tag}, pois ele é um administrador ou dono do servidor.`)
+                .setFooter({ text: `Por: ${client.user.tag}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
+                .setTimestamp();
+            
+            await interaction.editReply({ embeds: [embed] });
+            return;
+        }
+
         logger.info(`Aplicando timeout em usuário: ${userToTimeout.tag}`, {
             ...context,
             targetUser: userToTimeout.tag
@@ -60,7 +75,7 @@ async function timeout(interaction) {
             member.user.tag
         )
 
-        await guildMember.timeout(3 * 60 * 1000, 'Timeout de 3 minutos aplicado pelo bot');
+        await guildMember.timeout(3 * 60 * 1000, 'Timeout de 3 minutos aplicado por adm.');
 
         const embed = new EmbedBuilder()
             .setColor('#ff0000')

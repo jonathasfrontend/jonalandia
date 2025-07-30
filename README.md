@@ -6,7 +6,7 @@
 
 **Um bot Discord para Gerenciamento do servidor Jonalandia**
 
-[![Version](https://img.shields.io/badge/version-1.1.2-blue.svg)](https://github.com/jonathasfrontend/jonalandia)
+[![Version](https://img.shields.io/badge/version-1.1.3-blue.svg)](https://github.com/jonathasfrontend/jonalandia)
 [![Node.js](https://img.shields.io/badge/node.js-16%2B-green.svg)](https://nodejs.org/)
 [![Discord.js](https://img.shields.io/badge/discord.js-14.14.1-7289da.svg)](https://discord.js.org/)
 [![MongoDB](https://img.shields.io/badge/mongodb-8.8.0-green.svg)](https://mongodb.com/)
@@ -38,7 +38,7 @@ O **Bot Jonalandia** é uma solução completa e avançada para servidores Disco
 ### 🎯 Principais Características
 
 - **Sistema de Moderação Completo** - Ferramentas avançadas para administração do servidor
-- **Segurança Multicamadas** - Anti-flood, detecção de links maliciosos e palavras inadequadas
+- **Segurança Multicamadas** - Anti-flood avançado com avisos progressivos, detecção de links maliciosos e palavras inadequadas
 - **Sistema de Logs Profissional** - Monitoramento detalhado de todas as atividades
 - **Notificações Inteligentes** - Monitoramento de YouTube, Twitch e jogos gratuitos
 - **Interface Moderna** - Embeds personalizados e botões interativos
@@ -182,7 +182,7 @@ O bot foi projetado com arquitetura modular para facilitar manutenção e expans
 | `/oi` | Saudação amigável | `/oi` |
 | `/help` | Lista todos os comandos disponíveis | `/help` |
 | `/server` | Informações detalhadas do servidor | `/server` |
-| `/birthday` | Registra data de aniversário | `/birthday dia: 15 mês: 8` |
+| `/aniversario` | Registra data de aniversário | `/aniversario dia: 15 mes: 8` |
 | `/clima` | Previsão do tempo para cidade | `/clima cidade: São Paulo` |
 | `/sorteio` | Participa de sorteios ativos | `/sorteio` |
 | `/infosorteio` | Informações sobre sorteios | `/infosorteio` |
@@ -199,7 +199,7 @@ O bot foi projetado com arquitetura modular para facilitar manutenção e expans
 | `/expulsar` | Expulsa usuário de canal de voz | `/expulsar usuario: @user` | Moderador |
 | `/kickuser` | Remove usuário de canal de voz | `/kickuser usuario: @user` | Moderador |
 | `/embed` | Cria embed personalizado | `/embed titulo: "Título" descrição: "Texto"` | Moderador |
-| `/infouser` | Informações detalhadas do usuário | `/infouser usuario: @user` | Moderador |
+| `/ficha` | Informações detalhadas do usuário | `/ficha usuario: @user` | Moderador |
 | `/voteparaban` | Inicia votação para banimento | `/voteparaban usuario: @user` | Moderador |
 
 #### 🧹 Comando `/clean` - Sistema Unificado de Limpeza
@@ -257,12 +257,78 @@ O comando `/clean` combina as funcionalidades dos antigos comandos `/clearall` e
 |---------|-----------|-----|-----------|
 | `/addchannels` | Adiciona canais ao sistema | `/addchannels opcao: todos` | Moderador |
 | `/removechannels` | Remove canal do sistema | `/removechannels channel: #canal` | Moderador |
-| `/registerstreamerstwitch` | Cadastra streamer Twitch | `/registerstreamerstwitch streamer: nome` | Moderador |
-| `/registerchannelsyoutube` | Cadastra canal YouTube | `/registerchannelsyoutube canal: url` | Moderador |
+| `/addtwitch` | Cadastra streamer Twitch | `/addtwitch streamer: nome` | Moderador |
+| `/addyoutube` | Cadastra canal YouTube | `/addyoutube channel: url` | Moderador |
 
 ---
 
 ## 🆕 Atualizações Recentes
+
+### 🔄 Versão 1.1.3 - Correções e Melhorias
+
+**🎯 Comandos Atualizados:**
+- **`/aniversario`** - Comando para registro de aniversário (anteriormente referenciado como `/birthday` na documentação)
+- **`/ficha`** - Informações detalhadas do usuário (anteriormente referenciado como `/infouser` na documentação)
+- **`/addtwitch`** - Cadastro de streamers Twitch (comando simplificado)
+- **`/addyoutube`** - Cadastro de canais YouTube (comando simplificado)
+
+**📋 Melhorias na Documentação:**
+- Sincronização completa entre documentação e implementação
+- Correção de nomes de comandos inconsistentes
+- Atualização de exemplos de uso
+- Verificação de todas as funcionalidades listadas
+- Atualização do comando `/help` para refletir comandos atuais
+
+**⚠️ Importante:** O comando `/help` interno do bot ainda referencia alguns comandos antigos (`/clearall`, `/clearuser`, `/birthday`). Estes foram atualizados para `/clean` e `/aniversario` respectivamente na documentação.
+
+**🔄 Melhorias Futuras:**
+- Atualização do comando `/help` interno para refletir comandos atuais
+- Sincronização completa entre interface de ajuda e funcionalidades implementadas
+- Revisão de todos os embeds e mensagens de resposta
+
+---
+
+## 📋 Verificação de Conformidade
+
+### ✅ Comandos Verificados e Funcionais
+
+**👥 Comandos Gerais:**
+- ✅ `/oi` - Saudação amigável
+- ✅ `/help` - Lista de comandos (necessita atualização interna)
+- ✅ `/server` - Informações do servidor  
+- ✅ `/aniversario` - Registro de aniversário
+- ✅ `/clima` - Previsão do tempo
+- ✅ `/sorteio` - Participação em sorteios
+- ✅ `/infosorteio` - Informações de sorteios
+
+**🛡️ Comandos de Moderação:**
+- ✅ `/regra` - Exibição de regras
+- ✅ `/clean` - Sistema unificado de limpeza
+- ✅ `/timeout` - Aplicação de timeout
+- ✅ `/banir` - Banimento de usuários
+- ✅ `/desbanir` - Remoção de banimento
+- ✅ `/expulsar` - Expulsão do servidor
+- ✅ `/kickuser` - Remoção de canal de voz
+- ✅ `/embed` - Criação de embeds
+- ✅ `/ficha` - Informações de usuário
+- ✅ `/voteparaban` - Sistema de votação
+
+**🎲 Comandos de Sorteio:**
+- ✅ `/premiosorteio` - Definição de prêmios
+- ✅ `/sortear` - Realização de sorteios
+- ✅ `/limpasorteio` - Limpeza de participantes
+
+**🛠️ Comandos de Gerenciamento:**
+- ✅ `/cargo` - Seletor de cargos
+- ✅ `/ticket` - Sistema de tickets
+- ✅ `/manutencao` - Avisos de manutenção
+- ✅ `/excluicomando` - Remoção de comandos
+
+**🔧 Comandos de Inicialização:**
+- ✅ `/addchannels` - Adição de canais
+- ✅ `/removechannels` - Remoção de canais
+- ✅ `/addtwitch` - Cadastro de streamers
+- ✅ `/addyoutube` - Cadastro de canais YouTube
 
 ### ✨ Comando `/clean` Unificado (v1.1.2)
 
@@ -315,11 +381,15 @@ O comando `/clean` combina as funcionalidades dos antigos comandos `/clearall` e
 
 ### 🚫 Anti-Flood Chat
 ```javascript
-// Configurações de segurança
-- Limite: 5 mensagens por 10 segundos
-- Penalidade: Timeout automático de 3 minutos
-- Sistema de pontos: Infrações acumulativas
-- Logs detalhados: Todas as ocorrências são registradas
+// Sistema Anti-Flood Avançado v2.0
+- Detecção: Janela de tempo deslizante (5 mensagens em 10 segundos)
+- Avisos Progressivos: 2 avisos antes do timeout
+- Penalidade: Timeout automático de 5 minutos
+- Usuários Imunes: Donos, administradores e moderadores
+- Registro: Infrações salvas no banco de dados
+- Cooldown: 30 segundos entre avisos para evitar spam
+- Limpeza Automática: Remove dados antigos periodicamente
+- Logs Detalhados: Monitoramento completo de todas as ações
 ```
 
 ### 🔗 Bloqueio de Links
@@ -436,7 +506,7 @@ databaseEvent('INSERT', 'users', true, 'Usuário criado');
 ### 📊 Monitoramento Abrangente
 
 #### 🔒 Eventos de Segurança Logados
-- ✅ Detecções de anti-flood
+- ✅ Detecções de anti-flood com sistema de avisos progressivos
 - ✅ Bloqueios de links maliciosos  
 - ✅ Filtros de linguagem inadequada
 - ✅ Expulsões e banimentos
@@ -517,9 +587,26 @@ CARGO_FEMININO=123456789012345678
 CARGO_FREE_FIRE=123456789012345678
 CARGO_MINECRAFT=123456789012345678
 CARGO_VALORANT=123456789012345678
-CARGO_FORTNITE=123456789012345678
+CARGO_FORTNIT=123456789012345678
 CARGO_LOL=123456789012345678
 CARGO_CS=123456789012345678
+CARGO_ROBLOX=123456789012345678
+CARGO_GTAV=123456789012345678
+CARGO_CLASH_ROYALE=123456789012345678
+CARGO_CLASH_OF_CLANS=123456789012345678
+CARGO_BLOCK_SQUAD=123456789012345678
+CARGO_ROCKET_LEAGUE=123456789012345678
+CARGO_AMONG_US=123456789012345678
+CARGO_RED_DEAD=123456789012345678
+
+# Cargos de Identidade
+CARGO_NAO_BINARIO=123456789012345678
+CARGO_13_A_15ANOS=123456789012345678
+CARGO_16_A_17ANOS=123456789012345678
+CARGO_18ANOS=123456789012345678
+CARGO_TRABALHANDO=123456789012345678
+CARGO_ESTUDANDO=123456789012345678
+CARGO_SEGUINDO_A_VIDA=123456789012345678
 
 # ====================================
 # APIS EXTERNAS
@@ -672,7 +759,52 @@ https://api.openweathermap.org/data/2.5/weather?q=São Paulo&units=metric&appid=
 
 ---
 
-## 🐛 Resolução de Problemas
+## � Changelog Detalhado
+
+### 🆕 Versão 1.1.3 (Atual)
+**Data de Release:** 30 de julho de 2025
+
+**🔧 Correções:**
+- ✅ Correção de nomes de comandos na documentação
+- ✅ Sincronização entre código implementado e documentação
+- ✅ Atualização de exemplos de uso
+- ✅ Verificação completa de funcionalidades
+
+**📋 Comandos Corrigidos:**
+- `aniversario` (antes referenciado como `birthday`)
+- `ficha` (antes referenciado como `infouser`) 
+- `addtwitch` (comando simplificado)
+- `addyoutube` (comando simplificado)
+
+**📊 Melhorias na Documentação:**
+- Lista completa de cargos de jogos disponíveis
+- Seção de verificação de conformidade
+- Troubleshooting expandido
+- Exemplos de configuração atualizados
+
+### ✨ Versão 1.1.2
+**🎯 Principais Mudanças:**
+- Unificação dos comandos de limpeza em `/clean`
+- Interface moderna com menus de seleção
+- Melhor tratamento de erros e logs
+- Remoção dos comandos antigos `/clearall` e `/clearuser`
+
+### 🏗️ Versão 1.1.1
+**🔧 Melhorias Incrementais:**
+- Otimizações de performance
+- Correções de bugs menores
+- Melhorias no sistema de logs
+
+### 🚀 Versão 1.1.0
+**🎯 Grandes Funcionalidades:**
+- Sistema de logs avançado implementado
+- Múltiplas camadas de segurança
+- Monitoramento de plataformas externas
+- Sistema de sorteios completo
+
+---
+
+## �🐛 Resolução de Problemas
 
 ### ❗ Problemas Comuns
 
@@ -734,6 +866,37 @@ grep "ERROR" src/logs/error.log
 
 ---
 
+## 🔮 Roadmap e Melhorias Futuras
+
+### 🎯 Versão 1.1.4 (Planejada)
+**🔧 Melhorias Prioritárias:**
+- [ ] Atualização do comando `/help` interno para refletir comandos atuais
+- [ ] Correção de referências a comandos obsoletos no código
+- [ ] Unificação completa da nomenclatura de comandos
+- [ ] Revisão de todos os embeds e mensagens de resposta
+
+**🆕 Novas Funcionalidades Potenciais:**
+- [ ] Sistema de economia básico
+- [ ] Comandos de diversão adicionais
+- [ ] Sistema de reputação de usuários
+- [ ] Dashboard web para configuração
+- [ ] Integração com mais plataformas de streaming
+
+**🔧 Melhorias Técnicas:**
+- [ ] Refatoração do sistema de permissões
+- [ ] Otimização de consultas ao banco de dados
+- [ ] Implementação de cache para APIs externas
+- [ ] Testes automatizados para comandos críticos
+
+### 💡 Sugestões de Melhoria
+Se você tem ideias para melhorar o bot, considere:
+1. Abrir uma **Issue** no repositório GitHub
+2. Contribuir com **Pull Requests**
+3. Reportar **bugs** ou **comportamentos inesperados**
+4. Sugerir **novas funcionalidades**
+
+---
+
 ## 🤝 Contribuição
 
 ### 👨‍💻 Como Contribuir
@@ -783,7 +946,7 @@ Para reportar bugs, inclua:
 - [📋 Licença](./LICENSE)
 
 ### 🔄 Versionamento
-- **Versão Atual**: 1.1.2
+- **Versão Atual**: 1.1.3
 - **Sistema**: Semantic Versioning (SemVer)
 - **Changelog**: Disponível no repositório
 

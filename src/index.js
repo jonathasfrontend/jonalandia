@@ -279,8 +279,8 @@ client.once('ready', () => {
   });
 
   client.application?.commands.create({
-    name: 'infouser',
-    description: 'Busca informações de um usuário pela API (Moderador)',
+    name: 'ficha',
+    description: 'Busca ficha dos dados do usuario no server. (Moderador)',
     options: [
       {
         type: 6, // Tipo string
@@ -345,7 +345,6 @@ client.once('ready', () => {
     ],
   });
 
-
   client.application?.commands.create({
     name: 'excluicomando',
     description: 'Exclui um comando do bot. (Moderador)',
@@ -360,7 +359,7 @@ client.once('ready', () => {
   });
 
   client.application?.commands.create({
-    name: 'registerstreamerstwitch',
+    name: 'addtwitch',
     description: 'Cadastra um novo streamer para ser notificado. (Moderador, Inicialização do Bot)',
     options: [
       {
@@ -373,7 +372,7 @@ client.once('ready', () => {
   });
 
   client.application?.commands.create({
-    name: 'registerchannelsyoutube',
+    name: 'addyoutube',
     description: 'Cadastra um novo canal do youtube para ser notificado. (Moderador, Inicialização do Bot)',
     options: [
       {
@@ -460,7 +459,7 @@ client.on('interactionCreate', async (interaction) => {
     await kickUser(interaction);
   } else if (commandName === 'clima') {
     await getWeather(interaction);
-  } else if (commandName === 'infouser') {
+  } else if (commandName === 'ficha') {
     await perfilInfoUser(interaction);
   } else if (commandName === 'sorteio') {
     await sorteioUser(interaction);
@@ -476,9 +475,9 @@ client.on('interactionCreate', async (interaction) => {
     await voteParaBan(interaction);
   } else if (commandName === 'excluicomando') {
     await excluirComando(interaction);
-  } else if (commandName === 'registerstreamerstwitch') {
+  } else if (commandName === 'addtwitch') {
     await registerStreamersTwitch(interaction);
-  } else if (commandName === 'registerchannelsyoutube') {
+  } else if (commandName === 'addyoutube') {
     await registerChannelsYoutube(interaction);
   } else if (commandName === 'addchannels') {
     await addChannels(interaction);

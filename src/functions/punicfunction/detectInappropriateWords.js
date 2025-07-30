@@ -9,7 +9,7 @@ const inappropriateWords = inappropriateWordsData.inappropriateWords;
 
 async function detectInappropriateWords(message) {
     if (message.author.bot) return;
-    
+
     const context = {
         module: 'SECURITY',
         user: message.author.tag,
@@ -18,7 +18,7 @@ async function detectInappropriateWords(message) {
 
     try {
         const channelsIdBLocke = await getBlockedChannels();
-        
+
         if (!channelsIdBLocke.includes(message.channel.id)) {
             logger.silly(`Canal ${message.channel.name} não está sendo monitorado para palavras inapropriadas`, context);
             return;
@@ -117,11 +117,40 @@ async function detectInappropriateWords(message) {
 
                 // Aplicar timeout
                 try {
+                    const reason = `O usuário ${message.author.tag} recebeu um timeout de 3 minutos.`;
+                    const type = 'timeouts';
+
+                    saveUserInfractions(
+                        message.author.id,
+                        message.author.tag,
+                        message.author.displayAvatarURL({ dynamic: true }),
+                        message.author.createdAt,
+                        message.member.joinedAt,
+                        type,
+                        reason,
+                        client.user.tag
+                    );
+
                     await message.member.timeout(300000, 'Uso de linguagem imprópria');
+
                     logger.info(`Timeout de 5 minutos aplicado para ${message.author.tag} por linguagem imprópria`, context);
                     securityEvent('TIMEOUT_APPLIED', message.author, message.guild, 'Linguagem inadequada - 5 minutos');
 
                 } catch (timeoutError) {
+                    
+                    // verifica se o usuario que levou timeout é um dono ou administrador do servidor
+                    if(message.author.id === message.guild.ownerId || message.member.permissions.has('🟨ADM')) {
+                        logger.warn(`Tentativa de timeout falhou para ${message.author.tag} - usuário é dono ou administrador`, context);
+                        const embed = new EmbedBuilder()
+                            .setColor('#FF0000')
+                            .setTitle('⚠️ Timeout Falhou')
+                            .setDescription(`Você não pode ser silenciado, pois é um administrador ou dono do servidor.`)
+                            .setFooter({ text: `Envio de palavras inapropriadas monitorado por: ${client.user.tag}`, iconURL: `${client.user.displayAvatarURL({ dynamic: true })}` })
+                            .setTimestamp();
+                        await message.channel.send({ embeds: [embed], ephemeral: true });
+                        return;
+                    }
+
                     logger.error('Erro ao aplicar timeout', context, timeoutError);
                     securityEvent('TIMEOUT_FAILED', message.author, message.guild, timeoutError.message);
                 }
@@ -148,7 +177,7 @@ async function detectInappropriateWords(message) {
                         logger.warn('Erro ao enviar embed de log', context, logEmbedError);
                     }
                 }
-                
+
             } catch (deleteError) {
                 logger.error('Erro ao deletar mensagem com palavra inadequada', context, deleteError);
                 securityEvent('MESSAGE_DELETE_FAILED', message.author, message.guild, deleteError.message);

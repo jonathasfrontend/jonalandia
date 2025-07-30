@@ -102,11 +102,11 @@ async function perfilInfoUser(interaction) {
                     value: `
                         🗣️ Linguagem Inapropriada: ${infractions.inappropriateLanguage || 0}
                         ⏳ Timeouts: ${infractions.timeouts || 0}
-                        🚪 Expulsões de Canal de Voz: ${infractions.voiceChannelKicks || 0}
+                        🔇 Expulsões de Canal de Voz: ${infractions.voiceChannelKicks || 0}
                         🚪 Expulsões do Servidor: ${infractions.expulsion || 0}
                         ⛔ Bans: ${infractions.bans || 0}
                         🔓 Unbans: ${infractions.unbans || 0}
-                        💬 Flood Timeouts: ${infractions.floodTimeouts || 0}
+                        💬 Flood: ${infractions.floodTimeouts || 0}
                         📂 Arquivos Bloqueados: ${infractions.blockedFiles || 0}
                         🔗 Links Postados: ${infractions.serverLinksPosted || 0}`,
                     inline: false,
