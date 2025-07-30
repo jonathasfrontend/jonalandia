@@ -866,37 +866,6 @@ grep "ERROR" src/logs/error.log
 
 ---
 
-## 🔮 Roadmap e Melhorias Futuras
-
-### 🎯 Versão 1.1.4 (Planejada)
-**🔧 Melhorias Prioritárias:**
-- [ ] Atualização do comando `/help` interno para refletir comandos atuais
-- [ ] Correção de referências a comandos obsoletos no código
-- [ ] Unificação completa da nomenclatura de comandos
-- [ ] Revisão de todos os embeds e mensagens de resposta
-
-**🆕 Novas Funcionalidades Potenciais:**
-- [ ] Sistema de economia básico
-- [ ] Comandos de diversão adicionais
-- [ ] Sistema de reputação de usuários
-- [ ] Dashboard web para configuração
-- [ ] Integração com mais plataformas de streaming
-
-**🔧 Melhorias Técnicas:**
-- [ ] Refatoração do sistema de permissões
-- [ ] Otimização de consultas ao banco de dados
-- [ ] Implementação de cache para APIs externas
-- [ ] Testes automatizados para comandos críticos
-
-### 💡 Sugestões de Melhoria
-Se você tem ideias para melhorar o bot, considere:
-1. Abrir uma **Issue** no repositório GitHub
-2. Contribuir com **Pull Requests**
-3. Reportar **bugs** ou **comportamentos inesperados**
-4. Sugerir **novas funcionalidades**
-
----
-
 ## 🤝 Contribuição
 
 ### 👨‍💻 Como Contribuir
@@ -959,7 +928,7 @@ Para reportar bugs, inclua:
 **Desenvolvido com ❤️ por [Jonathas Oliveira](https://github.com/jonathasfrontend)**
 
 [![GitHub](https://img.shields.io/badge/GitHub-jonathasfrontend-black?style=for-the-badge&logo=github)](https://github.com/jonathasfrontend)
-[![Discord](https://img.shields.io/badge/Discord-Jonalandia-7289da?style=for-the-badge&logo=discord)](https://discord.gg/jonalandia)
+[![Discord](https://img.shields.io/badge/Discord-Jonalandia-7289da?style=for-the-badge&logo=discord)](https://discord.gg/heP4NWBqsA)
 
 ---
 
