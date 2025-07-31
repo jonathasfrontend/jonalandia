@@ -262,32 +262,6 @@ O comando `/clean` combina as funcionalidades dos antigos comandos `/clearall` e
 
 ---
 
-## 🆕 Atualizações Recentes
-
-### 🔄 Versão 1.1.3 - Correções e Melhorias
-
-**🎯 Comandos Atualizados:**
-- **`/aniversario`** - Comando para registro de aniversário (anteriormente referenciado como `/birthday` na documentação)
-- **`/ficha`** - Informações detalhadas do usuário (anteriormente referenciado como `/infouser` na documentação)
-- **`/addtwitch`** - Cadastro de streamers Twitch (comando simplificado)
-- **`/addyoutube`** - Cadastro de canais YouTube (comando simplificado)
-
-**📋 Melhorias na Documentação:**
-- Sincronização completa entre documentação e implementação
-- Correção de nomes de comandos inconsistentes
-- Atualização de exemplos de uso
-- Verificação de todas as funcionalidades listadas
-- Atualização do comando `/help` para refletir comandos atuais
-
-**⚠️ Importante:** O comando `/help` interno do bot ainda referencia alguns comandos antigos (`/clearall`, `/clearuser`, `/birthday`). Estes foram atualizados para `/clean` e `/aniversario` respectivamente na documentação.
-
-**🔄 Melhorias Futuras:**
-- Atualização do comando `/help` interno para refletir comandos atuais
-- Sincronização completa entre interface de ajuda e funcionalidades implementadas
-- Revisão de todos os embeds e mensagens de resposta
-
----
-
 ## 📋 Verificação de Conformidade
 
 ### ✅ Comandos Verificados e Funcionais
